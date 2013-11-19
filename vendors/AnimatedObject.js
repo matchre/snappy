@@ -88,10 +88,17 @@ AnimatedObject.init = function() {
       '  <block type="draw_move" x="70" y="70">' +
       '    <value name="VALUE">' +
       '      <block type="math_number">' +
-      '        <title name="NUM">100</title>' +
+      '        <title name="NUM">75</title>' +
       '      </block>' +
       '    </value>' +
-      '  </block>' +
+      '  ' +
+      '  <next><block type="draw_move_circle">' +
+      '    <value name="VALUE">' +
+      '      <block type="math_number">' +
+      '        <title name="NUM">5</title>' +
+      '      </block>' +
+      '    </value>' +
+      '  </block></next></block>' +
       '</xml>';
   BlocklyApps.loadBlocks(defaultXml);
 
