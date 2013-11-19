@@ -693,6 +693,15 @@ BlocklyApps.stripCode = function(code) {
  * Show the user's code in raw JavaScript.
  * @param {!Event} e Mouse or touch event.
  */
+BlocklyApps.generateCode = function() {
+  var code = Blockly.JavaScript.workspaceToCode();
+  code = BlocklyApps.stripCode(code);
+  if (typeof prettyPrintOne == 'function') {
+    code = prettyPrintOne(code, 'js');
+  }
+  document.getElementById('jscode').innerHTML= code;
+};
+
 BlocklyApps.showCode = function(e) {
   var origin = e.target;
   var code = Blockly.JavaScript.workspaceToCode();
@@ -711,9 +720,10 @@ BlocklyApps.showCode = function(e) {
     left: '30%',
     top: '5em'
   };
-  BlocklyApps.showDialog(content, origin, true, true, style,
-      BlocklyApps.stopDialogKeyDown);
-  BlocklyApps.startDialogKeyDown();
+  document.getElementById('jscode').innerHTML= code;
+//  BlocklyApps.showDialog(content, origin, true, true, style,
+//      BlocklyApps.stopDialogKeyDown);
+//  BlocklyApps.startDialogKeyDown();
 };
 
 /**

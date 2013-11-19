@@ -76,9 +76,9 @@
     "Puzzle.cities": "cidades:",
     "Puzzle.help": "Ajuda",
     "Puzzle.checkAnswers": "Verificar respostas",
-    "Turtle.font": "fonte",
-    "Turtle.fontSize": "tamanho da fonte",
-    "Turtle.fontNormal": "normal",
-    "Turtle.fontBold": "negrito",
-    "Turtle.fontItalic": "it\u00e1lico"
+    "AnimatedObject.font": "fonte",
+    "AnimatedObject.fontSize": "tamanho da fonte",
+    "AnimatedObject.fontNormal": "normal",
+    "AnimatedObject.fontBold": "negrito",
+    "AnimatedObject.fontItalic": "it\u00e1lico"
 }

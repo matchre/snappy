@@ -6,11 +6,7 @@
 var main = function (){
     var ctx = document.getElementById('display').getContext('2d');
     // Stroked triangle
-    ctx.beginPath();
-    ctx.moveTo(125,125);
-    ctx.lineTo(125,250);
-    ctx.lineTo(250,250);
-    ctx.lineTo(250,125);
-    ctx.closePath();
-    ctx.stroke();
-}
+    Blockly.bindEvent_(blockly, 'mousedown', null,BlocklyApps.generateCode);
+    Blockly.bindEvent_(blockly, 'mouseup', null,BlocklyApps.generateCode);
+    BlocklyApps.generateCode();
+};
