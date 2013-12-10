@@ -6,6 +6,12 @@
  */
 var AnimatedObject = {};
 
+
+
+// Multiple Animated objects
+AnimatedObject.ObjectsCollection=[];
+AnimatedObject.ObjectsCollection[0]={};
+
 // Supported languages.
 BlocklyApps.LANGUAGES = ['en', 'fr'];
 BlocklyApps.LANG = BlocklyApps.getLang();
@@ -39,6 +45,7 @@ AnimatedObject.init = function() {
        rtl: rtl,
        toolbox: toolbox,
        trashcan: true});
+   
 
   Blockly.JavaScript.INFINITE_LOOP_TRAP = '  BlocklyApps.checkTimeout(%1);\n';
 

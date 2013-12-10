@@ -9,14 +9,41 @@
   <link rel="stylesheet" type="text/css" href="css/style.css">
   <script type="text/javascript" src="_soy/soyutils.js"></script>
   <script type="text/javascript" src="vendors/common.js"></script>
-  <script type="text/javascript" src="vendors/AnimatedObject.js"></script>
+  <script type="text/javascript" src="js/AnimatedObjects.js"></script>
   <script type="text/javascript" src="js/main.js"></script>
   <script type="text/javascript" src="/storage.js"></script>
+  <link href="css/jquery-ui-1.10.3.custom.css" rel="stylesheet">
+    <script src="vendors/jquery-1.9.1.js"></script>
+    <script src="vendors/jquery-ui-1.10.3.custom.js"></script>
+    <script>
+    $(function() {
+//            $( "#tabs" ).tabs();
+            // Hover states on the static widgets
+            $( "#dialog-link, #icons li" ).hover(
+                    function() {
+                            $( this ).addClass( "ui-state-hover" );
+                    },
+                    function() {
+                            $( this ).removeClass( "ui-state-hover" );
+                    }
+            );
+//            $("#blockly").css('top','0 !important').css('left','0 !important');
+    });
+    </script>
 </head>
 <body onload="main()">
-  <script type="text/javascript">
+
+<script type="text/javascript">
     document.write(turtlepage.start({}, null,
         {langSrc: BlocklyApps.languagePack()}));
-  </script>
-</body>
+
+//          function blocklyLoaded(blockly) {
+//            // Called once Blockly is fully loaded.
+//            window.Blockly = blockly;
+//          }
+        </script>
+<button id="loadObject2">Object2</button>
+<button id="loadObject1">Object1</button>
+<img src="media/planet.png" id="planetimg" style="visibility: hidden;"/>
+
 </html>

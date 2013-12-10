@@ -18,6 +18,13 @@ html[dir="RTL"] button.primary {
   width: 400px;
   padding-top: 1em;
 }
+#tabs{
+    position:fixed;
+    bottom: 10px;
+    top: 10px;
+    left: 420px;
+    width: 1480px;
+}
 #blockly {
   position: fixed;
   bottom: 10px;
@@ -69,4 +76,16 @@ html[dir="RTL"] button.primary {
 }
 .stop {
   background-position: -63px 0px;
+}
+
+#loadObject2 {
+position: fixed;
+top: 3px;
+left: 415px;
+}
+
+#loadObject1 {
+position: fixed;
+top: 3px;
+left: 525px;
 }
