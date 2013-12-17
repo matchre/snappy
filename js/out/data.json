@@ -1,0 +1,165 @@
+{
+    "project": {},
+    "files": {
+        "AnimatedObjects.js": {
+            "name": "AnimatedObjects.js",
+            "modules": {},
+            "classes": {
+                "AnimatedObjects": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {
+        "AnimatedObjects": {
+            "name": "AnimatedObjects",
+            "shortname": "AnimatedObjects",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "AnimatedObjects.js",
+            "line": 10
+        }
+    },
+    "classitems": [
+        {
+            "file": "AnimatedObjects.js",
+            "line": 21,
+            "is_constructor": 1,
+            "class": "AnimatedObjects"
+        },
+        {
+            "file": "AnimatedObjects.js",
+            "line": 59,
+            "itemtype": "method",
+            "name": "createAnimatedObject",
+            "class": "AnimatedObjects"
+        },
+        {
+            "file": "AnimatedObjects.js",
+            "line": 81,
+            "description": "PID of animation task currently executing.",
+            "class": "AnimatedObjects"
+        },
+        {
+            "file": "AnimatedObjects.js",
+            "line": 86,
+            "description": "Should the turtle be drawn?",
+            "class": "AnimatedObjects"
+        },
+        {
+            "file": "AnimatedObjects.js",
+            "line": 91,
+            "itemtype": "method",
+            "name": "init\nInitialize Blockly and the turtle.  Called on page load.",
+            "class": "AnimatedObjects"
+        },
+        {
+            "file": "AnimatedObjects.js",
+            "line": 182,
+            "itemtype": "method",
+            "name": "reset\nReset the turtle to the start position, clear the display, and kill any\npending tasks.",
+            "class": "AnimatedObjects"
+        },
+        {
+            "file": "AnimatedObjects.js",
+            "line": 213,
+            "description": "Copy the scratch canvas to the display canvas. Add a turtle marker.",
+            "class": "AnimatedObjects"
+        },
+        {
+            "file": "AnimatedObjects.js",
+            "line": 265,
+            "description": "Click the run button.  Start the program.",
+            "class": "AnimatedObjects"
+        },
+        {
+            "file": "AnimatedObjects.js",
+            "line": 283,
+            "description": "Click the reset button.  Reset the AnimatedObjects.",
+            "class": "AnimatedObjects"
+        },
+        {
+            "file": "AnimatedObjects.js",
+            "line": 295,
+            "description": "Execute the user's code.  Heaven help us...",
+            "class": "AnimatedObjects"
+        },
+        {
+            "file": "AnimatedObjects.js",
+            "line": 319,
+            "description": "Iterate through the recorded path and animate the turtle's actions.",
+            "class": "AnimatedObjects"
+        },
+        {
+            "file": "AnimatedObjects.js",
+            "line": 343,
+            "description": "Execute one step.",
+            "params": [
+                {
+                    "name": "command",
+                    "description": "Logo-style command (e.g. 'FD' or 'RT').",
+                    "type": "String"
+                },
+                {
+                    "name": "values",
+                    "description": "List of arguments for the command.",
+                    "type": "!Array"
+                }
+            ],
+            "class": "AnimatedObjects"
+        },
+        {
+            "file": "AnimatedObjects.js",
+            "line": 451,
+            "description": "Save an image of the SVG canvas.",
+            "class": "AnimatedObjects"
+        }
+    ],
+    "warnings": [
+        {
+            "message": "Missing item type",
+            "line": " AnimatedObjects.js:21"
+        },
+        {
+            "message": "Missing item type\nPID of animation task currently executing.",
+            "line": " AnimatedObjects.js:81"
+        },
+        {
+            "message": "Missing item type\nShould the turtle be drawn?",
+            "line": " AnimatedObjects.js:86"
+        },
+        {
+            "message": "Missing item type\nCopy the scratch canvas to the display canvas. Add a turtle marker.",
+            "line": " AnimatedObjects.js:213"
+        },
+        {
+            "message": "Missing item type\nClick the run button.  Start the program.",
+            "line": " AnimatedObjects.js:265"
+        },
+        {
+            "message": "Missing item type\nClick the reset button.  Reset the AnimatedObjects.",
+            "line": " AnimatedObjects.js:283"
+        },
+        {
+            "message": "Missing item type\nExecute the user's code.  Heaven help us...",
+            "line": " AnimatedObjects.js:295"
+        },
+        {
+            "message": "Missing item type\nIterate through the recorded path and animate the turtle's actions.",
+            "line": " AnimatedObjects.js:319"
+        },
+        {
+            "message": "Missing item type\nExecute one step.",
+            "line": " AnimatedObjects.js:343"
+        },
+        {
+            "message": "Missing item type\nSave an image of the SVG canvas.",
+            "line": " AnimatedObjects.js:451"
+        }
+    ]
+}

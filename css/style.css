@@ -26,7 +26,7 @@ html[dir="RTL"] button.primary {
     width: 1480px;
 }
 #blockly {
-  position: fixed;
+  /*position: fixed;*/
   bottom: 10px;
 }
 #display {
@@ -77,15 +77,23 @@ html[dir="RTL"] button.primary {
 .stop {
   background-position: -63px 0px;
 }
-
-#loadObject2 {
-position: fixed;
-top: 3px;
-left: 415px;
+#visualization {
+min-width: 800px;
+min-height: 800px;
 }
 
-#loadObject1 {
-position: fixed;
-top: 3px;
-left: 525px;
+select{
+ width: 250px;
+ height: 26px;
+ font-size: 20px;
+ overflow: hidden;
+ border: 1px solid #ccc;
+}
+
+td {
+    padding: 10px;
+    vertical-align: top;
+}
+table{
+    width:100%;
 }

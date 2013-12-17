@@ -9,7 +9,12 @@ var dx=5;
 var dy=5;
 
 var main = function (){
-    
+    var totalobj=2;
+    $("#addObjectbtn").click(function(){
+        totalobj++;
+       $( "<button>Object"+totalobj+"</button>" ).insertBefore( "#addObjectbtn" ); 
+    });
+    $("#loadObject1").prop("disabled",true).css('color','#c0c0c0');
     context = document.getElementById('ball-display').getContext('2d');
     // Stroked triangle
     Blockly.bindEvent_(blockly, 'mousedown', null,BlocklyApps.generateCode);
@@ -28,19 +33,23 @@ var main = function (){
 //        Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, AnimatedObjects.ObjectsCollection[1].XML);
         Blockly.mainWorkspace.clear();
         BlocklyApps.loadBlocks(AnimatedObjects.ObjectsCollection[1].XML);
+        $("#loadObject1").prop("disabled",false).css('color','black');
+        $(this).prop("disabled",true).css('color','#c0c0c0');
     });
      $("#loadObject1").click(function(){
          AnimatedObjects.ObjectsCollection[1].XML=(new XMLSerializer()).serializeToString(Blockly.Xml.workspaceToDom(Blockly.mainWorkspace));
 //         Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, AnimatedObjects.ObjectsCollection[0].XML);
          Blockly.mainWorkspace.clear();
         BlocklyApps.loadBlocks(AnimatedObjects.ObjectsCollection[0].XML);
+        $("#loadObject2").prop("disabled",false).css('color','black');
+        $(this).prop("disabled",true).css('color','#c0c0c0');
     });
 };
 
 function draw()
 {
     
-  context.clearRect(0,0, 400,400);
+  context.clearRect(0,0, 800,800);
   context.beginPath();
   context.fillStyle="#0000ff";
   // Draws a circle of radius 20 at the coordinates 100,100 on the canvas
@@ -48,8 +57,8 @@ function draw()
   context.closePath();
   context.fill();
   // Boundary Logic
-if( x<0 || x>400) dx=-dx; 
-if( y<0 || y>400) dy=-dy; 
+if( x<0 || x>800) dx=-dx; 
+if( y<0 || y>800) dy=-dy; 
   // Boundary Logic
   var diffx = x-AnimatedObjects.x;
   var diffy = y-AnimatedObjects.y;
@@ -61,10 +70,10 @@ if(( diffx<20 && diffx>-20 )&&( diffy<20 && diffy>-20)){
 x+=dx; 
 y+=dy;
 
-    if(AnimatedObjects.x>430) AnimatedObjects.x-=400;
-    if(AnimatedObjects.x<0) AnimatedObjects.x+=400;
-    if(AnimatedObjects.y<0) AnimatedObjects.y+=400;
-    if(AnimatedObjects.y>430) AnimatedObjects.y-=400;
+    if(AnimatedObjects.x>830) AnimatedObjects.x-=800;
+    if(AnimatedObjects.x<0) AnimatedObjects.x+=800;
+    if(AnimatedObjects.y<0) AnimatedObjects.y+=800;
+    if(AnimatedObjects.y>830) AnimatedObjects.y-=800;
     
     document.getElementById('objectX').value=(AnimatedObjects.HEIGHT / 2)-AnimatedObjects.x;
     document.getElementById('objectY').value=(AnimatedObjects.WIDTH / 2) - AnimatedObjects.y;

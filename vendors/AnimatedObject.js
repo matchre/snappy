@@ -62,19 +62,19 @@ AnimatedObject.init = function() {
   });
   var blocklyDiv = document.getElementById('blockly');
   var visualization = document.getElementById('visualization');
-  var onresize = function(e) {
-    var top = visualization.offsetTop;
-    blocklyDiv.style.top = Math.max(10, top - window.scrollY) + 'px';
-    blocklyDiv.style.left = rtl ? '10px' : '420px';
-    blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
-  };
-  window.addEventListener('scroll', function() {
-      onresize();
-      Blockly.fireUiEvent(window, 'resize');
-    });
-  window.addEventListener('resize', onresize);
-  onresize();
-  Blockly.fireUiEvent(window, 'resize');
+//  var onresize = function(e) {
+//    var top = visualization.offsetTop;
+//    blocklyDiv.style.top = Math.max(10, top - window.scrollY) + 'px';
+//    blocklyDiv.style.left = rtl ? '10px' : '10px';
+//    blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
+//  };
+//  window.addEventListener('scroll', function() {
+//      onresize();
+//      Blockly.fireUiEvent(window, 'resize');
+//    });
+//  window.addEventListener('resize', onresize);
+//  onresize();
+//  Blockly.fireUiEvent(window, 'resize');
 
   // Hide download button if browser lacks support
   // (http://caniuse.com/#feat=download).
