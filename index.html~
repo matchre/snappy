@@ -2,7 +2,7 @@
 <html>
 <head>
 <META HTTP-EQUIV="refresh" CONTENT="0;URL=snap/snap.html">
-<!--  <meta charset="utf-8">
+  <meta charset="utf-8">
   <meta name="google" value="notranslate">
   <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1.0, user-scalable=no">
   <title>WebMobinet</title>
@@ -52,4 +52,4 @@
         
 <img src="media/planet.png" id="planetimg" style="visibility: hidden;"/>
 
-</html>-->
+</html>

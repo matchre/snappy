@@ -64,67 +64,81 @@
  */
 {template .start}
   {call .messages /}
-    <table width="100%">
+    <table width="100%" border="0">
       <tr>
         <td width="250px">
           <h1>
             <span id="title">
               {sp}{sp}
               {msg meaning="AnimatedObjects.title" desc="title - Specifies that this is Blockly's '''AnimatedObjects Graphics''' application.  Should you wish to, you can read more about [http://en.wikipedia.org/wiki/AnimatedObjects_graphics turtle graphics]."}
-                WebMobinet
+                <img src="media/logo-webmobinet.png" id="imglogo"/>
               {/msg}
             </span>
           </h1>
         </td>
-        <td>
-            <button id="loadObject1" disabled="disabled">Object1</button>
-            <button id="loadObject2">Object2</button>
-            <button id="addObjectbtn">+</button>
+        <td class="main_menu">
+            <button>Enregistrer</button>
+            <button>partager</button>
+            <button>Générer URL</button>
         </td>
         <td class="farSide">
           <select id="languageMenu"></select>
         </td>
       </tr>
+      <tr>
+          <td colspan="3" class="objects_menu">
+                <button id="loadObject1" disabled="disabled">Mobile 1</button>
+                <button id="loadObject2">Mobile 2</button>
+                <button id="addObjectbtn">+</button>
+          </td>
+      </tr>
     </table>
-    <table>
+    <table cellspacing="0" cellpadding="0">
         
         <tr>
-            <td><div id="xy" style="max-width: 400px;">
-                    <input type="number" id="objectX" value="0" onchange="AnimatedObjects.UpdateX();"></input>
-                    <input type="number" id="objectY" value="0" onchange="AnimatedObjects.UpdateY();"></input>
-                </div> 
-                       <br />
-                <br />
-                <br />
-                <label>Choisir l'action:</label>
-                 <select>
-                     <option>Mouvement</option>
-                     <option>Bord Gauche</option>
-                     <option>Bord Droit</option>
-                     <option>Bord Haut</option>
-                     <option>Bord Bas</option>
-                     <option>Collision</option>
-                     <option>En Click</option>
-                     
-                 </select>
-         
-                
+            <td class="events_menu no-padding">
+                <button>Mouvement</button>
+                <button>Bord Gauche</button>
+                <button>Bord Droite</button>
+                <button>Bord Haut</button>
+                <button>Bord Bas</button>
+                <button>Bord Collision</button>
+                <button>Start</button>
             </td>
             <td rowspan="2">
                 <div id="visualization">
                     <canvas id="scratch" width="800" height="800" style="display: none"></canvas>
                     <canvas id="display" width="800" height="800" style="position:absolute"></canvas>
                     <canvas id="ball-display" width="800" height="800" style="position:absolute"></canvas>
-                    <div style="width: 400px;height: 420px;"></div>
+                    <div id="canvas-background"></div>
                 </div>
             </td>
             <td rowspan="2"> 
-                 <div id="jscode" style="max-width: 400px;"></div>
+                 <DIV id="jscode" style="max-width: 400px;" class="prettyprint"></DIV>
             </td>
         </tr>
         <tr>
-            <td>
+            <td class="no-padding">
                 <div id="blockly" style="height: 480px; width: 600px;top: 0px; left: 0px;"></div>
+                
+                <br/>
+                <br/>
+                 <div id="accordion">
+                    <h3>Etat du Mobile</h3>
+                    <div>
+                    <div id="xy" style="max-width: 400px;">
+                       <input type="number" id="objectX" value="0" onchange="AnimatedObjects.UpdateX();"></input>
+                       <input type="number" id="objectY" value="0" onchange="AnimatedObjects.UpdateY();"></input>
+                   </div> 
+                    </div>
+                    <h3>Icone du Mobile</h3>
+                    <div>
+                    </div>
+                    <h3>Options du Mobile</h3>
+                    <div>
+                    </div>
+                 </div>
+                
                   <table style="padding-top: 1em;">
                     <tr>
                       <td style="width: 190px; text-align: center; vertical-align: top; visibility: hidden;">
@@ -155,6 +169,7 @@
                         <img id="spinner" style="visibility: hidden;" src="media/loading.gif" height=15 width=15>
                       </td>
                       <td style="width: 190px; text-align: right">
+                         
                         <button id="runButton" class="primary" title="{msg meaning="AnimatedObjects.runTooltip" desc="tooltip - Pressing this button runs the computer program the user has written to move the turtle on the canvas."}Makes the turtle do what the blocks say.{/msg}">
                           <img src="media/1x1.gif" class="run icon21">{msg meaning="Apps.runProgram" desc="TODO"}Run Program{/msg}
                         </button>
@@ -164,10 +179,14 @@
                       </td>
                     </tr>
                   </table>
+                        
+                    
+                     
+                
             </td>
         </tr>
     </table>
-
+        
         
   <div id="toolbarDiv" style="display:none;">
     <button id="codeButton" class="notext" title="{msg meaning="Apps.codeTooltip" desc="IBID"}See generated JavaScript code.{/msg}">
