@@ -73,7 +73,12 @@ var ReadStream;
 var XML_Element;
 
 // ReadStream ////////////////////////////////////////////////////////////
-
+/**
+* I am a sequential reading interface to an Array or String
+*
+* @class ReadStream
+* @constructor
+*/
 // I am a sequential reading interface to an Array or String
 
 // ReadStream instance creation:
@@ -149,6 +154,14 @@ ReadStream.prototype.word = function () {
 };
 
 // XML_Element ///////////////////////////////////////////////////////////
+/**
+* I am a DOM-Node which can encode itself to as well as parse itself
+    from a well-formed XML string. Note that there is no separate parser
+    object, all the parsing can be done in a single object.
+*
+* @class XML_Element
+* @constructor
+*/
 /*
     I am a DOM-Node which can encode itself to as well as parse itself
     from a well-formed XML string. Note that there is no separate parser

@@ -120,7 +120,12 @@ function snapEquals(a, b) {
 }
 
 // ThreadManager ///////////////////////////////////////////////////////
-
+/**
+* This is the description for my class.
+*
+* @class ThreadManager
+* @constructor
+*/
 function ThreadManager() {
     this.processes = [];
 }
@@ -253,7 +258,54 @@ ThreadManager.prototype.findProcess = function (block) {
 };
 
 // Process /////////////////////////////////////////////////////////////
+/**
+* A Process is what brings a stack of blocks to life. The process
+    keeps track of which block to run next, evaluates block arguments,
+    handles control structures, and so forth.
 
+    The ThreadManager is the (passive) scheduler, telling each process
+    when to run by calling its runStep() method. The runStep() method
+    will execute some number of blocks, then voluntarily yield control
+    so that the ThreadManager can run another process.
+
+    The Scratch etiquette is that a process should yield control at the
+    end of every loop iteration, and while it is running a timed command
+    (e.g. "wait 5 secs") or a synchronous command (e.g. "broadcast xxx
+    and wait"). Since Snap also has lambda and custom blocks Snap adds
+    yields at the beginning of each non-atomic custom command block
+    execution, and - to let users escape infinite loops and recursion -
+    whenever the process runs into a timeout.
+
+    a Process runs for a receiver, i.e. a sprite or the stage or any
+    blocks-scriptable object that we'll introduce.
+
+    structure:
+
+        topBlock            the stack's first block, of which all others
+                            are children
+        receiver            object (sprite) to which the process applies,
+                            cached from the top block
+        context                the Context describing the current state
+                            of this process
+        homeContext            stores information relevant to the whole process,
+                            i.e. its receiver, result etc.
+        isPaused            boolean indicating whether to pause
+        readyToYield        boolean indicating whether to yield control to
+                            another process
+        readyToTerminate    boolean indicating whether the stop method has
+                            been called
+        isDead              boolean indicating a terminated clone process
+        timeout                msecs after which to force yield
+        lastYield            msecs when the process last yielded
+        errorFlag            boolean indicating whether an error was encountered
+        prompter            active instance of StagePrompterMorph
+        httpRequest         active instance of an HttpRequest or null
+        pauseOffset         msecs between the start of an interpolated operation
+                            and when the process was paused
+*
+* @class Process
+* @constructor
+*/
 /*
     A Process is what brings a stack of blocks to life. The process
     keeps track of which block to run next, evaluates block arguments,
@@ -2655,7 +2707,39 @@ Process.prototype.reportFrameCount = function () {
 };
 
 // Context /////////////////////////////////////////////////////////////
+/**
+* A Context describes the state of a Process.
 
+    Each Process has a pointer to a Context containing its
+    state. Whenever the Process yields control, its Context
+    tells it exactly where it left off.
+
+    structure:
+
+        parentContext    the Context to return to when this one has
+                        been evaluated.
+        outerContext    the Context holding my lexical scope
+        expression        SyntaxElementMorph, an array of blocks to evaluate,
+                        null or a String denoting a selector, e.g. 'doYield'
+        receiver        the object to which the expression applies, if any
+        variables        the current VariableFrame, if any
+        upvars          the current UpvarReference, if any (default: null)
+        inputs            an array of input values computed so far
+                        (if expression is a    BlockMorph)
+        pc                the index of the next block to evaluate
+                        (if expression is an array)
+        startTime        time when the context was first evaluated
+        startValue        initial value for interpolated operations
+        activeAudio     audio buffer for interpolated operations, don't persist
+        activeNote      audio oscillator for interpolated ops, don't persist
+        isLambda        marker for return ops
+        isImplicitLambda    marker for return ops
+        isCustomBlock   marker for return ops
+        emptySlots        caches the number of empty slots for reification
+*
+* @class Context
+* @constructor
+*/
 /*
     A Context describes the state of a Process.
 
@@ -2843,7 +2927,12 @@ Context.prototype.stackSize = function () {
 };
 
 // VariableFrame ///////////////////////////////////////////////////////
-
+/**
+* This is the description for my class.
+*
+* @class VariableFrame
+* @constructor
+*/
 function VariableFrame(parentFrame, owner) {
     this.vars = {};
     this.parentFrame = parentFrame || null;
@@ -3020,7 +3109,12 @@ VariableFrame.prototype.allNames = function () {
 };
 
 // UpvarReference ///////////////////////////////////////////////////////////
-
+/**
+* quasi-inherits some features from VariableFrame
+*
+* @class UpvarReference
+* @constructor
+*/
 // ... quasi-inherits some features from VariableFrame
 
 function UpvarReference(parent) {

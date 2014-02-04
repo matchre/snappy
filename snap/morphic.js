@@ -1271,7 +1271,12 @@ function copy(target) {
 }
 
 // Colors //////////////////////////////////////////////////////////////
-
+/**
+* This is the description for my class.
+*
+* @class Color
+* @constructor
+*/
 // Color instance creation:
 
 function Color(r, g, b, a) {
@@ -1435,7 +1440,12 @@ Color.prototype.dansDarker = function () {
 };
 
 // Points //////////////////////////////////////////////////////////////
-
+/**
+* This is the description for my class.
+*
+* @class Point
+* @constructor
+*/
 // Point instance creation:
 
 function Point(x, y) {
@@ -1693,7 +1703,12 @@ Point.prototype.asArray = function () {
 };
 
 // Rectangles //////////////////////////////////////////////////////////
-
+/**
+* This is the description for my class.
+*
+* @class Rectangle
+* @constructor
+*/
 // Rectangle instance creation:
 
 function Rectangle(left, top, right, bottom) {
@@ -2005,7 +2020,12 @@ Rectangle.prototype.asArray_xywh = function () {
 };
 
 // Nodes ///////////////////////////////////////////////////////////////
-
+/**
+* This is the description for my class.
+*
+* @class Node
+* @constructor
+*/
 // Node instance creation:
 
 function Node(parent, childrenArray) {
@@ -3678,7 +3698,12 @@ Morph.prototype.overlappingImage = function (otherMorph) {
 };
 
 // ShadowMorph /////////////////////////////////////////////////////////
-
+/**
+* This is the description for my class.
+*
+* @class ShadowMorph
+* @constructor
+*/
 // ShadowMorph inherits from Morph:
 
 ShadowMorph.prototype = new Morph();
@@ -3692,7 +3717,12 @@ function ShadowMorph() {
 }
 
 // HandleMorph ////////////////////////////////////////////////////////
-
+/**
+* I am a resize / move handle that can be attached to any Morph
+*
+* @class HandleMorph
+* @constructor
+*/
 // I am a resize / move handle that can be attached to any Morph
 
 // HandleMorph inherits from Morph:
@@ -3943,7 +3973,12 @@ HandleMorph.prototype.attach = function () {
 };
 
 // PenMorph ////////////////////////////////////////////////////////////
-
+/**
+* I am a simple LOGO-wise turtle.
+*
+* @class PenMorph
+* @constructor
+*/
 // I am a simple LOGO-wise turtle.
 
 // PenMorph: referenced constructors
@@ -4172,7 +4207,12 @@ PenMorph.prototype.tree = function (level, length, angle) {
 };
 
 // ColorPaletteMorph ///////////////////////////////////////////////////
-
+/**
+* This is the description for my class.
+*
+* @class ColorPaletteMorph
+* @constructor
+*/
 var ColorPaletteMorph;
 
 // ColorPaletteMorph inherits from Morph:
@@ -4304,7 +4344,12 @@ ColorPaletteMorph.prototype.setTargetSetter = function () {
 };
 
 // GrayPaletteMorph ///////////////////////////////////////////////////
-
+/**
+* This is the description for my class.
+*
+* @class GrayPaletteMorph
+* @constructor
+*/
 var GrayPaletteMorph;
 
 // GrayPaletteMorph inherits from ColorPaletteMorph:
@@ -4337,7 +4382,12 @@ GrayPaletteMorph.prototype.drawNew = function () {
 };
 
 // ColorPickerMorph ///////////////////////////////////////////////////
-
+/**
+* This is the description for my class.
+*
+* @class ColorPickerMorph
+* @constructor
+*/
 // ColorPickerMorph inherits from Morph:
 
 ColorPickerMorph.prototype = new Morph();
@@ -4402,7 +4452,12 @@ ColorPickerMorph.prototype.rootForGrab = function () {
 };
 
 // BlinkerMorph ////////////////////////////////////////////////////////
-
+/**
+* This is the description for my class.
+*
+* @class BlinkerMorph
+* @constructor
+*/
 // can be used for text cursors
 
 var BlinkerMorph;
@@ -4433,7 +4488,12 @@ BlinkerMorph.prototype.step = function () {
 };
 
 // CursorMorph /////////////////////////////////////////////////////////
-
+/**
+* I am a String/Text editing widget
+*
+* @class CursorMorph
+* @constructor
+*/
 // I am a String/Text editing widget
 
 // CursorMorph: referenced constructors
@@ -4836,7 +4896,12 @@ CursorMorph.prototype.inspectKeyEvent = function (event) {
 };
 
 // BoxMorph ////////////////////////////////////////////////////////////
-
+/**
+* This is the description for my class.
+*
+* @class BoxMorph
+* @constructor
+*/
 // I can have an optionally rounded border
 
 var BoxMorph;
@@ -5038,7 +5103,14 @@ BoxMorph.prototype.numericalSetters = function () {
 };
 
 // SpeechBubbleMorph ///////////////////////////////////////////////////
-
+/**
+* I am a comic-style speech bubble that can display either a string,
+    a Morph, a Canvas or a toString() representation of anything else.
+    If I am invoked using popUp() I behave like a tool tip.
+*
+* @class SpeechBubbleMorph
+* @constructor
+*/
 /*
     I am a comic-style speech bubble that can display either a string,
     a Morph, a Canvas or a toString() representation of anything else.
@@ -5344,7 +5416,12 @@ SpeechBubbleMorph.prototype.fixLayout = function () {
 };
 
 // CircleBoxMorph //////////////////////////////////////////////////////
-
+/**
+* I can be used for sliders
+*
+* @class CircleBoxMorph
+* @constructor
+*/
 // I can be used for sliders
 
 var CircleBoxMorph;
@@ -5466,7 +5543,12 @@ CircleBoxMorph.prototype.toggleOrientation = function () {
 };
 
 // SliderButtonMorph ///////////////////////////////////////////////////
-
+/**
+* This is the description for my class.
+*
+* @class SliderButtonMorph
+* @constructor
+*/
 var SliderButtonMorph;
 
 // SliderButtonMorph inherits from CircleBoxMorph:
@@ -5680,7 +5762,12 @@ SliderButtonMorph.prototype.mouseMove = function () {
 };
 
 // SliderMorph ///////////////////////////////////////////////////
-
+/**
+* This is the description for my class.
+*
+* @class SliderMorph
+* @constructor
+*/
 // SliderMorph inherits from CircleBoxMorph:
 
 SliderMorph.prototype = new CircleBoxMorph();
@@ -6044,7 +6131,12 @@ SliderMorph.prototype.mouseDownLeft = function (pos) {
 };
 
 // MouseSensorMorph ////////////////////////////////////////////////////
-
+/**
+* for demo and debuggin purposes only, to be removed later
+*
+* @class MouseSensorMorph
+* @constructor
+*/
 // for demo and debuggin purposes only, to be removed later
 
 var MouseSensorMorph;
@@ -6117,7 +6209,12 @@ MouseSensorMorph.prototype.mouseClickLeft = function () {
 };
 
 // InspectorMorph //////////////////////////////////////////////////////
-
+/**
+* This is the description for my class.
+*
+* @class InspectorMorph
+* @constructor
+*/
 // InspectorMorph: referenced constructors
 
 var ListMorph;
@@ -6583,7 +6680,12 @@ InspectorMorph.prototype.removeProperty = function () {
 };
 
 // MenuMorph ///////////////////////////////////////////////////////////
-
+/**
+* This is the description for my class.
+*
+* @class MenuMorph
+* @constructor
+*/
 // MenuMorph: referenced constructors
 
 var MenuItemMorph;
@@ -6877,7 +6979,12 @@ MenuMorph.prototype.popUpCenteredInWorld = function (world) {
 };
 
 // StringMorph /////////////////////////////////////////////////////////
-
+/**
+* I am a single line of text
+*
+* @class StringMorph
+* @constructor
+*/
 // I am a single line of text
 
 // StringMorph inherits from Morph:
@@ -7409,7 +7516,12 @@ StringMorph.prototype.disableSelecting = function () {
 };
 
 // TextMorph ////////////////////////////////////////////////////////////////
-
+/**
+* I am a multi-line, word-wrapping String, quasi-inheriting from StringMorph
+*
+* @class TextMorph
+* @constructor
+*/
 // I am a multi-line, word-wrapping String, quasi-inheriting from StringMorph
 
 // TextMorph inherits from Morph:
@@ -7934,7 +8046,12 @@ TextMorph.prototype.inspectIt = function () {
 };
 
 // TriggerMorph ////////////////////////////////////////////////////////
-
+/**
+* I provide basic button functionality
+*
+* @class TriggerMorph
+* @constructor
+*/
 // I provide basic button functionality
 
 // TriggerMorph inherits from Morph:
@@ -8200,7 +8317,12 @@ TriggerMorph.prototype.popUpbubbleHelp = function (contents) {
 };
 
 // MenuItemMorph ///////////////////////////////////////////////////////
-
+/**
+* I automatically determine my bounds
+*
+* @class MenuItemMorph
+* @constructor
+*/
 // I automatically determine my bounds
 
 var MenuItemMorph;
@@ -8361,7 +8483,12 @@ MenuItemMorph.prototype.isSelectedListItem = function () {
 };
 
 // FrameMorph //////////////////////////////////////////////////////////
-
+/**
+* I clip my submorphs at my bounds
+*
+* @class FrameMorph
+* @constructor
+*/
 // I clip my submorphs at my bounds
 
 // Frames inherit from Morph:
@@ -8559,7 +8686,12 @@ FrameMorph.prototype.keepAllSubmorphsWithin = function () {
 };
 
 // ScrollFrameMorph ////////////////////////////////////////////////////
-
+/**
+* This is the description for my class.
+*
+* @class ScrollFrameMorph
+* @constructor
+*/
 ScrollFrameMorph.prototype = new FrameMorph();
 ScrollFrameMorph.prototype.constructor = ScrollFrameMorph;
 ScrollFrameMorph.uber = FrameMorph.prototype;
@@ -8934,7 +9066,29 @@ ScrollFrameMorph.prototype.toggleTextLineWrapping = function () {
 };
 
 // ListMorph ///////////////////////////////////////////////////////////
+/**
+*   passing a format is optional. If the format parameter is specified
+    it has to be of the following pattern:
 
+        [
+            [<color>, <single-argument predicate>],
+            ['bold', <single-argument predicate>],
+            ['italic', <single-argument predicate>],
+            ...
+        ]
+
+    multiple conditions can be passed in such a format list, the
+    last predicate to evaluate true when given the list element sets
+    the given format category (color, bold, italic).
+    If no condition is met, the default format (color black, non-bold,
+    non-italic) will be assigned.
+
+    An example of how to use fomats can be found in the InspectorMorph's
+    "markOwnProperties" mechanism.
+*
+* @class ListMorph
+* @constructor
+*/
 ListMorph.prototype = new ScrollFrameMorph();
 ListMorph.prototype.constructor = ListMorph;
 ListMorph.uber = ScrollFrameMorph.prototype;
@@ -9069,7 +9223,12 @@ ListMorph.prototype.setExtent = function (aPoint) {
 };
 
 // StringFieldMorph ////////////////////////////////////////////////////
-
+/**
+* This is the description for my class.
+*
+* @class StringFieldMorph
+* @constructor
+*/
 // StringFieldMorph inherit from FrameMorph:
 
 StringFieldMorph.prototype = new FrameMorph();
@@ -9179,7 +9338,12 @@ StringFieldMorph.prototype.copyRecordingReferences = function (dict) {
 };
 
 // BouncerMorph ////////////////////////////////////////////////////////
-
+/**
+* I am a Demo of a stepping custom Morph
+*
+* @class BouncerMorph
+* @constructor
+*/
 // I am a Demo of a stepping custom Morph
 
 var BouncerMorph;
@@ -9268,7 +9432,12 @@ BouncerMorph.prototype.step = function () {
 };
 
 // HandMorph ///////////////////////////////////////////////////////////
-
+/**
+* I represent the Mouse cursor
+*
+* @class HandMorph
+* @constructor
+*/
 // I represent the Mouse cursor
 
 // HandMorph inherits from Morph:
@@ -9903,7 +10072,12 @@ HandMorph.prototype.moveBy = function (delta) {
 
 
 // WorldMorph //////////////////////////////////////////////////////////
-
+/**
+* I represent the <canvas> element
+*
+* @class WorldMorph
+* @constructor
+*/
 // I represent the <canvas> element
 
 // WorldMorph inherits from FrameMorph:

@@ -67,7 +67,41 @@ var List;
 var ListWatcherMorph;
 
 // List ////////////////////////////////////////////////////////////////
+/**
+* I am a dynamic array data structure for SNAP!
+    My index starts with 1
 
+    I am a "smart" hybrid list, because I can be used as both a linked
+    list and as a dynamic array
+
+    public interface:
+
+        setters (linked):
+        -----------------
+        cons                - answer a new list with the given item in front
+        cdr                    - answer all but the first element
+
+    setters (arrayed):
+    ------------------
+        add(element, index)    - insert the element before the given slot,
+        put(element, index)    - overwrite the element at the given slot
+        remove(index)        - remove the given slot, shortening the list
+        clear()                - remove all elements
+
+    getters (all hybrid):
+    ---------------------
+        length()            - number of slots
+        at(index)            - element present in specified slot
+        contains(element)    - <bool>
+
+    conversion:
+    -----------
+        asArray()            - answer me as JavaScript array
+        asText()            - answer my elements (recursively) concatenated
+*
+* @class List
+* @constructor
+*/
 /*
     I am a dynamic array data structure for SNAP!
     My index starts with 1
@@ -314,7 +348,13 @@ List.prototype.equalTo = function (other) {
 };
 
 // ListWatcherMorph ////////////////////////////////////////////////////
-
+/**
+* I am a little window which observes a list and continuously
+    updates itself accordingly
+*
+* @class ListWatcherMorph
+* @constructor
+*/
 /*
     I am a little window which observes a list and continuously
     updates itself accordingly

@@ -234,7 +234,65 @@ WorldMorph.prototype.customMorphs = function () {
 
 
 // SyntaxElementMorph //////////////////////////////////////////////////
+/**
+* I am the ancestor of all blocks and input slots. SyntaxElementMorph inherits from Morph:
+* SyntaxElementMorph preferences settings:
+*
+    the following settings govern the appearance of all syntax elements
+    (blocks and slots) where applicable:
 
+    outline:
+
+        corner        - radius of command block rounding
+        rounding    - radius of reporter block rounding
+        edge        - width of 3D-ish shading box
+        hatHeight    - additional top space for hat blocks
+        hatWidth    - minimum width for hat blocks
+        rfBorder    - pixel width of reification border (grey outline)
+        minWidth    - minimum width for any syntax element's contents
+
+    jigsaw shape:
+
+        inset        - distance from indentation to left edge
+        dent        - width of indentation bottom
+
+    paddings:
+
+        bottomPadding    - adds to the width of the bottom most c-slot
+        cSlotPadding    - adds to the width of the open "C" in c-slots
+        typeInPadding    - adds pixels between text and edge in input slots
+        labelPadding    - adds left/right pixels to block labels
+
+    label:
+
+        labelFontName    - <string> specific font family name
+        labelFontStyle    - <string> generic font family name, cascaded
+        fontSize        - duh
+        embossing        - <Point> offset for embossing effect
+        labelWidth        - column width, used for word wrapping
+        labelWordWrap    - <bool> if true labels can break after each word
+        dynamicInputLabels - <bool> if true inputs can have dynamic labels
+
+    snapping:
+
+        feedbackColor        - <Color> for displaying drop feedbacks
+        feedbackMinHeight    - height of white line for command block snaps
+        minSnapDistance        - threshold when commands start snapping
+        reporterDropFeedbackPadding    - increases reporter drop feedback
+
+    color gradients:
+
+        contrast        - <percent int> 3D-ish shading gradient contrast
+        labelContrast    - <percent int> 3D-ish label shading contrast
+        activeHighlight    - <Color> for stack highlighting when active
+        errorHighlight    - <Color> for error highlighting
+        activeBlur        - <pixels int> shadow for blurred activeHighlight
+        activeBorder    - <pixels int> unblurred activeHighlight
+        rfColor            - <Color> for reified outlines and slot backgrounds
+*
+* @class SyntaxElementMorph
+* @constructor
+*/
 // I am the ancestor of all blocks and input slots
 
 // SyntaxElementMorph inherits from Morph:
@@ -1667,7 +1725,117 @@ SyntaxElementMorph.prototype.endLayout = function () {
 
 
 // BlockMorph //////////////////////////////////////////////////////////
+/**
+*  I am an abstraction of all blocks (commands, reporters, hats).
 
+    Aside from the visual settings inherited from Morph and
+    SyntaxElementMorph my most important attributes and public
+    accessors are:
+
+        selector    - (string) name of method to be triggered
+        receiver()    - answer the object (sprite) to which I apply
+        inputs()    - answer an array with my arg slots and nested reporters
+        defaults    - an optional Array containing default input values
+        topBlock()    - answer the top block of the stack I'm attached to
+        blockSpec    - a formalized description of my label parts
+        setSpec()    - force me to change my label structure
+        evaluate()    - answer the result of my evaluation
+        isUnevaluated() - answer whether I am part of a special form
+
+    Zebra coloring provides a mechanism to alternate brightness of nested,
+    same colored blocks (of the same category). The deviation of alternating
+    brightness is set in the preferences setting:
+
+    zebraContrast - <number> percentage of brightness deviation
+
+    attribute. If the attribute is set to zero, zebra coloring is turned
+    off. If it is a positive number, nested blocks will be colored in
+    a brighter shade of the same hue and the label color (for texts)
+    alternates between white and black. If the attribute is set to a negative
+    number, nested blocks are colored in a darker shade of the same hue
+    with no alternating label colors.
+
+    Note: Some of these methods are inherited from SyntaxElementMorph
+    for technical reasons, because they are shared among Block and
+    MultiArgMorph (e.g. topBlock()).
+
+    blockSpec is a formatted string consisting of plain words and
+    reserved words starting with the percent character (%), which
+    represent the following pre-defined input slots and/or label
+    features:
+
+    arity: single
+
+        %br        - user-forced line break
+        %s        - white rectangular type-in slot ("string-type")
+        %txt    - white rectangular type-in slot ("text-type")
+        %mlt    - white rectangular type-in slot ("multi-line-text-type")
+        %code    - white rectangular type-in slot, monospaced font
+        %n        - white roundish type-in slot ("numerical")
+        %dir    - white roundish type-in slot with drop-down for directions
+        %inst    - white roundish type-in slot with drop-down for instruments
+        %ida    - white roundish type-in slot with drop-down for list indices
+        %idx    - white roundish type-in slot for indices incl. "any"
+        %obj    - specially drawn slot for object reporters
+        %spr    - chameleon colored rectangular drop-down for object-names
+        %col    - chameleon colored rectangular drop-down for collidables
+        %dst    - chameleon colored rectangular drop-down for distances
+        %cst    - chameleon colored rectangular drop-down for costume-names
+        %eff    - chameleon colored rectangular drop-down for graphic effects
+        %snd    - chameleon colored rectangular drop-down for sound names
+        %key    - chameleon colored rectangular drop-down for keyboard keys
+        %msg    - chameleon colored rectangular drop-down for messages
+        %att    - chameleon colored rectangular drop-down for attributes
+        %fun    - chameleon colored rectangular drop-down for math functions
+        %typ    - chameleon colored rectangular drop-down for data types
+        %var - chameleon colored rectangular drop-down for variable names
+        %lst    - chameleon colored rectangular drop-down for list names
+        %b        - chameleon colored hexagonal slot (for predicates)
+        %l        - list icon
+        %c        - C-shaped command slot
+        %clr    - interactive color slot
+        %t        - inline variable reporter template
+        %anyUE    - white rectangular type-in slot, unevaluated if replaced
+        %boolUE    - chameleon colored hexagonal slot, unevaluated if replaced
+        %f        - round function slot, unevaluated if replaced,
+        %r        - round reporter slot
+        %p        - hexagonal predicate slot
+
+    rings:
+
+        %cmdRing    - command slotted ring with %ringparms
+        %repRing    - round slotted ringn with %ringparms
+        %predRing   - diamond slotted ring with %ringparms
+
+    arity: multiple
+
+        %mult%x    - where %x stands for any of the above single inputs
+        %inputs - for an additional text label 'with inputs'
+        %words - for an expandable list of default 2 (used in JOIN)
+        %exp - for a static expandable list of minimum 0 (used in LIST)
+        %scriptVars - for an expandable list of variable reporter templates
+        %parms - for an expandable list of formal parameters
+        %ringparms - the same for use inside Rings
+
+    special form: upvar
+
+        %upvar - same as %t (inline variable reporter template)
+
+    special form: input name
+
+        %inputName - variable blob (used in input type dialog)
+
+    examples:
+
+        'if %b %c else %c'        - creates Scratch's If/Else block
+        'set pen color to %clr'    - creates Scratch's Pen color block
+        'list %mult%s'            - creates BYOB's list reporter block
+        'call %n %inputs'        - creates BYOB's Call block
+        'the script %parms %c'    - creates BYOB's THE SCRIPT block
+*
+* @class BlockMorph
+* @constructor
+*/
 /*
     I am an abstraction of all blocks (commands, reporters, hats).
 
@@ -2977,6 +3145,9 @@ BlockMorph.prototype.prepareToBeGrabbed = function (hand) {
 };
 
 BlockMorph.prototype.justDropped = function () {
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+    console.log(this);
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
     this.allComments().forEach(function (comment) {
         comment.stopFollowing();
     });
@@ -3020,16 +3191,21 @@ BlockMorph.prototype.snap = function () {
 };
 
 // CommandBlockMorph ///////////////////////////////////////////////////
-
-/*
-    I am a stackable jigsaw-shaped block.
+/**
+* I am a stackable jigsaw-shaped block.
 
     I inherit from BlockMorph adding the following most important
     public accessors:
 
-    nextBlock()        - set / get the block attached to my bottom
-    bottomBlock()    - answer the bottom block of my stack
-    blockSequence()    - answer an array of blocks starting with myself
+        nextBlock()        - set / get the block attached to my bottom
+        bottomBlock()    - answer the bottom block of my stack
+        blockSequence()    - answer an array of blocks starting with myself
+*
+* @class CommandBlockMorph
+* @constructor
+*/
+/*
+    
 */
 
 // CommandBlockMorph inherits from BlockMorph:
@@ -3667,7 +3843,12 @@ CommandBlockMorph.prototype.drawBottomRightEdge = function (context) {
 };
 
 // HatBlockMorph ///////////////////////////////////////////////////////
-
+/**
+* I am a script's top most block. I can attach command blocks at my bottom, but not on top.
+*
+* @class HatBlockMorph
+* @constructor
+*/
 /*
     I am a script's top most block. I can attach command blocks at my
     bottom, but not on top.
@@ -3846,7 +4027,12 @@ HatBlockMorph.prototype.drawTopLeftEdge = function (context) {
 };
 
 // ReporterBlockMorph //////////////////////////////////////////////////
-
+/**
+*     I am a block with a return value, either round-ish or diamond shaped. I inherit all my important accessors from BlockMorph
+*
+* @class ReporterBlockMorph
+* @constructor
+*/
 /*
     I am a block with a return value, either round-ish or diamond shaped
     I inherit all my important accessors from BlockMorph
@@ -3880,7 +4066,6 @@ ReporterBlockMorph.prototype.snap = function (hand) {
     if (!scripts instanceof ScriptsMorph) {
         return null;
     }
-
     scripts.clearDropHistory();
     scripts.lastDroppedBlock = this;
 
@@ -4353,6 +4538,14 @@ ReporterBlockMorph.prototype.drawDiamond = function (context) {
 };
 
 // RingMorph /////////////////////////////////////////////////////////////
+/**
+* 
+    I am a reporter block which reifies its contents, my outer shape is
+    always roundish (never diamond)
+*
+* @class RingMorph
+* @constructor
+*/
 
 /*
     I am a reporter block which reifies its contents, my outer shape is
@@ -4373,7 +4566,6 @@ RingMorph.uber = ReporterBlockMorph.prototype;
 // RingMorph.prototype.contrast = 85;
 
 // RingMorph instance creation:
-
 function RingMorph() {
     this.init();
 }
@@ -4484,7 +4676,18 @@ RingMorph.prototype.fixBlockColor = function (nearest, isForced) {
 };
 
 // ScriptsMorph ////////////////////////////////////////////////////////
+/**
+*  I give feedback about possible drop targets and am in charge
+    of actually snapping blocks together.
 
+    My children are the top blocks of scripts.
+
+    I store a back-pointer to my owner, i.e. the object (sprite)
+    to whom my scripts apply.
+*
+* @class ScriptsMorph
+* @constructor
+*/
 /*
     I give feedback about possible drop targets and am in charge
     of actually snapping blocks together.
@@ -5017,7 +5220,18 @@ ScriptsMorph.prototype.reactToDropOf = function (droppedMorph, hand) {
 };
 
 // ArgMorph //////////////////////////////////////////////////////////
+/**
+* I am a syntax element and the ancestor of all block inputs.
+    I am present in block labels.
+    Usually I am just a receptacle for inherited methods and attributes,
+    however, if my 'type' attribute is set to one of the following
+    values, I act as an iconic slot myself:
 
+        'list'    - a list symbol
+*
+* @class ArgMorph
+* @constructor
+*/
 /*
     I am a syntax element and the ancestor of all block inputs.
     I am present in block labels.
@@ -5127,7 +5341,21 @@ ArgMorph.prototype.isEmptySlot = function () {
 };
 
 // CommandSlotMorph ////////////////////////////////////////////////////
+/**
+* This is the description for CommandSlotMorphI am a CommandBlock-shaped input slot. I can nest command blocks
+    and also accept    reporters (containing reified scripts).
 
+    my most important accessor is
+
+        nestedBlock()    - answer the command block I encompass, if any
+
+        My command spec is %cmd
+
+        evaluate() returns my nested block or null
+*
+* @class CommandSlotMorph
+* @constructor
+*/
 /*
     I am a CommandBlock-shaped input slot. I can nest command blocks
     and also accept    reporters (containing reified scripts).
@@ -5580,7 +5808,17 @@ CommandSlotMorph.prototype.drawEdges = function (context) {
 };
 
 // RingCommandSlotMorph ///////////////////////////////////////////////////
+/**
+* This is the description for RingCommandSlotMorph.I am a CommandBlock-shaped input slot for use in RingMorphs.
+    I can only nest command blocks, not reporters.
 
+        My command spec is %rc
+
+        evaluate() returns my nested block or null (inherited from CommandSlotMorph)
+*
+* @class RingCommandSlotMorph
+* @constructor
+*/
 /*
     I am a CommandBlock-shaped input slot for use in RingMorphs.
     I can only nest command blocks, not reporters.
@@ -5733,7 +5971,21 @@ RingCommandSlotMorph.prototype.drawFlat = function (context) {
 };
 
 // CSlotMorph ////////////////////////////////////////////////////
+/**
+* This is the description for CSlotMorph. I am a C-shaped input slot. I can nest command blocks and also accept
+    reporters (containing reified scripts).
 
+    my most important accessor is
+
+        nestedBlock()    - the command block I encompass, if any (inherited)
+
+        My command spec is %c
+
+        evaluate() returns my nested block or null
+*
+* @class CSlotMorph
+* @constructor
+*/
 /*
     I am a C-shaped input slot. I can nest command blocks and also accept
     reporters (containing reified scripts).
@@ -6143,7 +6395,34 @@ CSlotMorph.prototype.drawBottomEdge = function (context) {
 };
 
 // InputSlotMorph //////////////////////////////////////////////////////
+/**
+* I am an editable text input slot. I can be either rectangular or
+    rounded, and can have an optional drop-down menu. If I'm set to
+    read-only I must have a drop-down menu and will assume a darker
+    shade of my    parent's color.
 
+    my most important public attributes and accessors are:
+
+        setContents(str/float)    - display the argument (string or float)
+        contents().text            - get the displayed string
+        choices                    - a key/value list for my optional drop-down
+        isReadOnly                - governs whether I am editable or not
+        isNumeric                - governs my outer shape (round or rect)
+
+    my block specs are:
+
+        %s        - string input, rectangular
+        %n        - numerical input, semi-circular vertical edges
+        %anyUE    - any unevaluated
+
+    evaluate() returns my displayed string, cast to float if I'm numerical
+
+    there are also a number of specialized drop-down menu presets, refer
+    to BlockMorph for details.
+*
+* @class InputSlotMorph
+* @constructor
+*/
 /*
     I am an editable text input slot. I can be either rectangular or
     rounded, and can have an optional drop-down menu. If I'm set to
@@ -7085,7 +7364,17 @@ InputSlotMorph.prototype.drawRoundBorder = function (context) {
 };
 
 // TemplateSlotMorph ///////////////////////////////////////////////////
+/**
+*  I am a reporter block template sitting on a pedestal.
+    My block spec is
 
+        %t        - template
+
+    evaluate returns the embedded reporter template's label string
+*
+* @class TemplateSlotMorph
+* @constructor
+*/
 /*
     I am a reporter block template sitting on a pedestal.
     My block spec is
@@ -7188,7 +7477,19 @@ TemplateSlotMorph.prototype.drawRounded = ReporterBlockMorph
     .prototype.drawRounded;
 
 // BooleanSlotMorph ////////////////////////////////////////////////////
+/**
+*     I am a diamond-shaped argument slot.
+    My block spec is:
 
+        %b        - Boolean
+
+        %boolUE    - Boolean unevaluated
+    
+    evaluate returns null
+*
+* @class BooleanSlotMorph
+* @constructor
+*/
 /*
     I am a diamond-shaped argument slot.
     My block spec is
@@ -7349,7 +7650,14 @@ BooleanSlotMorph.prototype.isEmptySlot = function () {
 };
 
 // ArrowMorph //////////////////////////////////////////////////////////
-
+/**
+*     I am a triangular arrow shape, for use in drop-down menus etc.
+    My orientation is governed by my 'direction' property, which can be
+    'down', 'up', 'left' or 'right'.
+*
+* @class ArrowMorph
+* @constructor
+*/
 /*
     I am a triangular arrow shape, for use in drop-down menus etc.
     My orientation is governed by my 'direction' property, which can be
@@ -7420,7 +7728,13 @@ ArrowMorph.prototype.drawNew = function () {
 };
 
 // TextSlotMorph //////////////////////////////////////////////////////
-
+/**
+* I am a multi-line input slot, primarily used in Snap's code-mapping
+    blocks.
+*
+* @class TextSlotMorph
+* @constructor
+*/
 /*
     I am a multi-line input slot, primarily used in Snap's code-mapping
     blocks.
@@ -7498,7 +7812,18 @@ TextSlotMorph.prototype.layoutChanged = function () {
 };
 
 // SymbolMorph //////////////////////////////////////////////////////////
-
+/**
+* I display graphical symbols, such as special letters. I have been
+*    called into existence out of frustration about not being able to
+*    consistently use Unicode characters to the same ends.
+*
+*    Symbols can also display costumes, if one is specified in lieu
+*    of a name property, although this feature is currently not being
+*    used because of asynchronous image loading issues.
+*
+* @class SymbolMorph
+* @constructor
+*/
 /*
     I display graphical symbols, such as special letters. I have been
     called into existence out of frustration about not being able to
@@ -8809,7 +9134,20 @@ ColorSlotMorph.prototype.constructor = ColorSlotMorph;
 ColorSlotMorph.uber = ArgMorph.prototype;
 
 // ColorSlotMorph  instance creation:
-
+/**
+* I am an editable input slot for a color. Users can edit my color by
+*     clicking on me, in which case a display a color gradient palette
+*     and let the user select another color. Note that the user isn't
+*     restricted to selecting a color from the palette, any color from
+*     anywhere within the World can be chosen.
+* 
+*     my block spec is %clr
+* 
+*     evaluate() returns my color
+*
+* @class ColorSlotMorph
+* @constructor
+*/
 function ColorSlotMorph(clr) {
     this.init(clr);
 }
@@ -8909,7 +9247,12 @@ ColorSlotMorph.prototype.drawRectBorder =
     InputSlotMorph.prototype.drawRectBorder;
 
 // BlockHighlightMorph /////////////////////////////////////////////////
-
+/**
+* This is the description for BlockHighlightMorph.
+*
+* @class BlockHighlightMorph
+* @constructor
+*/
 // BlockHighlightMorph inherits from Morph:
 
 BlockHighlightMorph.prototype = new Morph();
@@ -8923,7 +9266,19 @@ function BlockHighlightMorph() {
 }
 
 // MultiArgMorph ///////////////////////////////////////////////////////
+/**
+* This is the description for MultiArgMorph.I am an arity controlled list of input slots
 
+    my block specs are
+
+        %mult%x - where x is any single input slot
+        %inputs - for an additional text label 'with inputs'
+
+    evaluation is handles by the interpreter
+*
+* @class MultiArgMorph
+* @constructor
+*/
 /*
     I am an arity controlled list of input slots
 
@@ -9372,6 +9727,20 @@ ArgLabelMorph.prototype.constructor = ArgLabelMorph;
 ArgLabelMorph.uber = ArgMorph.prototype;
 
 // MultiArgMorph instance creation:
+/**
+* I am a label string that is wrapped around an ArgMorph, usually
+    a MultiArgMorph, so to indicate that it has been replaced entirely
+    for an embedded reporter block
+
+    I don't have a block spec, I get embedded automatically by the parent
+    block's argument replacement mechanism
+
+    My evaluation method is the identity function, i.e. I simply pass my
+    input's value along.
+*
+* @class ArgLabelMorph
+* @constructor
+*/
 
 function ArgLabelMorph(argMorph, labelTxt) {
     this.init(argMorph, labelTxt);
@@ -9502,7 +9871,15 @@ FunctionSlotMorph.prototype.constructor = FunctionSlotMorph;
 FunctionSlotMorph.uber = ArgMorph.prototype;
 
 // FunctionSlotMorph instance creation:
+/**
+*     I am an unevaluated, non-editable, rf-colored, rounded or diamond
+    input slot.    My current (only) use is in the THE BLOCK block.
 
+    My command spec is %f
+*
+* @class FunctionSlotMorph
+* @constructor
+*/
 function FunctionSlotMorph(isPredicate) {
     this.init(isPredicate);
 }
@@ -9861,7 +10238,22 @@ FunctionSlotMorph.prototype.drawDiamond = function (context) {
 };
 
 // ReporterSlotMorph ///////////////////////////////////////////////////
+/**
+* I am a ReporterBlock-shaped input slot. I can nest as well as
+    accept reporter blocks (containing reified scripts).
 
+    my most important accessor is
+
+        nestedBlock()    - answer the reporter block I encompass, if any
+
+        My command spec is %r for reporters (round) and %p for
+        predicates (diamond)
+
+        evaluate() returns my nested block or null
+*
+* @class ReporterSlotMorph
+* @constructor
+*/
 /*
     I am a ReporterBlock-shaped input slot. I can nest as well as
     accept reporter blocks (containing reified scripts).
@@ -9974,7 +10366,19 @@ RingReporterSlotMorph.prototype.edge
     = RingCommandSlotMorph.prototype.edge;
 
 // RingReporterSlotMorph instance creation:
+/**
+*  I am a ReporterBlock-shaped input slot for use in RingMorphs.
+    I can only nest reporter blocks (both round and diamond).
 
+        My command spec is %rr for reporters (round) and %rp for
+        predicates (diamond)
+
+        evaluate() returns my nested block or null
+    
+*
+* @class RingReporterSlotMorph
+* @constructor
+*/
 function RingReporterSlotMorph(isPredicate) {
     this.init(isPredicate);
 }
@@ -10364,7 +10768,12 @@ CommentMorph.prototype.refreshScale = function () {
 CommentMorph.prototype.refreshScale();
 
 // CommentMorph instance creation:
-
+/**
+* This is the description for CommentMorph.
+*
+* @class CommentMorph
+* @constructor
+*/
 function CommentMorph(contents) {
     this.init(contents);
 }

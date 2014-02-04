@@ -82,7 +82,12 @@ var SoundIconMorph;
 var JukeboxMorph;
 
 // IDE_Morph ///////////////////////////////////////////////////////////
-
+/**
+*  I am SNAP's top-level frame, the Editor window
+*
+* @class IDE_Morph
+* @constructor
+*/
 // I am SNAP's top-level frame, the Editor window
 
 // IDE_Morph inherits from Morph:
@@ -104,7 +109,7 @@ IDE_Morph.prototype.setDefaultDesign = function () {
         = SpriteMorph.prototype.paletteColor.lighter(30);
 
     IDE_Morph.prototype.buttonContrast = 30;
-    IDE_Morph.prototype.backgroundColor = new Color(40, 40, 40);
+    IDE_Morph.prototype.backgroundColor = new Color(187, 00, 00);
     IDE_Morph.prototype.frameColor = SpriteMorph.prototype.paletteColor;
 
     IDE_Morph.prototype.groupColor
@@ -195,7 +200,7 @@ IDE_Morph.prototype.init = function (isAutoFill) {
     this.globalVariables = new VariableFrame();
     this.currentSprite = new SpriteMorph(this.globalVariables);
     this.sprites = new List([this.currentSprite]);
-    this.currentCategory = 'motion';
+    this.currentCategory = 'control';
     this.currentTab = 'scripts';
     this.projectName = '';
     this.projectNotes = '';
@@ -764,10 +769,11 @@ IDE_Morph.prototype.createCategories = function () {
     }
     this.categories = new Morph();
     this.categories.color = this.groupColor;
-    this.categories.silentSetWidth(this.logo.width()); // width is fixed
+    this.categories.silentSetWidth(320); // width is fixed
+//    this.categories.silentSetWidth(this.logo.width()); // width is fixed
 
     function addCategoryButton(category) {
-        var labelWidth = 75,
+        var labelWidth = 150,
             colors = [
                 myself.frameColor,
                 myself.frameColor.darker(50),
@@ -878,7 +884,7 @@ IDE_Morph.prototype.createPalette = function () {
         }
     };
 
-    this.palette.setWidth(this.logo.width());
+    this.palette.setWidth(320);
     this.add(this.palette);
     this.palette.scrollX(this.palette.padding);
     this.palette.scrollY(this.palette.padding);
@@ -919,11 +925,11 @@ IDE_Morph.prototype.createSpriteBar = function () {
     if (this.spriteBar) {
         this.spriteBar.destroy();
     }
-
     this.spriteBar = new Morph();
-    this.spriteBar.color = this.frameColor;
+//    this.spriteBar.color = this.frameColor;
+    this.spriteBar.color = new Color(187,00,00);
     this.add(this.spriteBar);
-
+    
     function addRotationStyleButton(rotationStyle) {
         var colors = myself.rotationStyleColors,
             button;
@@ -1011,8 +1017,8 @@ IDE_Morph.prototype.createSpriteBar = function () {
         myself.currentSprite.setName(nameField.getValue());
     };
 
-    // padlock
-    padlock = new ToggleMorph(
+    // padlock 
+   padlock = new ToggleMorph(
         'checkbox',
         null,
         function () {
@@ -1114,17 +1120,40 @@ IDE_Morph.prototype.createSpriteBar = function () {
     tab.fixLayout();
     tabBar.add(tab);
 
+    tab = new TabMorph(
+            tabColors,
+            null, // target
+            function () {tabBar.tabTo('eventstab'); },
+            localize('Evenements'), // label
+            function () {  // query
+                return myself.currentTab === 'eventstab';
+            }
+        );
+    tab.padding = 3;
+    tab.corner = tabCorner;
+    tab.edge = 1;
+    tab.labelShadowOffset = new Point(-1, -1);
+    tab.labelShadowColor = tabColors[1];
+    tab.labelColor = this.buttonLabelColor;
+    tab.drawNew();
+    tab.fixLayout();
+    
+    tabBar.add(tab);
+
+    
     tabBar.fixLayout();
     tabBar.children.forEach(function (each) {
         each.refresh();
     });
     this.spriteBar.tabBar = tabBar;
     this.spriteBar.add(this.spriteBar.tabBar);
-
+    
     this.spriteBar.fixLayout = function () {
+//        this.tabBar.setLeft(this.left());
         this.tabBar.setLeft(this.left());
         this.tabBar.setBottom(this.bottom());
     };
+
 };
 
 IDE_Morph.prototype.createSpriteEditor = function () {
@@ -1135,7 +1164,7 @@ IDE_Morph.prototype.createSpriteEditor = function () {
     if (this.spriteEditor) {
         this.spriteEditor.destroy();
     }
-
+    
     if (this.currentTab === 'scripts') {
         scripts.isDraggable = false;
         scripts.color = this.groupColor;
@@ -1149,6 +1178,28 @@ IDE_Morph.prototype.createSpriteEditor = function () {
         this.spriteEditor.padding = 10;
         this.spriteEditor.growth = 50;
         this.spriteEditor.isDraggable = false;
+        
+        this.spriteEditor.acceptsDrops = false;
+        this.spriteEditor.contents.acceptsDrops = true;
+
+        scripts.scrollFrame = this.spriteEditor;
+        this.add(this.spriteEditor);
+        this.spriteEditor.scrollX(this.spriteEditor.padding);
+        this.spriteEditor.scrollY(this.spriteEditor.padding);
+    } else if (this.currentTab === 'eventstab') {
+        scripts.isDraggable = false;
+        scripts.color = this.groupColor;
+        scripts.texture = this.scriptsPaneTexture;
+
+        this.spriteEditor = new ScrollFrameMorph(
+            scripts,
+            null,
+            this.sliderColor
+        );
+        this.spriteEditor.padding = 10;
+        this.spriteEditor.growth = 50;
+        this.spriteEditor.isDraggable = false;
+        
         this.spriteEditor.acceptsDrops = false;
         this.spriteEditor.contents.acceptsDrops = true;
 
@@ -1368,18 +1419,20 @@ IDE_Morph.prototype.fixLayout = function (situation) {
     // situation is a string, i.e.
     // 'selectSprite' or 'refreshPalette' or 'tabEditor'
     var padding = this.padding;
-
+    this.logo.setHeight(70);
     Morph.prototype.trackChanges = false;
 
     if (situation !== 'refreshPalette') {
         // controlBar
         this.controlBar.setPosition(this.logo.topRight());
         this.controlBar.setWidth(this.right() - this.controlBar.left());
+        this.controlBar.setHeight(70);
         this.controlBar.fixLayout();
 
         // categories
+//        this.categories.setLeft(this.logo.left());
         this.categories.setLeft(this.logo.left());
-        this.categories.setTop(this.logo.bottom());
+        this.categories.setTop(this.logo.bottom()+150);
     }
 
     // palette
@@ -1398,16 +1451,26 @@ IDE_Morph.prototype.fixLayout = function (situation) {
             this.stage.setCenter(this.center());
         } else {
 //            this.stage.setScale(this.isSmallStage ? 0.5 : 1);
-            this.stage.setScale(this.isSmallStage ? this.stageRatio : 1);
+//            this.stage.setScale(this.isSmallStage ? this.stageRatio : 1.7);
+            this.stage.setScale(Math.floor(Math.min(
+                            (this.width() - padding * 2 - 700) / this.stage.dimensions.x,
+                            (this.height() - this.controlBar.height() * 2 - padding * 2 )
+                                / this.stage.dimensions.y
+                        ) * 10) / 10);
             this.stage.setTop(this.logo.bottom() + padding);
             this.stage.setRight(this.right());
+            this.stage.setLeft(700);
+            
+            
         }
 
         // spriteBar
-        this.spriteBar.setPosition(this.logo.bottomRight().add(padding));
+        this.spriteBar.setPosition(this.logo.bottomRight());
+        this.spriteBar.setLeft(320);
+//        this.spriteBar.setPosition(new Point(320+padding,320+padding));
         this.spriteBar.setExtent(new Point(
             Math.max(0, this.stage.left() - padding - this.spriteBar.left()),
-            this.categories.bottom() - this.spriteBar.top() - padding
+            this.categories.top() - this.spriteBar.top() - padding
         ));
         this.spriteBar.fixLayout();
 
@@ -1421,15 +1484,20 @@ IDE_Morph.prototype.fixLayout = function (situation) {
         }
 
         // corralBar
-        this.corralBar.setLeft(this.stage.left());
-        this.corralBar.setTop(this.stage.bottom() + padding);
-        this.corralBar.setWidth(this.stage.width());
+//        this.corralBar.setLeft(this.stage.left());
+//        this.corralBar.setTop(this.stage.bottom() + padding);
+//        this.corralBar.setWidth(this.stage.width());
+        this.corralBar.setPosition(this.logo.bottomLeft());
+        this.corralBar.setWidth(320);
+        this.corralBar.setHeight(70);
 
         // corral
         if (!contains(['selectSprite', 'tabEditor'], situation)) {
             this.corral.setPosition(this.corralBar.bottomLeft());
-            this.corral.setWidth(this.stage.width());
-            this.corral.setHeight(this.bottom() - this.corral.top());
+            this.corral.setWidth(320);
+//            this.corral.setHeight(this.bottom() - this.corral.top());
+            this.corral.setHeight(70);
+            
             this.corral.fixLayout();
         }
     }
@@ -3849,7 +3917,12 @@ IDE_Morph.prototype.prompt = function (message, callback, choices, key) {
 };
 
 // ProjectDialogMorph ////////////////////////////////////////////////////
-
+/**
+* This is the description for my class.
+*
+* @class ProjectDialogMorph
+* @constructor
+*/
 // ProjectDialogMorph inherits from DialogBoxMorph:
 
 ProjectDialogMorph.prototype = new DialogBoxMorph();
@@ -4731,7 +4804,14 @@ ProjectDialogMorph.prototype.fixLayout = function () {
 };
 
 // SpriteIconMorph ////////////////////////////////////////////////////
-
+/**
+*     I am a selectable element in the Sprite corral, keeping a self-updating
+    thumbnail of the sprite I'm respresenting, and a self-updating label
+    of the sprite's name (in case it is changed elsewhere).
+*
+* @class MyClass
+* @constructor
+*/
 /*
     I am a selectable element in the Sprite corral, keeping a self-updating
     thumbnail of the sprite I'm respresenting, and a self-updating label
@@ -5118,7 +5198,15 @@ SpriteIconMorph.prototype.copySound = function (sound) {
 };
 
 // CostumeIconMorph ////////////////////////////////////////////////////
-
+/**
+* I am a selectable element in the SpriteEditor's "Costumes" tab, keeping
+    a self-updating thumbnail of the costume I'm respresenting, and a
+    self-updating label of the costume's name (in case it is changed
+    elsewhere).
+*
+* @class CostumeIconMorph
+* @constructor
+*/
 /*
     I am a selectable element in the SpriteEditor's "Costumes" tab, keeping
     a self-updating thumbnail of the costume I'm respresenting, and a
@@ -5335,7 +5423,13 @@ CostumeIconMorph.prototype.prepareToBeGrabbed = function () {
 };
 
 // TurtleIconMorph ////////////////////////////////////////////////////
-
+/**
+* I am a selectable element in the SpriteEditor's "Costumes" tab, keeping
+    a thumbnail of the sprite's or stage's default "Turtle" costume.
+*
+* @class TurtleIconMorph
+* @constructor
+*/
 /*
     I am a selectable element in the SpriteEditor's "Costumes" tab, keeping
     a thumbnail of the sprite's or stage's default "Turtle" costume.
@@ -5522,7 +5616,12 @@ TurtleIconMorph.prototype.userMenu = function () {
 };
 
 // WardrobeMorph ///////////////////////////////////////////////////////
-
+/**
+* I am a watcher on a sprite's costume list.
+*
+* @class WardrobeMorph
+* @constructor
+*/
 // I am a watcher on a sprite's costume list
 
 // WardrobeMorph inherits from ScrollFrameMorph
@@ -5699,7 +5798,12 @@ WardrobeMorph.prototype.reactToDropOf = function (icon) {
 };
 
 // SoundIconMorph ///////////////////////////////////////////////////////
-
+/**
+* I am an element in the SpriteEditor's "Sounds" tab.
+*
+* @class SoundIconMorph
+* @constructor
+*/
 /*
     I am an element in the SpriteEditor's "Sounds" tab.
 */
@@ -5908,7 +6012,12 @@ SoundIconMorph.prototype.prepareToBeGrabbed = function () {
 };
 
 // JukeboxMorph /////////////////////////////////////////////////////
-
+/**
+* I am JukeboxMorph, like WardrobeMorph, but for sounds.
+*
+* @class JukeboxMorph
+* @constructor
+*/
 /*
     I am JukeboxMorph, like WardrobeMorph, but for sounds
 */

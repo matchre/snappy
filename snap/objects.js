@@ -141,7 +141,12 @@ var Note;
 var SpriteHighlightMorph;
 
 // SpriteMorph /////////////////////////////////////////////////////////
-
+/**
+* I am a scriptable object
+*
+* @class SpriteMorph
+* @constructor
+*/
 // I am a scriptable object
 
 // SpriteMorph inherits from PenMorph:
@@ -3645,7 +3650,12 @@ SpriteMorph.prototype.reactToDropOf = function (morph, hand) {
 };
 
 // SpriteHighlightMorph /////////////////////////////////////////////////
-
+/**
+* This is the description for my class.
+*
+* @class SpriteHighlightMorph
+* @constructor
+*/
 // SpriteHighlightMorph inherits from Morph:
 
 SpriteHighlightMorph.prototype = new Morph();
@@ -3659,7 +3669,12 @@ function SpriteHighlightMorph() {
 }
 
 // StageMorph /////////////////////////////////////////////////////////
-
+/**
+* This is the description for my class. I inherit from FrameMorph and copy from SpriteMorph.
+*
+* @class StageMorph
+* @constructor
+*/
 /*
     I inherit from FrameMorph and copy from SpriteMorph.
 */
@@ -4164,18 +4179,21 @@ StageMorph.prototype.fireGreenFlagEvent = function () {
     console.log("StageMorph.children");
     console.log(this.children);
     this.children.concat(this).forEach(function (morph) {
+        console.log('~~~~~~~ FOR EACH morph~~~~~~~~~');
+        console.log(morph);
         if (morph instanceof SpriteMorph || morph instanceof StageMorph) {
             hats = hats.concat(morph.allHatBlocksFor('__shout__go__'));
         }
     });
     hats.forEach(function (block) {
+        console.log('~~~~~~~ FOR EACH block~~~~~~~~~');
+        console.log(block);
         procs.push(myself.threads.startProcess(
             block,
             myself.isThreadSafe
         ));
     });
-    console.log('>>>>>>> PROCS <<<<<<<<<<<<');
-    console.log(procs);
+
     if (ide) {
         ide.controlBar.pauseButton.refresh();
     }
@@ -4875,7 +4893,13 @@ StageMorph.prototype.replaceDoubleDefinitionsFor
     = SpriteMorph.prototype.replaceDoubleDefinitionsFor;
 
 // SpriteBubbleMorph ////////////////////////////////////////////////////////
-
+/**
+* I am a sprite's scaleable speech bubble. I rely on SpriteMorph
+    for my preferences settings
+*
+* @class SpriteBubbleMorph
+* @constructor
+*/
 /*
     I am a sprite's scaleable speech bubble. I rely on SpriteMorph
     for my preferences settings
@@ -5080,7 +5104,13 @@ SpriteBubbleMorph.prototype.fixLayout = function () {
 };
 
 // Costume /////////////////////////////////////////////////////////////
-
+/**
+* I am a picture that's "wearable" by a sprite. My rotationCenter is
+    relative to my contents position.
+*
+* @class Costume
+* @constructor
+*/
 /*
     I am a picture that's "wearable" by a sprite. My rotationCenter is
     relative to my contents position.
@@ -5364,7 +5394,12 @@ Costume.prototype.isTainted = function () {
 };
 
 // SVG_Costume /////////////////////////////////////////////////////////////
-
+/**
+* I am a costume containing an SVG image.
+*
+* @class SVG_Costume
+* @constructor
+*/
 /*
     I am a costume containing an SVG image.
 */
@@ -5419,7 +5454,12 @@ SVG_Costume.prototype.shrinkToFit = function (extentPoint) {
 };
 
 // CostumeEditorMorph ////////////////////////////////////////////////////////
-
+/**
+* This is the description for my class.
+*
+* @class CostumeEditorMorph
+* @constructor
+*/
 // CostumeEditorMorph inherits from Morph:
 
 CostumeEditorMorph.prototype = new Morph();
@@ -5551,7 +5591,12 @@ CostumeEditorMorph.prototype.mouseMove
     = CostumeEditorMorph.prototype.mouseDownLeft;
 
 // Sound /////////////////////////////////////////////////////////////
-
+/**
+* This is the description for my class.
+*
+* @class Sound
+* @constructor
+*/
 // Sound instance creation
 
 function Sound(audio, name) {
@@ -5582,7 +5627,12 @@ Sound.prototype.toDataURL = function () {
 };
 
 // Note /////////////////////////////////////////////////////////
-
+/**
+* I am a single musical note
+*
+* @class Note
+* @constructor
+*/
 // I am a single musical note
 
 // Note instance creation
@@ -5638,7 +5688,14 @@ Note.prototype.stop = function () {
 };
 
 // CellMorph //////////////////////////////////////////////////////////
-
+/**
+* I am a spreadsheet style cell that can display either a string,
+    a Morph, a Canvas or a toString() representation of anything else.
+    I can be used in variable watchers or list view element cells.
+*
+* @class CellMorph
+* @constructor
+*/
 /*
     I am a spreadsheet style cell that can display either a string,
     a Morph, a Canvas or a toString() representation of anything else.
@@ -5967,7 +6024,15 @@ CellMorph.prototype.mouseClickLeft = function (pos) {
 };
 
 // WatcherMorph //////////////////////////////////////////////////////////
+/**
+* I am a little window which observes some value and continuously
+    updates itself accordingly.
 
+    My target can be either a SpriteMorph or a VariableFrame.
+*
+* @class WatcherMorph
+* @constructor
+*/
 /*
     I am a little window which observes some value and continuously
     updates itself accordingly.
@@ -6439,7 +6504,16 @@ WatcherMorph.prototype.drawNew = function () {
 };
 
 // StagePrompterMorph ////////////////////////////////////////////////////////
-
+/**
+* I am a sensor-category-colored input box at the bottom of the stage
+    which lets the user answer to a question. If I am opened from within
+    the context of a sprite, my question can be anything that is displayable
+    in a SpeechBubble and will be, if I am opened from within the stage
+    my question will be shown as a single line of text within my label morph.
+*
+* @class StagePrompterMorph
+* @constructor
+*/
 /*
     I am a sensor-category-colored input box at the bottom of the stage
     which lets the user answer to a question. If I am opened from within

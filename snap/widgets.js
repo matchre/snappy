@@ -86,7 +86,12 @@ var AlignmentMorph;
 var InputFieldMorph;
 
 // PushButtonMorph /////////////////////////////////////////////////////
-
+/**
+* I am a Button with rounded corners and 3D-ish graphical effects
+*
+* @class PushButtonMorph
+* @constructor
+*/
 // I am a Button with rounded corners and 3D-ish graphical effects
 
 // PushButtonMorph inherits from TriggerMorph:
@@ -467,7 +472,14 @@ PushButtonMorph.prototype.createLabel = function () {
 };
 
 // ToggleButtonMorph ///////////////////////////////////////////////////////
-
+/**
+* I am a two-state PushButton. When my state is "true" I keep my "pressed"
+    background color. I can also be set to not auto-layout my bounds, in
+    which case my label will left-align.
+*
+* @class ToggleButtonMorph
+* @constructor
+*/
 /*
     I am a two-state PushButton. When my state is "true" I keep my "pressed"
     background color. I can also be set to not auto-layout my bounds, in
@@ -897,7 +909,12 @@ ToggleButtonMorph.prototype.show = function () {
 };
 
 // TabMorph ///////////////////////////////////////////////////////
-
+/**
+* TabMorph inherits from ToggleButtonMorph
+*
+* @class TabMorph
+* @constructor
+*/
 // TabMorph inherits from ToggleButtonMorph:
 
 TabMorph.prototype = new ToggleButtonMorph();
@@ -1010,7 +1027,17 @@ TabMorph.prototype.drawEdges = function (
 };
 
 // ToggleMorph ///////////////////////////////////////////////////////
-
+/**
+* I am a PushButton which toggles a check mark ( becoming check box)
+    or a bullet (becoming a radio button). I can have both or either an
+    additional label and an additional pictogram, whereas the pictogram
+    can be either an instance of (any) Morph, in which case the pictogram
+    will be an interactive toggle itself or a Canvas, in which case it
+    is just going to be a picture.
+*
+* @class ToggleMorph
+* @constructor
+*/
 /*
     I am a PushButton which toggles a check mark ( becoming check box)
     or a bullet (becoming a radio button). I can have both or either an
@@ -1261,6 +1288,15 @@ ToggleMorph.prototype.hide = ToggleButtonMorph.prototype.hide;
 ToggleMorph.prototype.show = ToggleButtonMorph.prototype.show;
 
 // ToggleElementMorph /////////////////////////////////////////////////////
+/**
+* I am a picture of a Morph ("element") which acts as a toggle button.
+    I am different from ToggleButton in that I neither create a label nor
+    draw button outlines. Instead I display my element morph in specified
+    contrasts of a given color, symbolizing whether it is selected or not
+*
+* @class ToggleElementMorph
+* @constructor
+*/
 /*
     I am a picture of a Morph ("element") which acts as a toggle button.
     I am different from ToggleButton in that I neither create a label nor
@@ -1428,7 +1464,17 @@ ToggleElementMorph.prototype.mouseClickLeft
     = ToggleButtonMorph.prototype.mouseClickLeft;
 
 // DialogBoxMorph /////////////////////////////////////////////////////
+/**
+*  I am a DialogBox frame.
 
+    Note:
+    -----
+        my key property keeps track of my purpose to prevent multiple instances
+        on the same or similar objects
+*
+* @class DialogBoxMorph
+* @constructor
+*/
 /*
     I am a DialogBox frame.
 
@@ -2754,7 +2800,12 @@ DialogBoxMorph.prototype.outlinePathBody = function (context, radius) {
 };
 
 // AlignmentMorph /////////////////////////////////////////////////////
-
+/**
+* I am a reified layout, either a row or a column of submorphs
+*
+* @class AlignmentMorph
+* @constructor
+*/
 // I am a reified layout, either a row or a column of submorphs
 
 // AlignmentMorph inherits from Morph:
@@ -2830,7 +2881,12 @@ AlignmentMorph.prototype.fixLayout = function () {
 };
 
 // InputFieldMorph //////////////////////////////////////////////////////
-
+/**
+* This is the description for my class.
+*
+* @class InputFieldMorph
+* @constructor
+*/
 // InputFieldMorph inherits from Morph:
 
 InputFieldMorph.prototype = new Morph();

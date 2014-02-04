@@ -72,7 +72,12 @@ var PaintCanvasMorph;
 var PaintColorPickerMorph;
 
 // PaintEditorMorph //////////////////////////
-
+/**
+* A complete paint editor
+*
+* @class PaintEditorMorph
+* @constructor
+*/
 // A complete paint editor
 
 PaintEditorMorph.prototype = new DialogBoxMorph();
@@ -516,6 +521,13 @@ PaintColorPickerMorph.prototype.mouseMove =
     PaintColorPickerMorph.prototype.mouseDownLeft;
 
 // PaintCanvasMorph ///////////////////////////
+/**
+* A canvas which reacts to drag events to
+    modify its image, based on a 'tool' property.
+*
+* @class PaintCanvasMorph
+* @constructor
+*/
 /*
     A canvas which reacts to drag events to
     modify its image, based on a 'tool' property.

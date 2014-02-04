@@ -127,7 +127,12 @@ var BlockExportDialogMorph;
 var BlockImportDialogMorph;
 
 // CustomBlockDefinition ///////////////////////////////////////////////
-
+/**
+* This is the description for my class.
+*
+* @class CustomBlockDefinition
+* @constructor
+*/
 // CustomBlockDefinition instance creation:
 
 function CustomBlockDefinition(spec, receiver) {
@@ -337,7 +342,12 @@ CustomBlockDefinition.prototype.parseSpec = function (spec) {
 };
 
 // CustomCommandBlockMorph /////////////////////////////////////////////
-
+/**
+* This is the description for my class.
+*
+* @class CustomCommandBlockMorph
+* @constructor
+*/
 // CustomCommandBlockMorph inherits from CommandBlockMorph:
 
 CustomCommandBlockMorph.prototype = new CommandBlockMorph();
@@ -806,7 +816,12 @@ CustomCommandBlockMorph.prototype.popUpbubbleHelp = function (
 };
 
 // CustomReporterBlockMorph ////////////////////////////////////////////
-
+/**
+* This is the description for my class.
+*
+* @class CustomReporterBlockMorph
+* @constructor
+*/
 // CustomReporterBlockMorph inherits from ReporterBlockMorph:
 
 CustomReporterBlockMorph.prototype = new ReporterBlockMorph();
@@ -921,7 +936,14 @@ CustomReporterBlockMorph.prototype.popUpbubbleHelp
     = CustomCommandBlockMorph.prototype.popUpbubbleHelp;
 
 // JaggedBlockMorph ////////////////////////////////////////////////////
-
+/**
+*  I am a reporter block with jagged left and right edges conveying the
+    appearance of having the broken out of a bigger block. I am used to
+    display input types in the long form input dialog.
+*
+* @class JaggedBlockMorph
+* @constructor
+*/
 /*
     I am a reporter block with jagged left and right edges conveying the
     appearance of having the broken out of a bigger block. I am used to
@@ -1076,7 +1098,12 @@ JaggedBlockMorph.prototype.drawEdges = function (context) {
 };
 
 // BlockDialogMorph ////////////////////////////////////////////////////
-
+/**
+* This is the description for my class.
+*
+* @class BlockDialogMorph
+* @constructor
+*/
 // BlockDialogMorph inherits from DialogBoxMorph:
 
 BlockDialogMorph.prototype = new DialogBoxMorph();
@@ -1523,7 +1550,12 @@ BlockDialogMorph.prototype.fixLayout = function () {
 };
 
 // BlockEditorMorph ////////////////////////////////////////////////////
-
+/**
+* This is the description for my class.
+*
+* @class BlockEditorMorph
+* @constructor
+*/
 // BlockEditorMorph inherits from DialogBoxMorph:
 
 BlockEditorMorph.prototype = new DialogBoxMorph();
@@ -1832,7 +1864,12 @@ BlockEditorMorph.prototype.fixLayout = function () {
 };
 
 // PrototypeHatBlockMorph /////////////////////////////////////////////
-
+/**
+* This is the description for my class.
+*
+* @class PrototypeHatBlockMorph
+* @constructor
+*/
 // PrototypeHatBlockMorph inherits from HatBlockMorph:
 
 PrototypeHatBlockMorph.prototype = new HatBlockMorph();
@@ -1904,7 +1941,12 @@ PrototypeHatBlockMorph.prototype.fixBlockColor = function (
 };
 
 // BlockLabelFragment //////////////////////////////////////////////////
-
+/**
+* This is the description for my class.
+*
+* @class BlockLabelFragment
+* @constructor
+*/
 // BlockLabelFragment instance creation:
 
 function BlockLabelFragment(labelString) {
@@ -2031,7 +2073,14 @@ BlockLabelFragment.prototype.setSingleInputType = function (type) {
 };
 
 // BlockLabelFragmentMorph ///////////////////////////////////////////////
-
+/**
+* 
+    I am a single word in a custom block prototype's label. I can be clicked
+    to edit my contents and to turn me into an input placeholder.
+*
+* @class BlockLabelFragmentMorph
+* @constructor
+*/
 /*
     I am a single word in a custom block prototype's label. I can be clicked
     to edit my contents and to turn me into an input placeholder.
@@ -2152,7 +2201,14 @@ BlockLabelFragmentMorph.prototype.userMenu = function () {
 };
 
 // BlockLabelPlaceHolderMorph ///////////////////////////////////////////////
-
+/**
+* I am a space between words or inputs in a custom block prototype's label.
+    When I am moused over I display a plus sign on a colored background
+    circle. I can be clicked to add a new word or input to the prototype.
+*
+* @class BlockLabelPlaceHolderMorph
+* @constructor
+*/
 /*
     I am a space between words or inputs in a custom block prototype's label.
     When I am moused over I display a plus sign on a colored background
@@ -2281,7 +2337,13 @@ BlockLabelPlaceHolderMorph.prototype.updateBlockLabel
     = BlockLabelFragmentMorph.prototype.updateBlockLabel;
 
 // BlockInputFragmentMorph ///////////////////////////////////////////////
-
+/**
+* I am a variable blob in a custom block prototype's label. I can be clicked
+    to edit my contents and to turn me into an part of the block's label text.
+*
+* @class BlockInputFragmentMorph
+* @constructor
+*/
 /*
     I am a variable blob in a custom block prototype's label. I can be clicked
     to edit my contents and to turn me into an part of the block's label text.
@@ -2314,7 +2376,12 @@ BlockInputFragmentMorph.prototype.updateBlockLabel
     = BlockLabelFragmentMorph.prototype.updateBlockLabel;
 
 // InputSlotDialogMorph ////////////////////////////////////////////////
-
+/**
+* This is the description for my class.
+*
+* @class InputSlotDialogMorph
+* @constructor
+*/
 // ... "inherits" some methods from BlockDialogMorph
 
 // InputSlotDialogMorph inherits from DialogBoxMorph:
@@ -2913,7 +2980,12 @@ InputSlotDialogMorph.prototype.show = function () {
 };
 
 // VariableDialogMorph ////////////////////////////////////////////////////
-
+/**
+* This is the description for my class.
+*
+* @class VariableDialogMorph
+* @constructor
+*/
 // VariableDialogMorph inherits from DialogBoxMorph:
 
 VariableDialogMorph.prototype = new DialogBoxMorph();
@@ -3032,7 +3104,12 @@ VariableDialogMorph.prototype.fixLayout = function () {
 };
 
 // BlockExportDialogMorph ////////////////////////////////////////////////////
-
+/**
+* This is the description for my class.
+*
+* @class BlockExportDialogMorph
+* @constructor
+*/
 // BlockExportDialogMorph inherits from DialogBoxMorph:
 
 BlockExportDialogMorph.prototype = new DialogBoxMorph();
@@ -3211,7 +3288,12 @@ BlockExportDialogMorph.prototype.fixLayout
     = BlockEditorMorph.prototype.fixLayout;
 
 // BlockImportDialogMorph ////////////////////////////////////////////////////
-
+/**
+* This is the description for my class.
+*
+* @class BlockImportDialogMorph
+* @constructor
+*/
 // BlockImportDialogMorph inherits from DialogBoxMorph
 // and pseudo-inherits from BlockExportDialogMorph:
 

@@ -65,6 +65,16 @@ modules.store = '2013-December-19';
 
 
 // XML_Serializer ///////////////////////////////////////////////////////
+/**
+* I am an abstract protype for my heirs.
+
+    I manage object identities and keep track of circular data structures.
+    Objects are "touched" and a property named "serializationID" is added
+    to each, representing an index integer in the list, starting with 1.
+*
+* @class XML_Serializer
+* @constructor
+*/
 /*
     I am an abstract protype for my heirs.
 
@@ -241,7 +251,12 @@ XML_Serializer.prototype.parse = function (xmlString) {
 };
 
 // SnapSerializer ////////////////////////////////////////////////////////////
-
+/**
+* SnapSerializer inherits from XML_Serializer:
+*
+* @class SnapSerializer
+* @constructor
+*/
 var SnapSerializer;
 
 // SnapSerializer inherits from XML_Serializer:
