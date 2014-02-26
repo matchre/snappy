@@ -4178,25 +4178,27 @@ StageMorph.prototype.fireGreenFlagEvent = function () {
         myself = this;
     console.log("StageMorph.children");
     console.log(this.children);
-    this.children.concat(this).forEach(function (morph) {
-        console.log('~~~~~~~ FOR EACH morph~~~~~~~~~');
-        console.log(morph);
-        if (morph instanceof SpriteMorph || morph instanceof StageMorph) {
-            hats = hats.concat(morph.allHatBlocksFor('__shout__go__'));
+        this.children.concat(this).forEach(function (morph) {
+            console.log('~~~~~~~ FOR EACH morph~~~~~~~~~');
+            console.log(morph);
+            if (morph instanceof SpriteMorph || morph instanceof StageMorph) {
+                hats = hats.concat(morph.allHatBlocksFor('__shout__go__'));
+            }
+        });
+        hats.forEach(function (block) {
+            console.log('~~~~~~~ FOR EACH block~~~~~~~~~');
+            console.log(block);
+            procs.push(myself.threads.startProcess(
+                block,
+                myself.isThreadSafe
+            ));
+        });
+       
+        
+        if (ide) {
+            ide.controlBar.pauseButton.refresh();
         }
-    });
-    hats.forEach(function (block) {
-        console.log('~~~~~~~ FOR EACH block~~~~~~~~~');
-        console.log(block);
-        procs.push(myself.threads.startProcess(
-            block,
-            myself.isThreadSafe
-        ));
-    });
-
-    if (ide) {
-        ide.controlBar.pauseButton.refresh();
-    }
+    
     return procs;
 };
 

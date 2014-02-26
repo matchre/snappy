@@ -1655,8 +1655,10 @@ IDE_Morph.prototype.refreshPalette = function (shouldIgnorePosition) {
 IDE_Morph.prototype.pressStart = function () {
     if (this.world().currentKey === 16) { // shiftClicked
         this.toggleFastTracking();
+        this.toggleFastTracking();
+        this.toggleFastTracking();
     } else {
-        this.runScripts();
+            this.runScripts();
     }
 };
 
