@@ -176,7 +176,7 @@ IDE_Morph.prototype.setFlatDesign = function () {
         = IDE_Morph.prototype.buttonLabelColor;
 };
 
-IDE_Morph.prototype.setDefaultDesign();
+IDE_Morph.prototype.setFlatDesign();
 
 // IDE_Morph instance creation:
 
@@ -2754,8 +2754,10 @@ IDE_Morph.prototype.exportProject = function (name, plain) {
                     this.serializer.serialize(this.stage)
                 );
                 location.hash = '#open:' + str;
-                window.open('data:text/'
-                    + (plain ? 'plain,' + str : 'xml,' + str));
+//                window.open('data:text/'
+//                    + (plain ? 'plain,' + str : 'xml,' + str));
+                window.open('data:application/json,'
+                    + xml2json.fromStr(this.serializer.serialize(this.stage),'string'));
                 menu.destroy();
                 this.showMessage('Exported!', 1);
             } catch (err) {
@@ -2965,6 +2967,14 @@ IDE_Morph.prototype.openMediaString = function (str) {
         this.serializer.loadMedia(str);
     }
     this.showMessage('Imported Media Module.', 2);
+};
+
+
+IDE_Morph.prototype.initTimer = function () {
+    var str;
+    var basepath=location.href.substring(0, location.href.lastIndexOf("/")+1);
+    src = this.getURL(basepath+'samples/init.xml');
+    this.openProjectString(src);
 };
 
 IDE_Morph.prototype.openProject = function (name) {
@@ -3328,7 +3338,7 @@ IDE_Morph.prototype.reflectLanguage = function (lang, callback) {
     if (this.loadNewProject) {
         this.newProject();
     } else {
-        this.openProjectString(projectData);
+        this.openProjectString(initsrc);
     }
     this.saveSetting('language', lang);
     if (callback) {callback.call(this); }
