@@ -3,6 +3,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>WebMobinet</title>
+        <link rel="stylesheet" type="text/css" href="css/styles.css"></link>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script type="text/javascript" src="js/init.js"></script>    
         <script type="text/javascript" src="js/morphic.js"></script>
         <script type="text/javascript" src="js/widgets.js"></script>
@@ -31,9 +33,41 @@
                 world.doOneCycle();
 
             }
+            $(document).ready(function() {
+                TriggerClick = 1;
+
+                $("#cb_resize_toggle").click(function() {
+                    if (TriggerClick == 0) {
+                        TriggerClick = 1;
+                        $("div#help_div").animate({width: '120px', height: '120px'}, 500);
+                        $("#toggle_img").css("top", '-38px');
+                        $("#help_img").fadeIn();
+                        $("#help_text").fadeOut();
+                    } else {
+                        TriggerClick = 0;
+                        $("div#help_div").animate({width: '500px', height: '500px'}, 500);
+                        $("#toggle_img").css("top", '-209px');
+                        $("#help_img").fadeOut();
+                        $("#help_text").fadeIn();
+                    }
+                    ;
+                });
+            });
         </script>
     </head>
     <body style="margin: 0;">
+        <div id="help_div" >
+            <div id="cb_resize_toggle" style="width: 19px; height: 19px; overflow: hidden; position: relative; cursor: pointer; left: 0; top: 0; z-index: 13;">
+                <img id="toggle_img" src="https://maps.gstatic.com/intl/fr_fr/mapfiles/cb/minimap_arrows.png" style="position: absolute; left: 0px; top: -38px; border: 0px; padding: 0px; margin: 0px;">
+            </div>
+            <div id="help_img">
+                <img src="media/help.jpg" />
+            </div>
+            <div id="help_text">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac odio nulla. Morbi quis venenatis sapien. Nulla turpis augue, mollis eu velit tempor, varius congue augue. Nulla tellus sem, blandit eu faucibus sed, rutrum a purus. In eu ante libero. Quisque dictum justo eu massa condimentum dapibus id elementum orci. Donec blandit, orci a tristique semper, massa leo tempor dolor, porta consectetur enim libero sit amet sem. Integer sollicitudin tellus accumsan dui lobortis convallis. Praesent pretium, quam nec molestie porttitor, arcu justo malesuada lacus, quis dapibus arcu metus vitae enim. Nam pharetra aliquet arcu in posuere. Sed et massa ut velit ultrices consectetur.
+            </div>
+        </div>
         <canvas id="world" tabindex="1" style="position: absolute;" />
+
     </body>
 </html>
