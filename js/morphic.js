@@ -9955,6 +9955,7 @@ HandMorph.prototype.processDrop = function (event) {
     }
 
     function readText(aFile) {
+        console.log(aFile);
         var frd = new FileReader();
         while (!target.droppedText) {
             target = target.parent;
