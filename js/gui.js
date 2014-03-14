@@ -413,7 +413,7 @@ IDE_Morph.prototype.createLogo = function() {
     }
 
     this.logo = new Morph();
-    this.logo.texture = 'media/logo-webmobinet.png';
+    this.logo.texture = '';
     this.logo.drawNew = function() {
         this.image = newCanvas(this.extent());
         var context = this.image.getContext('2d'),
@@ -698,7 +698,7 @@ IDE_Morph.prototype.createControlBar = function() {
 
     this.controlBar.fixLayout = function() {
         x = this.right() - padding;
-        [stopButton, pauseButton, startButton].forEach(
+        [stopButton, pauseButton, startButton, appModeButton, cloudButton, projectButton].forEach(
                 function(button) {
                     button.setCenter(myself.controlBar.center());
                     button.setRight(x);
@@ -711,23 +711,23 @@ IDE_Morph.prototype.createControlBar = function() {
                 * (myself.isSmallStage ? myself.stageRatio : 1));
 
 //        [stageSizeButton, appModeButton].forEach(
-        [appModeButton].forEach(
-                function(button) {
-                    x += padding;
-                    button.setCenter(myself.controlBar.center());
-                    button.setLeft(x);
-                    x += button.width();
-                }
-        );
+//        [appModeButton].forEach(
+//                function(button) {
+//                    x += padding;
+//                    button.setCenter(myself.controlBar.center());
+//                    button.setLeft(x);
+//                    x += button.width();
+//                }
+//        );
 
 //        settingsButton.setCenter(myself.controlBar.center());
 //        settingsButton.setLeft(this.left());
-
-        cloudButton.setCenter(myself.controlBar.center());
-        cloudButton.setRight(this.left());
-
-        projectButton.setCenter(myself.controlBar.center());
-        projectButton.setRight(cloudButton.left() - padding);
+//
+//        cloudButton.setCenter(myself.controlBar.center());
+//        cloudButton.setRight(this.left());
+//
+//        projectButton.setCenter(myself.controlBar.center());
+//        projectButton.setRight(cloudButton.left() - padding);
 
         this.updateLabel();
     };
@@ -757,7 +757,7 @@ IDE_Morph.prototype.createControlBar = function() {
         this.label.drawNew();
         this.add(this.label);
         this.label.setCenter(this.center());
-        this.label.setLeft(this.cloudButton.right() + padding);
+        this.label.setRight(this.projectButton.left() - 3 * padding);
     };
 };
 
@@ -1050,7 +1050,7 @@ IDE_Morph.prototype.createSpriteBar = function() {
     if (this.currentSprite instanceof StageMorph) {
         padlock.hide();
     }
-    if (this.currentSprite.name=="Horloge") {
+    if (this.currentSprite.name == "Horloge") {
         padlock.hide();
     }
 
@@ -2404,10 +2404,19 @@ IDE_Morph.prototype.projectMenu = function() {
                         function() {
                             document.body.removeChild(inp);
                             myself.filePicker = null;
+                            console.log(inp.files[0].name);
+                            var fullname = inp.files[0].name;
+                            var name = fullname.substr(0, fullname.lastIndexOf('.')) || fullname;
+                            var helpfile = location.href.substring(0, location.href.lastIndexOf("/") + 1) + "/samples/" + name + "/" + name + ".html";
+                            $.get(helpfile, function(data) {
+                                $("#help_text").html(data);
+                                alert("Load was performed.");
+                            });
                             world.hand.processDrop(inp.files);
                         },
                         false
                         );
+
                 document.body.appendChild(inp);
                 myself.filePicker = inp;
                 inp.click();
@@ -2785,7 +2794,7 @@ IDE_Morph.prototype.exportProject = function(name, plain) {
                         );
                 location.hash = '#open:' + str;
                 window.open('data:text/'
-                    + (plain ? 'plain,' + str : 'xml,' + str));
+                        + (plain ? 'plain,' + str : 'xml,' + str));
                 window.open('data:application/json,'
                         + xml2json.fromStr(this.serializer.serialize(this.stage), 'string'));
                 menu.destroy();

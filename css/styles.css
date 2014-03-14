@@ -17,6 +17,7 @@ root {
     position: absolute;
     bottom: 0;
     right: 0;
+    overflow: auto;
 }
 #help_text{
     display: none;
