@@ -293,6 +293,7 @@ function SnapSerializer() {
 
 SnapSerializer.prototype.init = function () {
     this.project = {};
+    this.help = {};
     this.objects = {};
     this.mediaDict = {};
 };
@@ -332,10 +333,19 @@ SnapSerializer.prototype.loadProjectModel = function (xmlNode) {
         project = {sprites: {}},
         model,
         nameID;
-
     this.project = project;
+    
 
     model = {project: xmlNode };
+    try{
+        console.log(model.project.childNamed('help').contents);
+        $("#help_text").html(model.project.childNamed('help').contents);
+    }catch(e){
+        $("#help_text").html('<form method="post"><textarea></textarea></form>');
+        tinymce.init({
+            selector: "textarea"
+        });
+    };
     if (+xmlNode.attributes.version > this.version) {
         throw 'Project uses newer version of Serializer';
     }
