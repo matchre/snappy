@@ -893,6 +893,7 @@ IDE_Morph.prototype.createPalette = function() {
 
 IDE_Morph.prototype.createStage = function() {
     // assumes that the logo pane has already been created
+
     if (this.stage) {
         this.stage.destroy();
     }
@@ -911,6 +912,8 @@ IDE_Morph.prototype.createStage = function() {
 };
 
 IDE_Morph.prototype.createSpriteBar = function() {
+    var ideScripts = this.currentSprite.scripts;
+    var thiside = this;
     // assumes that the categories pane has already been created
     var rotationStyleButtons = [],
             thumbSize = new Point(45, 45),
@@ -1201,12 +1204,22 @@ IDE_Morph.prototype.createSpriteEditor = function() {
         this.spriteEditor.scrollX(this.spriteEditor.padding);
         this.spriteEditor.scrollY(this.spriteEditor.padding);
     } else if (this.currentTab === 'eventstab') {
+
+        var blocks = jQuery.extend(true, {}, scripts.children);
+        var arrayblocks = $.map(blocks, function(value, index) {
+            return [value];
+        });
+        var blocksserializer = new SnapSerializer();
+        var thisxml = arrayblocks.toXML(new SnapSerializer());
+        var xmlDoc = jQuery.parseXML(thisxml);
+        
+        
         scripts.isDraggable = false;
         scripts.color = this.groupColor;
         scripts.texture = this.scriptsPaneTexture;
 
         this.spriteEditor = new ScrollFrameMorph(
-                scripts,
+                null,
                 null,
                 this.sliderColor
                 );
@@ -1215,8 +1228,13 @@ IDE_Morph.prototype.createSpriteEditor = function() {
         this.spriteEditor.isDraggable = false;
 
         this.spriteEditor.acceptsDrops = false;
-        this.spriteEditor.contents.acceptsDrops = true;
+        this.spriteEditor.contents.acceptsDrops = false;
+        txt = new TextMorph(parseMobinet(xmlDoc));
+        txt.fontSize = 9;
+        txt.setColor(SpriteMorph.prototype.paletteTextColor);
 
+        txt.setPosition(new Point(0, 0));
+        this.spriteEditor.addContents(txt);
         scripts.scrollFrame = this.spriteEditor;
         this.add(this.spriteEditor);
         this.spriteEditor.scrollX(this.spriteEditor.padding);
@@ -5803,15 +5821,16 @@ WardrobeMorph.prototype.updateList = function() {
 
 
     this.addContents(paintbutton);
-
+    
     txt = new TextMorph(localize(
-            "costumes tab help" // look up long string in translator
-            ));
+        "costumes tab help" // look up long string in translator
+    ));
     txt.fontSize = 9;
     txt.setColor(SpriteMorph.prototype.paletteTextColor);
 
     txt.setPosition(new Point(x, y));
     this.addContents(txt);
+
     y = txt.bottom() + padding;
 
 

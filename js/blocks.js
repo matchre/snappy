@@ -3146,7 +3146,7 @@ BlockMorph.prototype.prepareToBeGrabbed = function (hand) {
 
 BlockMorph.prototype.justDropped = function () {
     console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-    console.log(this);
+    console.log(this.selector);
     console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
     this.allComments().forEach(function (comment) {
         comment.stopFollowing();

@@ -1325,6 +1325,8 @@ SnapSerializer.prototype.openProject = function (project, ide) {
 
 Array.prototype.toXML = function (serializer) {
     return this.reduce(function (xml, item) {
+        console.log('>>><<<<');
+        console.log(item);
         return xml + serializer.store(item);
     }, '');
 };
