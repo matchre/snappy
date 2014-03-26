@@ -1,1 +1,2 @@
-google-chrome index.html
+google-chrome index.html &
+
