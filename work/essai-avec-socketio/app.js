@@ -4,7 +4,7 @@ var app = require('http').createServer(handler)
 
 app.listen(8080);
 
-function handler (req, res) {
+function handler(req, res) {
   fs.readFile(__dirname + '/index.html',
   function (err, data) {
     if (err) {
@@ -17,8 +17,9 @@ function handler (req, res) {
 }
 
 io.sockets.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    console.log(data);
+    socket.on('out', function (data) {
+	console.log("Recieving:");
+	console.log(data);
+	socket.emit("in", { "body" : data["body"] });
+      });
   });
-});

@@ -5,13 +5,20 @@
   </head>
 
   <body>
-    <script src="http://localhost:8080/socket.io/socket.io.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <h1>Je suis la page de <span id="how">?</span></h1>
+    <div><input id="what" value="Hi! " size="40"/><input type="button" onClick="sendit()" value="Send"/></div>
+    <div style="background-color:gray;" id="console"></div>
     <script>
+      var me = "Bob";
+      document.getElementById("how").innerHTML = me;
       var socket = io.connect('http://localhost:8080');
-      socket.on('news', function (data) {
-      console.log(data);
-      socket.emit('my other event', { my: 'data' });
+      socket.on('in', function (data) {
+        document.getElementById("console").innerHTML += "<p>"+data["body"]+"</p>";
       });
+      function sendit() {
+        socket.emit('out', { "body" : document.getElementById("what").value });
+      };
     </script>
   </body>
 </html>
