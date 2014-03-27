@@ -109,7 +109,7 @@ IDE_Morph.prototype.setDefaultDesign = function() {
             = SpriteMorph.prototype.paletteColor.lighter(30);
 
     IDE_Morph.prototype.buttonContrast = 30;
-    IDE_Morph.prototype.backgroundColor = new Color(187, 00, 00);
+    IDE_Morph.prototype.backgroundColor = new Color(200, 200, 200);
     IDE_Morph.prototype.frameColor = SpriteMorph.prototype.paletteColor;
 
     IDE_Morph.prototype.groupColor
@@ -931,7 +931,7 @@ IDE_Morph.prototype.createSpriteBar = function() {
     }
     this.spriteBar = new Morph();
 //    this.spriteBar.color = this.frameColor;
-    this.spriteBar.color = new Color(187, 00, 00);
+    this.spriteBar.color = new Color(200, 200, 200);
     this.add(this.spriteBar);
 
     function addRotationStyleButton(rotationStyle) {
@@ -1231,7 +1231,7 @@ IDE_Morph.prototype.createSpriteEditor = function() {
         this.spriteEditor.contents.acceptsDrops = false;
         txt = new TextMorph(parseMobinet(xmlDoc));
         txt.fontSize = 9;
-        txt.setColor(SpriteMorph.prototype.paletteTextColor);
+        txt.setColor(new Color(200, 200, 200));
 
         txt.setPosition(new Point(0, 0));
         this.spriteEditor.addContents(txt);
