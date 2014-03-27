@@ -1,0 +1,20 @@
+macro : {
+  rule infix { $name:ident | $value:expr } => {
+    $name = $value ;
+  }
+}
+
+macro si {
+  rule { $cond alors $action finsi } => {
+    if($cond) { $action }
+  }
+  rule { $cond alors $action sinon $alternative finsi } => {
+    if($cond) { $action } else { $alternative }
+  }
+}
+
+toto : titi + 6
+
+si vrai alors ok finsi
+
+si vrai alors ok sinon ko finsi

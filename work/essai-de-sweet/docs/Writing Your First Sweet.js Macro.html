@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html class="wf-fftisawebpro-n7-active wf-quatroslab-i4-active wf-quatroslab-i7-active wf-quatroslab-n4-active wf-quatroslab-n7-active wf-bellopro-n4-active wf-fftisawebpro-i4-active wf-fftisawebpro-i7-active wf-fftisawebpro-n4-active wf-active"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Writing Your First Sweet.js Macro</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="http://jlongster.com/favicon.ico">
+
+    <link rel="alternate" type="application/atom+xml" href="http://feeds.feedburner.com/jlongster" title="Atom feed">
+
+    <link rel="stylesheet" href="Writing%20Your%20First%20Sweet.js%20Macro_files/main.css" type="text/css">
+
+    <script src="Writing%20Your%20First%20Sweet.js%20Macro_files/ga.js" async="" type="text/javascript"></script><script src="Writing%20Your%20First%20Sweet.js%20Macro_files/hn.js"></script><script src="Writing%20Your%20First%20Sweet.js%20Macro_files/all.js" id="facebook-jssdk"></script><script src="Writing%20Your%20First%20Sweet.js%20Macro_files/widgets.js" id="twitter-wjs"></script><script type="text/javascript" src="Writing%20Your%20First%20Sweet.js%20Macro_files/eeq3shn.js"></script>
+    <style type="text/css">.tk-bello-pro{font-family:"bello-pro",sans-serif;}.tk-ff-tisa-web-pro{font-family:"ff-tisa-web-pro",serif;}.tk-quatro-slab{font-family:"quatro-slab",serif;}</style><link href="Writing%20Your%20First%20Sweet.js%20Macro_files/d.css" rel="stylesheet"><script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+    
+  <script src="Writing%20Your%20First%20Sweet.js%20Macro_files/embed.js" async="" type="text/javascript"></script><style type="text/css">.fb_hidden{position:absolute;top:-10000px;z-index:10001}
+.fb_invisible{display:none}
+.fb_reset{background:none;border:0;border-spacing:0;color:#000;cursor:auto;direction:ltr;font-family:"lucida grande", tahoma, verdana, arial, sans-serif;font-size:11px;font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:1;margin:0;overflow:visible;padding:0;text-align:left;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;visibility:visible;white-space:normal;word-spacing:normal}
+.fb_reset > div{overflow:hidden}
+.fb_link img{border:none}
+.fb_dialog{background:rgba(82, 82, 82, .7);position:absolute;top:-10000px;z-index:10001}
+.fb_dialog_advanced{padding:10px;-moz-border-radius:8px;-webkit-border-radius:8px;border-radius:8px}
+.fb_dialog_content{background:#fff;color:#333}
+.fb_dialog_close_icon{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 0 transparent;_background-image:url(http://static.ak.fbcdn.net/rsrc.php/v2/yL/r/s816eWC-2sl.gif);cursor:pointer;display:block;height:15px;position:absolute;right:18px;top:17px;width:15px;top:8px\9;right:7px\9}
+.fb_dialog_mobile .fb_dialog_close_icon{top:5px;left:5px;right:auto}
+.fb_dialog_padding{background-color:transparent;position:absolute;width:1px;z-index:-1}
+.fb_dialog_close_icon:hover{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -15px transparent;_background-image:url(http://static.ak.fbcdn.net/rsrc.php/v2/yL/r/s816eWC-2sl.gif)}
+.fb_dialog_close_icon:active{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -30px transparent;_background-image:url(http://static.ak.fbcdn.net/rsrc.php/v2/yL/r/s816eWC-2sl.gif)}
+.fb_dialog_loader{background-color:#f2f2f2;border:1px solid #606060;font-size:24px;padding:20px}
+.fb_dialog_top_left,
+.fb_dialog_top_right,
+.fb_dialog_bottom_left,
+.fb_dialog_bottom_right{height:10px;width:10px;overflow:hidden;position:absolute}
+.fb_dialog_top_left{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 0;left:-10px;top:-10px}
+.fb_dialog_top_right{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 -10px;right:-10px;top:-10px}
+.fb_dialog_bottom_left{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 -20px;bottom:-10px;left:-10px}
+.fb_dialog_bottom_right{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 -30px;right:-10px;bottom:-10px}
+.fb_dialog_vert_left,
+.fb_dialog_vert_right,
+.fb_dialog_horiz_top,
+.fb_dialog_horiz_bottom{position:absolute;background:#525252;filter:alpha(opacity=70);opacity:.7}
+.fb_dialog_vert_left,
+.fb_dialog_vert_right{width:10px;height:100%}
+.fb_dialog_vert_left{margin-left:-10px}
+.fb_dialog_vert_right{right:0;margin-right:-10px}
+.fb_dialog_horiz_top,
+.fb_dialog_horiz_bottom{width:100%;height:10px}
+.fb_dialog_horiz_top{margin-top:-10px}
+.fb_dialog_horiz_bottom{bottom:0;margin-bottom:-10px}
+.fb_dialog_iframe{line-height:0}
+.fb_dialog_content .dialog_title{background:#6d84b4;border:1px solid #3b5998;color:#fff;font-size:14px;font-weight:bold;margin:0}
+.fb_dialog_content .dialog_title > span{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/yd/r/Cou7n-nqK52.gif)
+no-repeat 5px 50%;float:left;padding:5px 0 7px 26px}
+body.fb_hidden{-webkit-transform:none;height:100%;margin:0;overflow:visible;position:absolute;top:-10000px;left:0;width:100%}
+.fb_dialog.fb_dialog_mobile.loading{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/ya/r/3rhSv5V8j3o.gif)
+white no-repeat 50% 50%;min-height:100%;min-width:100%;overflow:hidden;position:absolute;top:0;z-index:10001}
+.fb_dialog.fb_dialog_mobile.loading.centered{max-height:590px;min-height:590px;max-width:500px;min-width:500px}
+#fb-root #fb_dialog_ipad_overlay{background:rgba(0, 0, 0, .45);position:absolute;left:0;top:0;width:100%;min-height:100%;z-index:10000}
+#fb-root #fb_dialog_ipad_overlay.hidden{display:none}
+.fb_dialog.fb_dialog_mobile.loading iframe{visibility:hidden}
+.fb_dialog_content .dialog_header{-webkit-box-shadow:white 0 1px 1px -1px inset;background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#738ABA), to(#2C4987));border-bottom:1px solid;border-color:#1d4088;color:#fff;font:14px Helvetica, sans-serif;font-weight:bold;text-overflow:ellipsis;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0;vertical-align:middle;white-space:nowrap}
+.fb_dialog_content .dialog_header table{-webkit-font-smoothing:subpixel-antialiased;height:43px;width:100%
+}
+.fb_dialog_content .dialog_header td.header_left{font-size:12px;padding-left:5px;vertical-align:middle;width:60px
+}
+.fb_dialog_content .dialog_header td.header_right{font-size:12px;padding-right:5px;vertical-align:middle;width:60px
+}
+.fb_dialog_content .touchable_button{background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#4966A6),
+color-stop(0.5, #355492), to(#2A4887));border:1px solid #29447e;-webkit-background-clip:padding-box;-webkit-border-radius:3px;-webkit-box-shadow:rgba(0, 0, 0, .117188) 0 1px 1px inset,
+rgba(255, 255, 255, .167969) 0 1px 0;display:inline-block;margin-top:3px;max-width:85px;line-height:18px;padding:4px 12px;position:relative}
+.fb_dialog_content .dialog_header .touchable_button input{border:none;background:none;color:#fff;font:12px Helvetica, sans-serif;font-weight:bold;margin:2px -12px;padding:2px 6px 3px 6px;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}
+.fb_dialog_content .dialog_header .header_center{color:#fff;font-size:16px;font-weight:bold;line-height:18px;text-align:center;vertical-align:middle}
+.fb_dialog_content .dialog_content{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/y9/r/jKEcVPZFk-2.gif) no-repeat 50% 50%;border:1px solid #555;border-bottom:0;border-top:0;height:150px}
+.fb_dialog_content .dialog_footer{background:#f2f2f2;border:1px solid #555;border-top-color:#ccc;height:40px}
+#fb_dialog_loader_close{float:left}
+.fb_dialog.fb_dialog_mobile .fb_dialog_close_button{text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}
+.fb_dialog.fb_dialog_mobile .fb_dialog_close_icon{visibility:hidden}
+.fb_iframe_widget{display:inline-block;position:relative}
+.fb_iframe_widget span{display:inline-block;position:relative;text-align:justify}
+.fb_iframe_widget iframe{position:absolute}
+.fb_iframe_widget_lift{z-index:1}
+.fb_hide_iframes iframe{position:relative;left:-10000px}
+.fb_iframe_widget_loader{position:relative;display:inline-block}
+.fb_iframe_widget_fluid{display:inline}
+.fb_iframe_widget_fluid span{width:100%}
+.fb_iframe_widget_loader iframe{min-height:32px;z-index:2;zoom:1}
+.fb_iframe_widget_loader .FB_Loader{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/y9/r/jKEcVPZFk-2.gif) no-repeat;height:32px;width:32px;margin-left:-16px;position:absolute;left:50%;z-index:4}
+.fb_connect_bar_container div,
+.fb_connect_bar_container span,
+.fb_connect_bar_container a,
+.fb_connect_bar_container img,
+.fb_connect_bar_container strong{background:none;border-spacing:0;border:0;direction:ltr;font-style:normal;font-variant:normal;letter-spacing:normal;line-height:1;margin:0;overflow:visible;padding:0;text-align:left;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;visibility:visible;white-space:normal;word-spacing:normal;vertical-align:baseline}
+.fb_connect_bar_container{position:fixed;left:0 !important;right:0 !important;height:42px !important;padding:0 25px !important;margin:0 !important;vertical-align:middle !important;border-bottom:1px solid #333 !important;background:#3b5998 !important;z-index:99999999 !important;overflow:hidden !important}
+.fb_connect_bar_container_ie6{position:absolute;top:expression(document.compatMode=="CSS1Compat"? document.documentElement.scrollTop+"px":body.scrollTop+"px")}
+.fb_connect_bar{position:relative;margin:auto;height:100%;width:100%;padding:6px 0 0 0 !important;background:none;color:#fff !important;font-family:"lucida grande", tahoma, verdana, arial, sans-serif !important;font-size:13px !important;font-style:normal !important;font-variant:normal !important;font-weight:normal !important;letter-spacing:normal !important;line-height:1 !important;text-decoration:none !important;text-indent:0 !important;text-shadow:none !important;text-transform:none !important;white-space:normal !important;word-spacing:normal !important}
+.fb_connect_bar a:hover{color:#fff}
+.fb_connect_bar .fb_profile img{height:30px;width:30px;vertical-align:middle;margin:0 6px 5px 0}
+.fb_connect_bar div a,
+.fb_connect_bar span,
+.fb_connect_bar span a{color:#bac6da;font-size:11px;text-decoration:none}
+.fb_connect_bar .fb_buttons{float:right;margin-top:7px}
+.fbpluginrecommendationsbarleft,
+.fbpluginrecommendationsbarright{position:fixed !important;bottom:0;z-index:999}
+.fbpluginrecommendationsbarleft{left:10px}
+.fbpluginrecommendationsbarright{right:10px}</style><script charset="UTF-8" async="" src="Writing%20Your%20First%20Sweet.js%20Macro_files/alfie.js"></script></head>
+  <body data-twttr-rendered="true" id="Writing-Your-First-Sweet-js-Macro" class="post">
+
+    <header>
+      <div class="titlebar"><a href="http://jlongster.com/">The Blog of James Long, a Mozilla webdev</a></div>
+
+      
+  
+
+    </header>
+
+    <div class="main clearfix">
+      
+<div class="extra ">
+  <ul>
+    <li><a href="https://twitter.com/jlongster">twitter</a></li>
+    <li><a href="https://github.com/jlongster/">github</a></li>
+    <li><a href="http://feeds.feedburner.com/jlongster">rss</a></li>
+  </ul>
+</div>
+
+
+      <div class="main-wrapper clearfix">
+      
+<article class="clearfix">
+  
+
+  <h1>Writing Your First Sweet.js Macro</h1>
+
+  <div class="date">February 06 2014</div>
+
+  <p>This is the first entry in a series about writing JavaScript macros with <a href="http://sweetjs.org/">sweet.js</a>.
+ You will learn how to write your first macro, basics of pattern 
+matching, and how to run the sweet.js compiler and use sourcemaps for 
+debugging.</p>
+
+<p><em>All of these tutorials are available in the <a href="https://github.com/jlongster/sweet.js-tutorials">sweet.js-tutorials</a> repo along with a working environment to build sweet.js macros. The next tutorial is about <a href="http://jlongster.com/Sweet.js-Tutorial--2--Recursive-Macros-and-Custom-Pattern-Classes">recursive macros and pattern classes</a>.</em></p>
+
+<p>I recommend you read the <a href="http://jlongster.com/Stop-Writing-JavaScript-Compilers--Make-Macros-Instead">article introducing this series</a>
+ if you don't know much about sweet.js and JavaScript macros. I meant to
+ get this out way ealier; sorry it took a while. You can follow my blog 
+via <a href="http://feeds.feedburner.com/jlongster">RSS</a> or <a href="https://twitter.com/jlongster">twitter</a> to follow this series.</p>
+
+<h2>Meet the Macro Editor</h2>
+
+<p>This is the macro editor. You will see this a lot throughout these tutorials, so get familiar with it.</p>
+
+<div class="intro-images top">
+<img src="Writing%20Your%20First%20Sweet.js%20Macro_files/edit-text-here.png" class="edit-text-here">
+<img src="Writing%20Your%20First%20Sweet.js%20Macro_files/output-shown-here.png" class="output-shown-here">
+</div>
+
+<div class="stepping-images top">
+<img src="Writing%20Your%20First%20Sweet.js%20Macro_files/number-expansions.png" class="number-expansions">
+</div>
+
+<div class="macro-editor" id="tutorial"><div class="title"><strong>stepping</strong>: <span></span></div><div class="content"><div style="width: 500px;" class="CodeMirror cm-s-ambiance input"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 22px; left: 19.3px;"><textarea tabindex="0" spellcheck="false" autocapitalize="off" autocorrect="off" wrap="off" style="position: absolute; padding: 0px; width: 1px; height: 1em; outline: medium none; font-size: 4px;">macro foo {
+  rule { $x } =&gt; { $x }
+}
+
+foo "Hi there!";
+foo "Another string";</textarea></div><div style="left: 0px;" class="CodeMirror-hscrollbar"><div style="height: 1px; width: 0px;"></div></div><div class="CodeMirror-vscrollbar"><div style="width: 1px; height: 0px;"></div></div><div class="CodeMirror-scrollbar-filler"></div><div class="CodeMirror-gutter-filler"></div><div draggable="true" tabindex="-1" class="CodeMirror-scroll"><div style="min-width: 244px; margin-left: 0px; min-height: 136.5px;" class="CodeMirror-sizer"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines"><div style="position: relative; outline: medium none;"><div class="CodeMirror-measure"><pre style="text-align: left;"><span>x</span></pre></div><div style="position: relative; z-index: 1;"><div style="position: absolute; left: 4px; top: 2.70001px; width: 465px; height: 16px;" class="CodeMirror-selected"></div><div style="position: absolute; left: 4px; top: 109.783px; width: 189px; height: 16px;" class="CodeMirror-selected"></div><div style="position: absolute; left: 4px; top: 18.7px; width: 465px; height: 91.0833px;" class="CodeMirror-selected"></div></div><div style="" class="CodeMirror-code"><pre><span class="cm-variable">macro</span> <span class="cm-variable">foo</span> {</pre><pre>  <span class="cm-variable">rule</span> { <span class="cm-variable">$x</span> } =&gt; { <span class="cm-variable">$x</span> }</pre><pre>}</pre><pre>&nbsp;</pre><pre><span class="cm-variable">foo</span> <span class="cm-string">"Hi there!"</span>;</pre><pre><span class="cm-variable">foo</span> <span class="cm-string">"Another string"</span>;</pre></div><div style="left: 193px; top: 109.783px; height: 16px; display: none;" class="CodeMirror-cursor">&nbsp;</div><div style="display: none;" class="CodeMirror-cursor CodeMirror-secondarycursor">&nbsp;</div></div></div></div></div><div style="position: absolute; height: 30px; width: 1px; top: 136.5px;"></div><div style="display: none; height: 137px;" class="CodeMirror-gutters"></div></div></div><div style="width: 500px; height: 167.1px;" class="CodeMirror cm-s-ambiance output"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 43.4167px; left: 172.3px;"><textarea tabindex="0" spellcheck="false" autocapitalize="off" autocorrect="off" wrap="off" style="position: absolute; padding: 0px; width: 1px; height: 1em; outline: medium none; font-size: 4px;"></textarea></div><div style="left: 0px;" class="CodeMirror-hscrollbar"><div style="height: 1px; width: 0px;"></div></div><div class="CodeMirror-vscrollbar"><div style="width: 1px; height: 0px;"></div></div><div class="CodeMirror-scrollbar-filler"></div><div class="CodeMirror-gutter-filler"></div><div draggable="true" tabindex="-1" class="CodeMirror-scroll"><div style="min-width: 190px; margin-left: 0px; min-height: 50.8333px;" class="CodeMirror-sizer"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines"><div style="position: relative; outline: medium none;"><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1; display: none;"></div><div style="" class="CodeMirror-code"><pre><span class="cm-string">'Hi there!'</span>;</pre><pre><span class="cm-string">'Another string'</span>;</pre></div><div style="left: 157px; top: 24.1167px; height: 16px; visibility: hidden;" class="CodeMirror-cursor">&nbsp;</div><div style="display: none; visibility: hidden;" class="CodeMirror-cursor CodeMirror-secondarycursor">&nbsp;</div></div></div></div></div><div style="position: absolute; height: 30px; width: 1px; top: 50.8333px;"></div><div style="display: none; height: 137px;" class="CodeMirror-gutters"></div></div></div><div class="controls">  <button class="reset">Revert to Original</button>  <button class="open-stepper">Open Stepper</button>  <a href="#tutorial" class="permalink">    <img src="Writing%20Your%20First%20Sweet.js%20Macro_files/permalink-grey.png">  </a></div><div class="stepper"><div class="content"></div><div class="controls">  <button class="step">Step</button>  <button class="close-stepper">Close</button></div></div></div><div style="display: none;" class="status error"></div></div>
+
+<div class="intro-images bottom">
+<img src="Writing%20Your%20First%20Sweet.js%20Macro_files/step-through-expand.png" class="step-through-expand">
+</div>
+
+<div class="stepping-images bottom">
+<img src="Writing%20Your%20First%20Sweet.js%20Macro_files/run-next.png" class="run-next">
+</div>
+
+<p>You can <strong>interactively edit</strong> the text on the left, and
+ it will automatically expand the code and display the output on the 
+right. A big red message will appear if there are any errors. You can 
+open the stepper to watch how the code is expanded, which will be 
+especially useful in later tutorials.</p>
+
+<p>Below an editor instance, there may be links which change the code when clicked. For example, <a href="#tutorial" data-editor-change="tutorial">click here</a> and see how the above code changes. Press "revert" to restore the original code.</p>
+
+<p>When you want to make large changes to or share a macro, you should work in the <a href="http://sweetjs.org/browser/editor.html#macro%20foo%20%7B%0A%20%20rule%20%7B%20$x%20%7D%20=%3E%20%7B%20$x%20%7D%0A%7D">sweet.js editor</a> which is better for that.</p>
+
+<div class="note"><span>Note:</span> This tutorial uses sweet.js <span class="sweet-version">commit ba9b6771678cb26af58dfa6b5b99d5b7eac75e2c on Mar 9</span>. sweet.js is still in early stages so you might hit bugs.</div>
+
+<h2>Let's Get Started</h2>
+
+<p>Macros are created with the <code>macro</code> keyword. You give it a name and a list of rules for pattern matching.</p>
+
+<div class="macro-editor" id="basic"><div class="title"><strong>stepping</strong>: <span></span></div><div class="content"><div style="width: 500px;" class="CodeMirror cm-s-ambiance input"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 22px; left: 19.3px;"><textarea tabindex="0" spellcheck="false" autocapitalize="off" autocorrect="off" wrap="off" style="position: absolute; padding: 0px; width: 1px; height: 1em; outline: medium none; font-size: 4px;"></textarea></div><div style="left: 0px;" class="CodeMirror-hscrollbar"><div style="height: 1px; width: 0px;"></div></div><div class="CodeMirror-vscrollbar"><div style="width: 1px; height: 0px;"></div></div><div class="CodeMirror-scrollbar-filler"></div><div class="CodeMirror-gutter-filler"></div><div draggable="true" tabindex="-1" class="CodeMirror-scroll"><div style="min-width: 334px; margin-left: 0px; min-height: 136.5px;" class="CodeMirror-sizer"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines"><div style="position: relative; outline: medium none;"><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1; display: none;"></div><div style="" class="CodeMirror-code"><pre><span class="cm-variable">macro</span> <span class="cm-variable">foo</span> {</pre><pre>  <span class="cm-variable">rule</span> { <span class="cm-variable">$x</span> } =&gt; { <span class="cm-variable">$x</span> + <span class="cm-string">'rule1'</span> }</pre><pre>}</pre><pre>&nbsp;</pre><pre><span class="cm-variable">foo</span> <span class="cm-number">5</span>;</pre><pre><span class="cm-variable">foo</span> <span class="cm-variable">bar</span>;</pre></div><div style="left: 4px; top: 2.70007px; height: 16px;" class="CodeMirror-cursor">&nbsp;</div><div style="display: none;" class="CodeMirror-cursor CodeMirror-secondarycursor">&nbsp;</div></div></div></div></div><div style="position: absolute; height: 30px; width: 1px; top: 136.5px;"></div><div style="display: none; height: 137px;" class="CodeMirror-gutters"></div></div></div><div style="width: 500px; height: 167.1px;" class="CodeMirror cm-s-ambiance output"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 22px; left: 19.3px;"><textarea tabindex="0" spellcheck="false" autocapitalize="off" autocorrect="off" wrap="off" style="position: absolute; padding: 0px; width: 1px; height: 1em; outline: medium none; font-size: 4px;"></textarea></div><div style="left: 0px;" class="CodeMirror-hscrollbar"><div style="height: 1px; width: 0px;"></div></div><div class="CodeMirror-vscrollbar"><div style="width: 1px; height: 0px;"></div></div><div class="CodeMirror-scrollbar-filler"></div><div class="CodeMirror-gutter-filler"></div><div draggable="true" tabindex="-1" class="CodeMirror-scroll"><div style="min-width: 163px; margin-left: 0px; min-height: 50.8333px;" class="CodeMirror-sizer"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines"><div style="position: relative; outline: medium none;"><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1; display: none;"></div><div style="" class="CodeMirror-code"><pre><span class="cm-number">5</span> + <span class="cm-string">'rule1'</span>;</pre><pre><span class="cm-variable">bar</span> + <span class="cm-string">'rule1'</span>;</pre></div><div style="left: 4px; top: 2.70001px; height: 16px;" class="CodeMirror-cursor">&nbsp;</div><div style="display: none;" class="CodeMirror-cursor CodeMirror-secondarycursor">&nbsp;</div></div></div></div></div><div style="position: absolute; height: 30px; width: 1px; top: 50.8333px;"></div><div style="display: none; height: 137px;" class="CodeMirror-gutters"></div></div></div><div class="controls">  <button class="reset">Revert to Original</button>  <button class="open-stepper">Open Stepper</button>  <a href="#basic" class="permalink">    <img src="Writing%20Your%20First%20Sweet.js%20Macro_files/permalink-grey.png">  </a></div><div class="stepper"><div class="content"></div><div class="controls">  <button class="step">Step</button>  <button class="close-stepper">Close</button></div></div></div><div style="display: none;" class="status error"></div></div>
+
+<p>Macro names can contain any keyword, identifier, or punctuator. A <strong>punctuator</strong> is a symbol like one of these: <code>+ - * &amp; ^ % #</code> and more. The only invalid symbols are <code>[ ] ( ) { }</code> which are considered<br><strong>delimiters</strong>.</p>
+
+<p>This macro only has 1 rule and it binds the first element to <code>$x</code>. It runs the pattern matching on syntax that follows the macro name. When you prefix an identifier with <code>$</code>,
+ it captures the element that is matched and you can use it within the 
+template to output whatever was matched. Otherwise, it matches tokens 
+literally like <code>{</code> or <code>}</code> and anything else you throw at it.</p>
+
+<p>Without the <code>$</code>, the macro would match the identifer literally. Go ahead, change <code>$x</code> to <code>x</code> in the macro above (type it yourself or <a href="#basic" data-editor-change="1">click here</a>).
+ You'll notice that there's a match error. If you want to reset the code
+ in the example, just click "revert" and it'll work again.</p>
+
+<p>However, if we use the macro with a literal <code>x</code>, it works (<a href="#basic" data-editor-change="2">click here to try</a>)! But change <code>x</code> to anything else and it fails. It's <em>literally</em> matching <code>x</code> unless we use <code>$x</code> which makes it a pattern variable.</p>
+
+<div class="macro-editor" id="examples"><div class="title"><strong>stepping</strong>: <span></span></div><div class="content"><div style="width: 500px;" class="CodeMirror cm-s-ambiance input"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 22px; left: 19.3px;"><textarea tabindex="0" spellcheck="false" autocapitalize="off" autocorrect="off" wrap="off" style="position: absolute; padding: 0px; width: 1px; height: 1em; outline: medium none; font-size: 4px;"></textarea></div><div style="left: 0px;" class="CodeMirror-hscrollbar"><div style="height: 1px; width: 0px;"></div></div><div class="CodeMirror-vscrollbar"><div style="width: 1px; height: 0px;"></div></div><div class="CodeMirror-scrollbar-filler"></div><div class="CodeMirror-gutter-filler"></div><div draggable="true" tabindex="-1" class="CodeMirror-scroll"><div style="min-width: 262px; margin-left: 0px; min-height: 29.4167px;" class="CodeMirror-sizer"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines"><div style="position: relative; outline: medium none;"><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1; display: none;"></div><div style="" class="CodeMirror-code"><pre><span class="cm-comment">// click on a macro below</span></pre></div><div style="left: 4px; top: 2.69995px; height: 16px;" class="CodeMirror-cursor">&nbsp;</div><div style="display: none;" class="CodeMirror-cursor CodeMirror-secondarycursor">&nbsp;</div></div></div></div></div><div style="position: absolute; height: 30px; width: 1px; top: 29.4167px;"></div><div style="display: none; height: 29.4167px;" class="CodeMirror-gutters"></div></div></div><div style="width: 500px; height: 60.0167px;" class="CodeMirror cm-s-ambiance output"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 22px; left: 19.3px;"><textarea tabindex="0" spellcheck="false" autocapitalize="off" autocorrect="off" wrap="off" style="position: absolute; padding: 0px; width: 1px; height: 1em; outline: medium none; font-size: 4px;"></textarea></div><div style="left: 0px;" class="CodeMirror-hscrollbar"><div style="height: 1px; width: 0px;"></div></div><div class="CodeMirror-vscrollbar"><div style="width: 1px; height: 0px;"></div></div><div class="CodeMirror-scrollbar-filler"></div><div class="CodeMirror-gutter-filler"></div><div draggable="true" tabindex="-1" class="CodeMirror-scroll"><div style="min-width: 46px; margin-left: 0px; min-height: 29.4167px;" class="CodeMirror-sizer"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines"><div style="position: relative; outline: medium none;"><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1; display: none;"></div><div style="" class="CodeMirror-code"><pre>&nbsp;</pre></div><div style="left: 4px; top: 2.7002px; height: 16px;" class="CodeMirror-cursor">&nbsp;</div><div style="display: none;" class="CodeMirror-cursor CodeMirror-secondarycursor">&nbsp;</div></div></div></div></div><div style="position: absolute; height: 30px; width: 1px; top: 29.4167px;"></div><div style="display: none; height: 29.4167px;" class="CodeMirror-gutters"></div></div></div><div class="controls">  <button class="reset">Revert to Original</button>  <button class="open-stepper">Open Stepper</button>  <a href="#examples" class="permalink">    <img src="Writing%20Your%20First%20Sweet.js%20Macro_files/permalink-grey.png">  </a></div><div class="stepper"><div class="content"></div><div class="controls">  <button class="step">Step</button>  <button class="close-stepper">Close</button></div></div></div><div class="status error"></div></div>
+
+<p>For fun, try a few other macros:</p>
+
+<ul>
+<li><a href="#" data-editor-change="fun1" data-editor-big="1">^</a> - use a punctuator as a macro</li>
+<li><a href="#" data-editor-change="fun2" data-editor-big="1">var</a> - stupidly simply var destructuring</li>
+</ul>
+
+<h3>Multiple Patterns</h3>
+
+<p>Next, let's try adding some more rules and patterns:</p>
+
+<div class="macro-editor" id="multiple-patterns"><div class="title"><strong>stepping</strong>: <span></span></div><div class="content"><div style="width: 500px;" class="CodeMirror cm-s-ambiance input"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 22px; left: 19.3px;"><textarea tabindex="0" spellcheck="false" autocapitalize="off" autocorrect="off" wrap="off" style="position: absolute; padding: 0px; width: 1px; height: 1em; outline: medium none; font-size: 4px;"></textarea></div><div style="left: 0px;" class="CodeMirror-hscrollbar"><div style="height: 1px; width: 0px;"></div></div><div class="CodeMirror-vscrollbar"><div style="width: 1px; height: 0px;"></div></div><div class="CodeMirror-scrollbar-filler"></div><div class="CodeMirror-gutter-filler"></div><div draggable="true" tabindex="-1" class="CodeMirror-scroll"><div style="min-width: 361px; margin-left: 0px; min-height: 200.751px;" class="CodeMirror-sizer"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines"><div style="position: relative; outline: medium none;"><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1; display: none;"></div><div style="" class="CodeMirror-code"><pre><span class="cm-variable">macro</span> <span class="cm-variable">foo</span> {</pre><pre>  <span class="cm-variable">rule</span> { =&gt; <span class="cm-variable">$x</span> } =&gt; { <span class="cm-variable">$x</span> + <span class="cm-string">'rule1'</span> }</pre><pre>  <span class="cm-variable">rule</span> { [<span class="cm-variable">$x</span>] } =&gt; { <span class="cm-variable">$x</span> + <span class="cm-string">'rule2'</span> }</pre><pre>  <span class="cm-variable">rule</span> { <span class="cm-variable">$x</span> } =&gt; { <span class="cm-variable">$x</span> + <span class="cm-string">'rule3'</span> }</pre><pre>}</pre><pre>&nbsp;</pre><pre><span class="cm-variable">foo</span> =&gt; <span class="cm-number">5</span>;</pre><pre><span class="cm-variable">foo</span> <span class="cm-number">6</span>;</pre><pre><span class="cm-variable">foo</span> [<span class="cm-variable">bar</span>];</pre></div><div style="left: 4px; top: 2.69995px; height: 16px;" class="CodeMirror-cursor">&nbsp;</div><div style="display: none;" class="CodeMirror-cursor CodeMirror-secondarycursor">&nbsp;</div></div></div></div></div><div style="position: absolute; height: 30px; width: 1px; top: 200.751px;"></div><div style="display: none; height: 201px;" class="CodeMirror-gutters"></div></div></div><div style="width: 500px; height: 231.35px;" class="CodeMirror cm-s-ambiance output"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 22px; left: 19.3px;"><textarea tabindex="0" spellcheck="false" autocapitalize="off" autocorrect="off" wrap="off" style="position: absolute; padding: 0px; width: 1px; height: 1em; outline: medium none; font-size: 4px;"></textarea></div><div style="left: 0px;" class="CodeMirror-hscrollbar"><div style="height: 1px; width: 0px;"></div></div><div class="CodeMirror-vscrollbar"><div style="width: 1px; height: 0px;"></div></div><div class="CodeMirror-scrollbar-filler"></div><div class="CodeMirror-gutter-filler"></div><div draggable="true" tabindex="-1" class="CodeMirror-scroll"><div style="min-width: 163px; margin-left: 0px; min-height: 72.25px;" class="CodeMirror-sizer"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines"><div style="position: relative; outline: medium none;"><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1; display: none;"></div><div style="" class="CodeMirror-code"><pre><span class="cm-number">5</span> + <span class="cm-string">'rule1'</span>;</pre><pre><span class="cm-number">6</span> + <span class="cm-string">'rule3'</span>;</pre><pre><span class="cm-variable">bar</span> + <span class="cm-string">'rule2'</span>;</pre></div><div style="left: 4px; top: 2.7px; height: 16px;" class="CodeMirror-cursor">&nbsp;</div><div style="display: none;" class="CodeMirror-cursor CodeMirror-secondarycursor">&nbsp;</div></div></div></div></div><div style="position: absolute; height: 30px; width: 1px; top: 72.25px;"></div><div style="display: none; height: 201px;" class="CodeMirror-gutters"></div></div></div><div class="controls">  <button class="reset">Revert to Original</button>  <button class="open-stepper">Open Stepper</button>  <a href="#multiple-patterns" class="permalink">    <img src="Writing%20Your%20First%20Sweet.js%20Macro_files/permalink-grey.png">  </a></div><div class="stepper"><div class="content"></div><div class="controls">  <button class="step">Step</button>  <button class="close-stepper">Close</button></div></div></div><div style="display: none;" class="status error"></div></div>
+
+<p>Now this is interesting. We can emit different code based on which patterns matched. The first rule matches the token <code>=&gt;</code> and then binds whatever comes after it. <code>foo =&gt; 5</code> correctly matched this pattern and emitted <code>5 + 'rule1'</code>. The second rule strips the brackets, and the last catches whatever.</p>
+
+<p>The <code>=&gt;</code> happens to be parsed as a single token because ES6 <a href="http://wiki.ecmascript.org/doku.php?id=harmony:arrow_function_syntax">fat arrow functions</a> use it. But any list of tokens would work, as it will match the full list of tokens, so it could have been <code>=*&gt;</code> (<a href="#multiple-patterns" data-editor-change="3">try it!</a>).</p>
+
+<p><strong>Order of the rules matters</strong>. This is a basic 
+principle of pattern matching that you need to learn. It matches 
+top-down, so more specific patterns need to be above less specific ones.
+ For example, <code>[$x]</code> is more specific than <code>$x</code>, and if you switch the order of them <code>foo [bar]</code> matches the less specific pattern which doesn't strip the brackets (<a href="#multiple-patterns" data-editor-change="4">try it!</a>).</p>
+
+<h3>Pattern Classes</h3>
+
+<p>When you use a pattern variable like <code>$x</code>, it matches <em>anything</em>
+ in that place, whether it's a string, array expression, or whatever. 
+What if you wanted to restrict the type of thing it matches?</p>
+
+<p>You can specify a specific parse class that the variable should bind to. For example <code>$x:ident</code> only matches identifiers. There are 3 available classes:</p>
+
+<ul>
+<li><code>expr</code> - an expression</li>
+<li><code>ident</code> - an identifer</li>
+<li><code>lit</code> - a literal</li>
+</ul>
+
+<p>You may be wondering what's the point of the <code>expr</code> class,
+ since an expression could be anything. By default, sweet.js is not 
+greedy. It will find the minimal syntax that matches a pattern. If you 
+tried to match <code>$x</code> with <code>bar()</code>, <code>$x</code> would only be bound to the identifier <code>bar</code>. However, if you force it to be an expression, <code>$x:expr</code> will bind to the whole expression <code>bar()</code>.</p>
+
+<p>Pattern classes are also useful for better errors; if you have 
+restricted the pattern to match exactly what you want, you'll get good 
+match errors when something's wrong.</p>
+
+<div class="macro-editor" id="pattern-classes"><div class="title"><strong>stepping</strong>: <span></span></div><div class="content"><div style="width: 500px;" class="CodeMirror cm-s-ambiance input"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 22px; left: 19.3px;"><textarea tabindex="0" spellcheck="false" autocapitalize="off" autocorrect="off" wrap="off" style="position: absolute; padding: 0px; width: 1px; height: 1em; outline: medium none; font-size: 4px;"></textarea></div><div style="left: 0px;" class="CodeMirror-hscrollbar"><div style="height: 1px; width: 0px;"></div></div><div class="CodeMirror-vscrollbar"><div style="width: 1px; height: 0px;"></div></div><div class="CodeMirror-scrollbar-filler"></div><div class="CodeMirror-gutter-filler"></div><div draggable="true" tabindex="-1" class="CodeMirror-scroll"><div style="min-width: 388px; margin-left: 0px; min-height: 243.582px;" class="CodeMirror-sizer"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines"><div style="position: relative; outline: medium none;"><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1; display: none;"></div><div style="" class="CodeMirror-code"><pre><span class="cm-variable">macro</span> <span class="cm-variable">foo</span> {</pre><pre>  <span class="cm-variable">rule</span> { <span class="cm-variable">$x</span>:<span class="cm-variable">lit</span> } =&gt; { <span class="cm-variable">$x</span> + <span class="cm-string">'lit'</span> }</pre><pre>  <span class="cm-variable">rule</span> { <span class="cm-variable">$x</span>:<span class="cm-variable">ident</span> } =&gt; { <span class="cm-variable">$x</span> + <span class="cm-string">'ident'</span> }</pre><pre>  <span class="cm-variable">rule</span> { <span class="cm-variable">$x</span>:<span class="cm-variable">expr</span> } =&gt; { <span class="cm-variable">$x</span> + <span class="cm-string">'expr'</span> }</pre><pre>}</pre><pre>&nbsp;</pre><pre><span class="cm-variable">foo</span> <span class="cm-number">3</span>;</pre><pre><span class="cm-variable">foo</span> <span class="cm-string">"string"</span>;</pre><pre><span class="cm-variable">foo</span> <span class="cm-variable">bar</span>;</pre><pre><span class="cm-variable">foo</span> [<span class="cm-number">1</span>, <span class="cm-number">2</span>, <span class="cm-number">3</span>];</pre><pre><span class="cm-variable">foo</span> <span class="cm-variable">baz</span>();</pre></div><div style="left: 4px; top: 2.7002px; height: 16px;" class="CodeMirror-cursor">&nbsp;</div><div style="display: none;" class="CodeMirror-cursor CodeMirror-secondarycursor">&nbsp;</div></div></div></div></div><div style="position: absolute; height: 30px; width: 1px; top: 243.582px;"></div><div style="display: none; height: 244px;" class="CodeMirror-gutters"></div></div></div><div style="width: 500px; height: 274.183px;" class="CodeMirror cm-s-ambiance output"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 22px; left: 19.3px;"><textarea tabindex="0" spellcheck="false" autocapitalize="off" autocorrect="off" wrap="off" style="position: absolute; padding: 0px; width: 1px; height: 1em; outline: medium none; font-size: 4px;"></textarea></div><div style="left: 0px;" class="CodeMirror-hscrollbar"><div style="height: 1px; width: 0px;"></div></div><div class="CodeMirror-vscrollbar"><div style="width: 1px; height: 0px;"></div></div><div class="CodeMirror-scrollbar-filler"></div><div class="CodeMirror-gutter-filler"></div><div draggable="true" tabindex="-1" class="CodeMirror-scroll"><div style="min-width: 190px; margin-left: 0px; min-height: 200.75px;" class="CodeMirror-sizer"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines"><div style="position: relative; outline: medium none;"><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1; display: none;"></div><div style="" class="CodeMirror-code"><pre><span class="cm-number">3</span> + <span class="cm-string">'lit'</span>;</pre><pre><span class="cm-string">'string'</span> + <span class="cm-string">'lit'</span>;</pre><pre><span class="cm-variable">bar</span> + <span class="cm-string">'ident'</span>;</pre><pre>[</pre><pre>    <span class="cm-number">1</span>,</pre><pre>    <span class="cm-number">2</span>,</pre><pre>    <span class="cm-number">3</span></pre><pre>] + <span class="cm-string">'expr'</span>;</pre><pre><span class="cm-variable">baz</span> + <span class="cm-string">'ident'</span>();</pre></div><div style="left: 4px; top: 2.69995px; height: 16px;" class="CodeMirror-cursor">&nbsp;</div><div style="display: none;" class="CodeMirror-cursor CodeMirror-secondarycursor">&nbsp;</div></div></div></div></div><div style="position: absolute; height: 30px; width: 1px; top: 200.75px;"></div><div style="display: none; height: 244px;" class="CodeMirror-gutters"></div></div></div><div class="controls">  <button class="reset">Revert to Original</button>  <button class="open-stepper">Open Stepper</button>  <a href="#pattern-classes" class="permalink">    <img src="Writing%20Your%20First%20Sweet.js%20Macro_files/permalink-grey.png">  </a></div><div class="stepper"><div class="content"></div><div class="controls">  <button class="step">Step</button>  <button class="close-stepper">Close</button></div></div></div><div style="display: none;" class="status error"></div></div>
+
+<p><code>3</code> and <code>"string"</code> matched as <code>lit</code>, and <code>bar</code> matched as <code>ident</code>. An identifer is any valid JavaScript variable name, and a literal is any constant number or string.</p>
+
+<p>The array matched as an expression, which is correct. However, what's up with <code>baz()</code>? As mentioned before, sweet.js is not greedy, and it matches just <code>baz</code> instead. Especially in this case, since we have a pattern <code>$x:ident</code> which is higher precedence than <code>$x:expr</code>, which explicitly says to just match the identifier <code>baz</code>. Even if we didn't use classes, we would have this problem (<a href="#pattern-classes" data-editor-change="5">try for yourself!</a>).</p>
+
+<p>If we really want to match the whole expression, we need to use <code>$x:expr</code> and it needs to be above other rules (<a href="#pattern-classes" data-editor-change="6">try it!</a>). At this point, it doesn't really make sense to have any rules below it, since <code>$x:expr</code> will match identifiers and literals as well.</p>
+
+<p>If you ever really want to match a full expression, you should always use the <code>expr</code> class on pattern variables.</p>
+
+<h3>Recursive Macros and <code>let</code></h3>
+
+<p>Macros expand recursively, which means sweet.js expands the code 
+again after your macro is run. You will find this behavior very useful 
+in more advanced macros that use several expansion steps to transform 
+code. This lets you match one rule, and emit code to run the macro again
+ to match a different rule. You will see this more later in the advanced
+ tutorials.</p>
+
+<div class="macro-editor" id="recursive-macros"><div class="title"><strong>stepping</strong>: <span></span></div><div class="content"><div style="width: 500px;" class="CodeMirror cm-s-ambiance input"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 22px; left: 19.3px;"><textarea tabindex="0" spellcheck="false" autocapitalize="off" autocorrect="off" wrap="off" style="position: absolute; padding: 0px; width: 1px; height: 1em; outline: medium none; font-size: 4px;"></textarea></div><div style="left: 0px;" class="CodeMirror-hscrollbar"><div style="height: 1px; width: 0px;"></div></div><div class="CodeMirror-vscrollbar"><div style="width: 1px; height: 0px;"></div></div><div class="CodeMirror-scrollbar-filler"></div><div class="CodeMirror-gutter-filler"></div><div draggable="true" tabindex="-1" class="CodeMirror-scroll"><div style="min-width: 307px; margin-left: 0px; min-height: 243.582px;" class="CodeMirror-sizer"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines"><div style="position: relative; outline: medium none;"><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1; display: none;"></div><div style="" class="CodeMirror-code"><pre><span class="cm-variable">macro</span> <span class="cm-variable">foo</span> {</pre><pre>  <span class="cm-variable">rule</span> { { <span class="cm-variable">$expr</span>:<span class="cm-variable">expr</span> } } =&gt; {</pre><pre>    <span class="cm-variable">foo</span> (<span class="cm-variable">$expr</span> + <span class="cm-number">3</span>)</pre><pre>  }</pre><pre>&nbsp;</pre><pre>  <span class="cm-variable">rule</span> { (<span class="cm-variable">$expr</span>:<span class="cm-variable">expr</span>) } =&gt; {</pre><pre>    <span class="cm-string">"expression: "</span> + <span class="cm-variable">$expr</span></pre><pre>  }</pre><pre>}</pre><pre>&nbsp;</pre><pre><span class="cm-variable">foo</span> { <span class="cm-number">1</span> + <span class="cm-number">2</span> }</pre></div><div style="left: 4px; top: 2.7002px; height: 16px;" class="CodeMirror-cursor">&nbsp;</div><div style="display: none;" class="CodeMirror-cursor CodeMirror-secondarycursor">&nbsp;</div></div></div></div></div><div style="position: absolute; height: 30px; width: 1px; top: 243.582px;"></div><div style="display: none; height: 244px;" class="CodeMirror-gutters"></div></div></div><div style="width: 500px; height: 274.183px;" class="CodeMirror cm-s-ambiance output"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 22px; left: 19.3px;"><textarea tabindex="0" spellcheck="false" autocapitalize="off" autocorrect="off" wrap="off" style="position: absolute; padding: 0px; width: 1px; height: 1em; outline: medium none; font-size: 4px;"></textarea></div><div style="left: 0px;" class="CodeMirror-hscrollbar"><div style="height: 1px; width: 0px;"></div></div><div class="CodeMirror-vscrollbar"><div style="width: 1px; height: 0px;"></div></div><div class="CodeMirror-scrollbar-filler"></div><div class="CodeMirror-gutter-filler"></div><div draggable="true" tabindex="-1" class="CodeMirror-scroll"><div style="min-width: 280px; margin-left: 0px; min-height: 29.4167px;" class="CodeMirror-sizer"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines"><div style="position: relative; outline: medium none;"><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1; display: none;"></div><div style="" class="CodeMirror-code"><pre><span class="cm-string">'expression: '</span> + <span class="cm-number">1</span> + <span class="cm-number">2</span> + <span class="cm-number">3</span>;</pre></div><div style="left: 4px; top: 2.70001px; height: 16px;" class="CodeMirror-cursor">&nbsp;</div><div style="display: none;" class="CodeMirror-cursor CodeMirror-secondarycursor">&nbsp;</div></div></div></div></div><div style="position: absolute; height: 30px; width: 1px; top: 29.4167px;"></div><div style="display: none; height: 244px;" class="CodeMirror-gutters"></div></div></div><div class="controls">  <button class="reset">Revert to Original</button>  <button class="open-stepper">Open Stepper</button>  <a href="#recursive-macros" class="permalink">    <img src="Writing%20Your%20First%20Sweet.js%20Macro_files/permalink-grey.png">  </a></div><div class="stepper"><div class="content"></div><div class="controls">  <button class="step">Step</button>  <button class="close-stepper">Close</button></div></div></div><div style="display: none;" class="status error"></div></div>
+
+<p>One of the most useful things about macros is overriding existing 
+keywords to extend functionality. For example, you could implement a <code>var</code> macro which overrides the builtin <code>var</code> and add ES6 <a href="http://wiki.ecmascript.org/doku.php?id=harmony:destructuring">destructuring</a>. Of course, if destructuring is not used, you simply expand to the original <code>var</code> statement.</p>
+
+<p>This poses a problem though: you need to emit code that does not 
+recursively expand your macro. This is possible by defining your macro 
+with the <code>let</code> form like this: <code>let foo = macro { ... }</code>. Now <code>foo</code> in your expanded code will reference whatever <code>foo</code> was outside of your macro, so it won't be expanded. If you were making a <code>var</code> macro, any <code>var</code> that you emit will be the builtin <code>var</code>. </p>
+
+<p><a href="#recursive-macros" data-editor-change="7">Click here</a> to change the above example into a <code>let</code> macro.</p>
+
+<h3>Repeated Patterns</h3>
+
+<p>Repeated patterns allow you to capture multiple instances of a 
+pattern at a time. This comes up all time when matching syntax. You add 
+an ellipses, <code>...</code>, to match repeats of a pattern.</p>
+
+<p>A basic example: <code>rule { ($name ...) } =&gt; { $name ... }</code>. This matches all the syntax within the parentheses, and strips the parentheses in the output.</p>
+
+<p>A repeated pattern matches 0 or more times, so you can't use it enforce the existance of a pattern. In this sense, it will <em>always</em> match, even if the match is nothing.</p>
+
+<div class="highlight"><pre><code class="javascript">macro basic {
+  rule { { $x (,) ... } } =&gt; {
+    wrapped($x (,) ...);
+  }
+}
+
+basic {} <span class="comment">// expands to wrapped()</span>
+basic { x, y, z } <span class="comment">// expands to wrapped(x, y, z)</span>
+</code></pre></div>
+
+<p>To make repeated patterns more useful, sweet.js lets you specify a 
+separator which is a token that separates the patterns. For example, <code>rule { $name (,) ... } =&gt; { $name (,) ... }</code>
+ says that a comma should exist between matches, and emits the comma 
+with the repeated names. You can drop the comma when emitting code (just
+ use <code>$name ...</code>) and it would only emit the list of names, 
+stripping the comma off. It's very common to separate elements with a 
+comma in JavaScript (think function args, array elements, etc).</p>
+
+<p>Finally, to actually specify a complex pattern you need to use 
+pattern groups. The ellipses only works on the single match variable 
+preceding it, so you need to "group" a pattern into a single element. 
+This is how you do that: <code>rule { $($name = $init) (,) ... } =&gt; { $name ... }</code>. Note the extra <code>$()</code> which creates a pattern group. That macro would match syntax like <code>x = 5, y = 6, z = 7</code> and emit <code>x y z</code>.
+ You can use pattern groups and separators optionally when matching and 
+when emitting code, allowing you to transform repeated patterns into any
+ other repeated pattern that you want.</p>
+
+<p>Hopefully this will make more sense by playing around with it some. Here are some macros for you to fiddle with:</p>
+
+<div class="macro-editor" id="repeated-patterns"><div class="title"><strong>stepping</strong>: <span></span></div><div class="content"><div style="width: 500px;" class="CodeMirror cm-s-ambiance input"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 22px; left: 19.3px;"><textarea tabindex="0" spellcheck="false" autocapitalize="off" autocorrect="off" wrap="off" style="position: absolute; padding: 0px; width: 1px; height: 1em; outline: medium none; font-size: 4px;"></textarea></div><div style="left: 0px;" class="CodeMirror-hscrollbar"><div style="height: 1px; width: 0px;"></div></div><div class="CodeMirror-vscrollbar"><div style="width: 1px; height: 0px;"></div></div><div class="CodeMirror-scrollbar-filler"></div><div class="CodeMirror-gutter-filler"></div><div draggable="true" tabindex="-1" class="CodeMirror-scroll"><div style="min-width: 307px; margin-left: 0px; min-height: 179.336px;" class="CodeMirror-sizer"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines"><div style="position: relative; outline: medium none;"><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1; display: none;"></div><div style="" class="CodeMirror-code"><pre><span class="cm-variable">macro</span> <span class="cm-variable">basic</span> {</pre><pre>  <span class="cm-variable">rule</span> { { <span class="cm-variable">$x</span> (,) <span class="cm-meta">...</span> } } =&gt; {</pre><pre>    <span class="cm-variable">wrapped</span>(<span class="cm-variable">$x</span> (,) <span class="cm-meta">...</span>);</pre><pre>  }</pre><pre>}</pre><pre>&nbsp;</pre><pre><span class="cm-variable">basic</span> {}</pre><pre><span class="cm-variable">basic</span> { <span class="cm-variable">x</span>, <span class="cm-variable">y</span>, <span class="cm-variable">z</span> }</pre></div><div style="left: 4px; top: 2.69922px; height: 16px;" class="CodeMirror-cursor">&nbsp;</div><div style="display: none;" class="CodeMirror-cursor CodeMirror-secondarycursor">&nbsp;</div></div></div></div></div><div style="position: absolute; height: 30px; width: 1px; top: 179.336px;"></div><div style="display: none; height: 179.336px;" class="CodeMirror-gutters"></div></div></div><div style="width: 500px; height: 209.933px;" class="CodeMirror cm-s-ambiance output"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 22px; left: 19.3px;"><textarea tabindex="0" spellcheck="false" autocapitalize="off" autocorrect="off" wrap="off" style="position: absolute; padding: 0px; width: 1px; height: 1em; outline: medium none; font-size: 4px;"></textarea></div><div style="left: 0px;" class="CodeMirror-hscrollbar"><div style="height: 1px; width: 0px;"></div></div><div class="CodeMirror-vscrollbar"><div style="width: 1px; height: 0px;"></div></div><div class="CodeMirror-scrollbar-filler"></div><div class="CodeMirror-gutter-filler"></div><div draggable="true" tabindex="-1" class="CodeMirror-scroll"><div style="min-width: 190px; margin-left: 0px; min-height: 50.8333px;" class="CodeMirror-sizer"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines"><div style="position: relative; outline: medium none;"><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1; display: none;"></div><div style="" class="CodeMirror-code"><pre><span class="cm-variable">wrapped</span>();</pre><pre><span class="cm-variable">wrapped</span>(<span class="cm-variable">x</span>, <span class="cm-variable">y</span>, <span class="cm-variable">z</span>);</pre></div><div style="left: 4px; top: 2.7px; height: 16px;" class="CodeMirror-cursor">&nbsp;</div><div style="display: none;" class="CodeMirror-cursor CodeMirror-secondarycursor">&nbsp;</div></div></div></div></div><div style="position: absolute; height: 30px; width: 1px; top: 50.8333px;"></div><div style="display: none; height: 179px;" class="CodeMirror-gutters"></div></div></div><div class="controls">  <button class="reset">Revert to Original</button>  <button class="open-stepper">Open Stepper</button>  <a href="#repeated-patterns" class="permalink">    <img src="Writing%20Your%20First%20Sweet.js%20Macro_files/permalink-grey.png">  </a></div><div class="stepper"><div class="content"></div><div class="controls">  <button class="step">Step</button>  <button class="close-stepper">Close</button></div></div></div><div style="display: none;" class="status error"></div></div>
+
+<ul>
+<li><a href="#repeated-patterns" data-editor-change="ex8a">basic</a> - a simple repeated pattern</li>
+<li><a href="#repeated-patterns" data-editor-change="ex8b">function</a> - simple function tracing</li>
+<li><a href="#repeated-patterns" data-editor-change="ex8c">var</a> - var with single-element destructuring</li>
+<li><a href="#repeated-patterns" data-editor-change="ex8d">nested</a> - nested repetitions!</li>
+</ul>
+
+<p>All of these examples are intentionally simplistic to make it easy to play with. The <code>var</code> macro, for example, breaks <code>var</code> because you can't use the builtin <code>var</code> like normal. In future tutorials we will dive into much more complicated macros that account for things like that.</p>
+
+<p>Repeated patterns are useful, but if you want more control over the 
+patterns that are matched it's common to use recursive macros instead. 
+This lets you do things like force matching on 1 or more, capture 
+multiple different patterns, and more. Again, more to come in the next 
+tutorial!</p>
+
+<h3>Hygiene</h3>
+
+<p>I can't <em>not</em> talk about hygiene here, although this usually 
+doesn't affect how you write macros. In fact, that's the point of 
+hygiene: it all works automatically so you don't have to worry about 
+name collisions! </p>
+
+<p>All macros in sweet.js are fully hygienic, which means that 
+identifiers always reference the correct thing. If a macro creates a new
+ variable (like using <code>var</code>), it will only be available 
+within the macro's body. It will not collide with another variable of 
+the same name in the code that <em>uses</em> the macro. By default, you 
+can't introduce new variables into an unintended scope. You can do this 
+intentionally with a bit of work, and we'll cover that in future 
+tutorials.</p>
+
+<div class="macro-editor" id="hygiene"><div class="title"><strong>stepping</strong>: <span></span></div><div class="content"><div style="width: 500px;" class="CodeMirror cm-s-ambiance input"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 22px; left: 19.3px;"><textarea tabindex="0" spellcheck="false" autocapitalize="off" autocorrect="off" wrap="off" style="position: absolute; padding: 0px; width: 1px; height: 1em; outline: medium none; font-size: 4px;"></textarea></div><div style="left: 0px;" class="CodeMirror-hscrollbar"><div style="height: 1px; width: 0px;"></div></div><div class="CodeMirror-vscrollbar"><div style="width: 1px; height: 0px;"></div></div><div class="CodeMirror-scrollbar-filler"></div><div class="CodeMirror-gutter-filler"></div><div draggable="true" tabindex="-1" class="CodeMirror-scroll"><div style="min-width: 370px; margin-left: 0px; min-height: 265.004px;" class="CodeMirror-sizer"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines"><div style="position: relative; outline: medium none;"><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1; display: none;"></div><div style="" class="CodeMirror-code"><pre><span class="cm-variable">macro</span> <span class="cm-variable">foo</span> {</pre><pre>  <span class="cm-variable">rule</span> { <span class="cm-variable">$id</span> = <span class="cm-variable">$init</span> } =&gt; {</pre><pre>    <span class="cm-keyword">var</span> <span class="cm-variable">$id</span> = <span class="cm-variable">$init</span></pre><pre>  }</pre><pre>  <span class="cm-variable">rule</span> { <span class="cm-variable">$init</span> } =&gt; { <span class="cm-keyword">var</span> <span class="cm-variable">x</span> = <span class="cm-variable">$init</span> }</pre><pre>}</pre><pre>&nbsp;</pre><pre><span class="cm-variable">foo</span> <span class="cm-number">5</span>;</pre><pre><span class="cm-keyword">var</span> <span class="cm-variable">x</span> = <span class="cm-number">6</span>;</pre><pre>&nbsp;</pre><pre><span class="cm-variable">foo</span> <span class="cm-variable">y</span> = <span class="cm-number">10</span>;</pre><pre><span class="cm-keyword">var</span> <span class="cm-variable">y</span> = <span class="cm-number">11</span>;</pre></div><div style="left: 4px; top: 2.7002px; height: 16px;" class="CodeMirror-cursor">&nbsp;</div><div style="display: none;" class="CodeMirror-cursor CodeMirror-secondarycursor">&nbsp;</div></div></div></div></div><div style="position: absolute; height: 30px; width: 1px; top: 265.004px;"></div><div style="display: none; height: 265.004px;" class="CodeMirror-gutters"></div></div></div><div style="width: 500px; height: 295.6px;" class="CodeMirror cm-s-ambiance output"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 22px; left: 19.3px;"><textarea tabindex="0" spellcheck="false" autocapitalize="off" autocorrect="off" wrap="off" style="position: absolute; padding: 0px; width: 1px; height: 1em; outline: medium none; font-size: 4px;"></textarea></div><div style="left: 0px;" class="CodeMirror-hscrollbar"><div style="height: 1px; width: 0px;"></div></div><div class="CodeMirror-vscrollbar"><div style="width: 1px; height: 0px;"></div></div><div class="CodeMirror-scrollbar-filler"></div><div class="CodeMirror-gutter-filler"></div><div draggable="true" tabindex="-1" class="CodeMirror-scroll"><div style="min-width: 145px; margin-left: 0px; min-height: 93.6667px;" class="CodeMirror-sizer"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines"><div style="position: relative; outline: medium none;"><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1; display: none;"></div><div style="" class="CodeMirror-code"><pre><span class="cm-keyword">var</span> <span class="cm-variable">x</span> = <span class="cm-number">5</span>;</pre><pre><span class="cm-keyword">var</span> <span class="cm-variable">x$2</span> = <span class="cm-number">6</span>;</pre><pre><span class="cm-keyword">var</span> <span class="cm-variable">y</span> = <span class="cm-number">10</span>;</pre><pre><span class="cm-keyword">var</span> <span class="cm-variable">y</span> = <span class="cm-number">11</span>;</pre></div><div style="left: 4px; top: 2.70001px; height: 16px;" class="CodeMirror-cursor">&nbsp;</div><div style="display: none;" class="CodeMirror-cursor CodeMirror-secondarycursor">&nbsp;</div></div></div></div></div><div style="position: absolute; height: 30px; width: 1px; top: 93.6667px;"></div><div style="display: none; height: 265px;" class="CodeMirror-gutters"></div></div></div><div class="controls">  <button class="reset">Revert to Original</button>  <button class="open-stepper">Open Stepper</button>  <a href="#hygiene" class="permalink">    <img src="Writing%20Your%20First%20Sweet.js%20Macro_files/permalink-grey.png">  </a></div><div class="stepper"><div class="content"></div><div class="controls">  <button class="step">Step</button>  <button class="close-stepper">Close</button></div></div></div><div style="display: none;" class="status error"></div></div>
+
+<p>In the above example, The first 2 cases create 2 different variables because the macro itself created an <code>x</code> which is different than the <code>x</code> I made with <code>var</code>. In the last 2 cases, both reference the same <code>y</code> because I passed it in to the macro. </p>
+
+<p>Hygienic renaming is the reason you see a variable like <code>foo</code>
+ renamed to 'foo$1234'. sweet.js ensures that each variable is 
+referencing the correct thing. It must rename all variables for reasons 
+explain in <a href="http://disnetdev.com/blog/2013/09/27/hygiene-in-sweet.js/">this post</a>. Unfortunately that means all your identifiers become a little ugly, but if you pass the <code>-r</code>
+ or "readable names" options to the sweet.js compiler, it will clean 
+that up and most of it will be pretty again. That only works on ES5 code
+ right now, which is why it's not on by default.</p>
+
+<h2>Using the sweet.js Compiler</h2>
+
+<p>That's it for the first tutorial. Now you just need to learn how to integrate sweet.js with your own projects.</p>
+
+<p>You can install sweet.js with this simple npm command: <code>npm install -g sweet.js</code>. Now the compiler <code>sjs</code>
+ should be available from the command line. Run it without any arguments
+ to see the various options. These are a few important ones:</p>
+
+<ul>
+<li><strong>-o</strong> The name of the output file. Without this it will print to stdout.</li>
+<li><strong>-c</strong> Generate a source map beside the output file specificed with <code>-o</code>. Code that uses sweet.js macros are easily debuggable like normal!</li>
+<li><strong>-m</strong> a comma-delimited list of modules to import. it 
+basically resolve these names against node and just includes all macros 
+from the file.</li>
+<li><strong>-r</strong> Use readable names when renaming variables. This removes most of the <code>$1234</code> suffixes due to hygienic renaming, but for now it's only works on ES5 code.</li>
+</ul>
+
+<p>So if you wanted to compile a file that uses macros named <code>foo.js</code> and generate sourcemaps, you would run <code>sjs -c -o foo.built.js foo.js</code>. You can use a different file extension like <code>.sjs</code> if you want.</p>
+
+<p>I recommend the <a href="https://github.com/evanw/node-source-map-support">source-map-support</a> node module when running in node which automatically translates error messages using sourcemaps. All you have to do is add <code>require('source-map-support').install()</code> at the top of the file.</p>
+
+<h3>Grunt</h3>
+
+<p>Eventually you'll want to integrate this with a build process like <a href="http://gruntjs.com/">Grunt</a>. A <a href="https://github.com/natefaubion/grunt-sweet.js">grunt-sweet.js</a> task is available which makes a lot of this easier, and even automatically adds <code>source-map-support</code> support to your files under node (if configured to do so).</p>
+
+<p>Once you have grunt installed (see <a href="http://gruntjs.com/getting-started">Getting Started</a>), you should configure it to compile all your files with sweet.js. Install the grunt plugin with <code>npm install grunt-sweet.js --save-dev</code>, and write a <code>Gruntfile.js</code> that mimicks <a href="https://gist.github.com/jlongster/8838950">my example for a sweet.js projects</a>.</p>
+
+<p>That example Gruntfile.js assumes you have all your JavaScript in a directory named <code>src</code>. It will build everything in there into another directory <code>build</code>. If you call <code>grunt watch</code>, it will compile any file that changes in <code>src</code>. You should run your app from the <code>build</code> directory. The options for the sweetjs task are similar to the CLI tool; read the <a href="https://github.com/jlongster/grunt-sweet.js/blob/master/README.md">README</a> for more information.</p>
+
+<p>You can tweak that setup to your liking; that's how I prefer it. 
+Client-side JavaScript is located in different locations but the build 
+process is the same.</p>
+
+<h3>Gulp/Makefile/etc</h3>
+
+<p>Integration with the <a href="http://gulpjs.com/">gulp</a> build system exists too. You want the <a href="https://github.com/sindresorhus/gulp-sweetjs">gulp-sweetjs</a> plugin. I haven't used gulp yet so I can't say much about it, but it should be pretty up-to-date. Also feel free to combine <code>sjs</code> with a <code>Makefile</code> for a quick solution, if that's your thing!</p>
+
+<h2>End of Part I</h2>
+
+<p>That covers the basics of writing macros with sweet.js. There is 
+still a lot to cover and I will dive much deeper in the next tutorial, 
+which I will release in a week or two. <a href="http://feeds.feedburner.com/jlongster">Follow my blog</a> to see when that comes out. I am also speaking at <a href="http://mtnwestjs.org/2014/sessions">MountainWestJS</a> about macros March 17-18th so let me know if you'll be there!</p>
+
+<p>(Thanks to Tim Disney, Nate Faubion, Dave Herman, and other who reviewed this)</p>
+
+<script type="text/javascript" src="Writing%20Your%20First%20Sweet.js%20Macro_files/codemirror.js"></script>
+
+<p><link rel="stylesheet" href="Writing%20Your%20First%20Sweet.js%20Macro_files/codemirror.css"><br><link rel="stylesheet" href="Writing%20Your%20First%20Sweet.js%20Macro_files/ambiance.css"><br><link rel="stylesheet" href="Writing%20Your%20First%20Sweet.js%20Macro_files/style.css"></p>
+
+<script type="text/javascript" src="Writing%20Your%20First%20Sweet.js%20Macro_files/javascript.js"></script>
+
+<script type="text/javascript" src="Writing%20Your%20First%20Sweet.js%20Macro_files/escodegen.js"></script>
+
+<script type="text/javascript" src="Writing%20Your%20First%20Sweet.js%20Macro_files/editor.js"></script>
+
+  <div class="tags">
+    
+    <a href="http://jlongster.com/tag/js">js</a>
+    
+    <a href="http://jlongster.com/tag/macros">macros</a>
+    
+  </div>
+
+  <div class="social">
+    <div class="social-buttons">
+      <div>
+        <iframe style="width: 128px; height: 20px;" data-twttr-rendered="true" title="Twitter Tweet Button" class="twitter-share-button twitter-tweet-button twitter-count-horizontal" src="Writing%20Your%20First%20Sweet.js%20Macro_files/tweet_button.html" allowtransparency="true" id="twitter-widget-0" scrolling="no" frameborder="0"></iframe>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+      </div>
+
+      <div>
+        <div fb-iframe-plugin-query="app_id=203253883025618&amp;font=verdana&amp;href=http%3A%2F%2Fjlongster.com%2FWriting-Your-First-Sweet.js-Macro&amp;layout=button_count&amp;locale=en_US&amp;sdk=joey&amp;send=false&amp;show_faces=false&amp;width=70" fb-xfbml-state="rendered" class="fb-like fb_iframe_widget" data-send="false" data-layout="button_count" data-width="70" data-show-faces="false" data-font="verdana"><span style="vertical-align: bottom; width: 89px; height: 25px;"><iframe class="" src="Writing%20Your%20First%20Sweet.js%20Macro_files/like.html" style="border: medium none; visibility: visible; width: 89px; height: 25px;" title="fb:like Facebook Social Plugin" allowtransparency="true" name="f1be326ceb0ddba" scrolling="no" width="70px" frameborder="0" height="1000px"></iframe></span></div>
+
+        <div class=" fb_reset" id="fb-root"><div style="position: absolute; top: -10000px; height: 0px; width: 0px;"><div><iframe src="Writing%20Your%20First%20Sweet.js%20Macro_files/LEdxGgtB9cN.html" style="border: medium none;" tab-index="-1" title="Facebook Cross Domain Communication Frame" aria-hidden="true" id="fb_xdm_frame_http" allowtransparency="true" name="fb_xdm_frame_http" scrolling="no" frameborder="0"></iframe><iframe src="Writing%20Your%20First%20Sweet.js%20Macro_files/LEdxGgtB9cN_002.html" style="border: medium none;" tab-index="-1" title="Facebook Cross Domain Communication Frame" aria-hidden="true" id="fb_xdm_frame_https" allowtransparency="true" name="fb_xdm_frame_https" scrolling="no" frameborder="0"></iframe></div></div><div style="position: absolute; top: -10000px; height: 0px; width: 0px;"><div><iframe src="Writing%20Your%20First%20Sweet.js%20Macro_files/ping.html" style="display: none;" allowtransparency="true" name="fcd3e1fb6a99d8" scrolling="no" frameborder="0"></iframe></div></div></div>
+        <script>(function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=203253883025618";
+          fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+      </div>
+
+      <div>
+        <iframe class="hn-share-iframe" src="Writing%20Your%20First%20Sweet.js%20Macro_files/button.html" scrolling="auto" width="75px" frameborder="0" height="20px"></iframe>
+        <script>
+          (function(d, t) {
+            var g = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+            g.src = '//hnbutton.appspot.com/static/hn.js';
+            s.parentNode.insertBefore(g, s);
+          }(document, 'script'));
+        </script>
+      </div>
+    </div>
+  </div>
+</article>
+
+      </div>
+
+      
+    </div>
+
+    <div class="footer">
+      <div class="footer-wrapper">
+        
+<div class="readnext">
+  
+  <h3>Read Next</h3>
+  <a href="http://jlongster.com/Stop-Writing-JavaScript-Compilers--Make-Macros-Instead"><h1>Stop Writing JavaScript Compilers! Make Macros Instead</h1></a>
+  <p>JavaScript is everywhere, but that's a double-edged sword. It's 
+hard for everyone involved to agree on how the language should move 
+forward, let alone implement changes in all implementations. Some people
+ write compilers to implement extensions, but that's bad. sweet.js is a 
+new project that implements macros for JavaScript, and it's much better 
+way to implement language extensions.</p>
+ 
+</div>
+
+<div id="disqus_thread"><iframe verticalscrolling="no" horizontalscrolling="no" src="Writing%20Your%20First%20Sweet.js%20Macro_files/a.html" style="width: 100% ! important; border: medium none ! important; overflow: hidden ! important; height: 1176px ! important;" title="Disqus" tabindex="0" allowtransparency="true" data-disqus-uid="2" id="dsq-2" scrolling="no" width="100%" frameborder="0"></iframe></div>
+<script type="text/javascript">
+  var disqus_shortname = 'jlongster';
+  var disqus_url = window.location.href.split('?')[0];
+
+  /* * * DON'T EDIT BELOW THIS LINE * * */
+  (function() {
+  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+        <div class="footer-text">
+          <p>
+            Made by <a id="browserid">James Long</a>, a senior web developer
+            for <a href="http://mozilla.org/">Mozilla</a>. Feel free
+            to <a href="mailto:longster@gmail.com">get in touch</a> with
+            me.
+          </p>
+          <p>
+            © James Long 2012-2013
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="Writing%20Your%20First%20Sweet.js%20Macro_files/zepto.js"></script>
+    <script src="Writing%20Your%20First%20Sweet.js%20Macro_files/underscore-min.js"></script>
+    <script src="Writing%20Your%20First%20Sweet.js%20Macro_files/persona.js"></script>
+    <script src="Writing%20Your%20First%20Sweet.js%20Macro_files/main.js"></script>
+
+    <script>
+      window.CURRENT_USER = null;
+    </script>
+    <script src="Writing%20Your%20First%20Sweet.js%20Macro_files/site.js"></script>
+
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-9014321-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+
+    
+  
+
+</body></html>
