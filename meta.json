@@ -14,25 +14,25 @@
         {
             "name": "Neyret, Fabrice",
             "email": "fabrice.neyret@imag.fr",
-	      "url": "http://www-evasion.imag.fr/Membres/Fabrice.Neyret",
+          "url": "http://www-evasion.imag.fr/Membres/Fabrice.Neyret",
             "role": "concepteur"
-	},
+    },
         {
             "name": "Lefebvre, Sylvain",
-	      "email": "sylvain.lefebvre@inria.fr",
-	      "url": "http://www.aracknea-core.com/sylefeb/research",
+          "email": "sylvain.lefebvre@inria.fr",
+          "url": "http://www.aracknea-core.com/sylefeb/research",
             "role": "concepteur"
         },
         {
             "name": "Ragusi, Eric",
-	      "email": "eric.ragusi@inrialpes.fr",
-	      "url": "http://sed.inrialpes.fr/people/ragusi",
+          "email": "eric.ragusi@inrialpes.fr",
+          "url": "http://sed.inrialpes.fr/people/ragusi",
             "role": "développeur version initiale"
         },
         {
             "name": "Ben Yemna, Mohamed Ramzy",
-	      "email": "byramzi@gmail.com",
-	      "url": "https://plus.google.com/116869062871854524359/posts",
+          "email": "byramzi@gmail.com",
+           "url": "https://plus.google.com/116869062871854524359/posts",
             "role": "développeur version web"
         }
     ],
