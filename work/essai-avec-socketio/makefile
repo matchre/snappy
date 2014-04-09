@@ -1,7 +1,19 @@
-demo :
-	xterm -geometry 120x32++1-10 -e node app.js &
-	firefox index.html
 
+demo : server client local
+
+client :
+	echo 'opening client'
+	firefox http://localhost:8080/index.html
+
+local :
+	echo 'opening client'
+	firefox ./index.html
+
+server :
+	echo 'opening server'
+	killall -q node ; ok=
+	sh -c "xterm -geometry 120x32++1-10 -e sh -c 'node app.js ; read cont' &"
+	sleep 2
 
 doc :
 	firefox http://socket.io/#how-to-use

@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<title>Socket.IO: the cross-browser WebSocket for realtime apps.</title>
+		<meta name="description" content="Socket.IO aims to make realtime apps possible in every browser and mobile device, blurring the differences between the different transport mechanisms">
+		<link rel="shortcut icon" href="http://socket.io/images/favicon.ico">
+		<link href="Socket.IO:%20the%20cross-browser%20WebSocket%20for%20realtime%20apps._files/main.css" rel="stylesheet" media="all">
+		<!--[if lt IE 9]>
+			<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+	<script src="Socket.IO:%20the%20cross-browser%20WebSocket%20for%20realtime%20apps._files/yql"></script></head>
+	<body>
+
+		<header>
+			<h3>Introducing</h3>
+			<h1><a href="http://socket.io/">Socket.IO</a></h1>
+			<a href="http://github.com/learnboost/socket.io/" class="download">v.9</a>
+		</header>
+
+		<div id="content">
+
+			<section>
+				<form action="http://groups.google.com/group/socket_io/boxsubscribe" id="google-subscribe">
+					<a href="http://groups.google.com/group/socket_io"><img src="Socket.IO:%20the%20cross-browser%20WebSocket%20for%20realtime%20apps._files/groups.png" alt="Google Groups"></a>
+					<div id="google-subscribe-input">
+						Email: <input name="email" id="google-subscribe-email" type="text">
+						<input name="go" value="Subscribe" type="submit">
+					</div>
+				</form>
+			</section>
+
+			<section>
+				<nav>
+					<a class="null" href="#home" id="menu-home">Home</a>
+					<a class="current" href="#how-to-use" id="menu-how-to-use">How to use</a>
+					<a href="#browser-support" id="menu-browser-support">Browser Support</a>
+					<a href="#faq" id="menu-faq">FAQ</a>
+					<a href="http://github.com/learnboost/socket.io/wiki/">Wiki</a>
+				</nav>
+			</section>
+
+
+			<!-- #home -->
+			<div style="display: none;" class="page" id="page-home">
+				
+				<section>
+					<h2>What is Socket.IO?</h2>
+					<p>
+						<strong>Socket.IO</strong> aims to make realtime apps possible in every
+						browser and mobile device, blurring the differences between the different
+						transport mechanisms. It's care-free realtime 100% in JavaScript.
+					</p>
+					<div class="example">
+						<div class="example-left">
+							<h4>Server</h4>
+							<pre class="prettyprint"><span class="kwd">var</span><span class="pln"> io </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">require</span><span class="pun">(</span><span class="str">'socket.io'</span><span class="pun">).</span><span class="pln">listen</span><span class="pun">(</span><span class="lit">80</span><span class="pun">);</span><span class="pln">
+
+io</span><span class="pun">.</span><span class="pln">sockets</span><span class="pun">.</span><span class="pln">on</span><span class="pun">(</span><span class="str">'connection'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">socket</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  socket</span><span class="pun">.</span><span class="pln">emit</span><span class="pun">(</span><span class="str">'news'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">{</span><span class="pln"> hello</span><span class="pun">:</span><span class="pln"> </span><span class="str">'world'</span><span class="pln"> </span><span class="pun">});</span><span class="pln">
+  socket</span><span class="pun">.</span><span class="pln">on</span><span class="pun">(</span><span class="str">'my other event'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">data</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    console</span><span class="pun">.</span><span class="pln">log</span><span class="pun">(</span><span class="pln">data</span><span class="pun">);</span><span class="pln">
+  </span><span class="pun">});</span><span class="pln">
+</span><span class="pun">});</span></pre>
+						</div>
+						<div class="example-right">
+							<h4>Client</h4>
+							<pre class="prettyprint"><span class="tag">&lt;script</span><span class="pln"> </span><span class="atn">src</span><span class="pun">=</span><span class="atv">"/socket.io/socket.io.js"</span><span class="tag">&gt;&lt;/script&gt;</span><span class="pln">
+</span><span class="tag">&lt;script&gt;</span><span class="pln">
+  </span><span class="kwd">var</span><span class="pln"> socket </span><span class="pun">=</span><span class="pln"> io</span><span class="pun">.</span><span class="pln">connect</span><span class="pun">(</span><span class="str">'http://localhost'</span><span class="pun">);</span><span class="pln">
+  socket</span><span class="pun">.</span><span class="pln">on</span><span class="pun">(</span><span class="str">'news'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">data</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    console</span><span class="pun">.</span><span class="pln">log</span><span class="pun">(</span><span class="pln">data</span><span class="pun">);</span><span class="pln">
+    socket</span><span class="pun">.</span><span class="pln">emit</span><span class="pun">(</span><span class="str">'my other event'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">{</span><span class="pln"> my</span><span class="pun">:</span><span class="pln"> </span><span class="str">'data'</span><span class="pln"> </span><span class="pun">});</span><span class="pln">
+  </span><span class="pun">});</span><span class="pln">
+</span><span class="tag">&lt;/script&gt;</span></pre>
+						</div>
+					</div>
+				</section>
+			</div>
+
+
+			<!-- #how-to-use -->
+			<div style="display: block;" class="page" id="page-how-to-use">
+				<section>
+					<h2>How to use</h2>
+
+
+					<h3>Installing</h3>
+					<pre class="prettyprint"><span class="pln">npm install socket</span><span class="pun">.</span><span class="pln">io</span></pre>
+					<br>
+
+
+					<h3>Using with Node HTTP server</h3>
+					<p>For this example, simply run `npm install socket.io`</p>
+					<div class="example">
+						<div class="example-left">
+							<h4>Server (app.js)</h4>
+							<pre class="prettyprint"><span class="kwd">var</span><span class="pln"> app </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">require</span><span class="pun">(</span><span class="str">'http'</span><span class="pun">).</span><span class="pln">createServer</span><span class="pun">(</span><span class="pln">handler</span><span class="pun">)</span><span class="pln">
+  </span><span class="pun">,</span><span class="pln"> io </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">require</span><span class="pun">(</span><span class="str">'socket.io'</span><span class="pun">).</span><span class="pln">listen</span><span class="pun">(</span><span class="pln">app</span><span class="pun">)</span><span class="pln">
+  </span><span class="pun">,</span><span class="pln"> fs </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">require</span><span class="pun">(</span><span class="str">'fs'</span><span class="pun">)</span><span class="pln">
+
+app</span><span class="pun">.</span><span class="pln">listen</span><span class="pun">(</span><span class="lit">80</span><span class="pun">);</span><span class="pln">
+
+</span><span class="kwd">function</span><span class="pln"> handler </span><span class="pun">(</span><span class="pln">req</span><span class="pun">,</span><span class="pln"> res</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  fs</span><span class="pun">.</span><span class="pln">readFile</span><span class="pun">(</span><span class="pln">__dirname </span><span class="pun">+</span><span class="pln"> </span><span class="str">'/index.html'</span><span class="pun">,</span><span class="pln">
+  </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">err</span><span class="pun">,</span><span class="pln"> data</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    </span><span class="kwd">if</span><span class="pln"> </span><span class="pun">(</span><span class="pln">err</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+      res</span><span class="pun">.</span><span class="pln">writeHead</span><span class="pun">(</span><span class="lit">500</span><span class="pun">);</span><span class="pln">
+      </span><span class="kwd">return</span><span class="pln"> res</span><span class="pun">.</span><span class="kwd">end</span><span class="pun">(</span><span class="str">'Error loading index.html'</span><span class="pun">);</span><span class="pln">
+    </span><span class="pun">}</span><span class="pln">
+
+    res</span><span class="pun">.</span><span class="pln">writeHead</span><span class="pun">(</span><span class="lit">200</span><span class="pun">);</span><span class="pln">
+    res</span><span class="pun">.</span><span class="kwd">end</span><span class="pun">(</span><span class="pln">data</span><span class="pun">);</span><span class="pln">
+  </span><span class="pun">});</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+io</span><span class="pun">.</span><span class="pln">sockets</span><span class="pun">.</span><span class="pln">on</span><span class="pun">(</span><span class="str">'connection'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">socket</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  socket</span><span class="pun">.</span><span class="pln">emit</span><span class="pun">(</span><span class="str">'news'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">{</span><span class="pln"> hello</span><span class="pun">:</span><span class="pln"> </span><span class="str">'world'</span><span class="pln"> </span><span class="pun">});</span><span class="pln">
+  socket</span><span class="pun">.</span><span class="pln">on</span><span class="pun">(</span><span class="str">'my other event'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">data</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    console</span><span class="pun">.</span><span class="pln">log</span><span class="pun">(</span><span class="pln">data</span><span class="pun">);</span><span class="pln">
+  </span><span class="pun">});</span><span class="pln">
+</span><span class="pun">});</span></pre>
+						</div>
+						<div class="example-right">
+							<h4>Client (index.html)</h4>
+							<pre class="prettyprint"><span class="tag">&lt;script</span><span class="pln"> </span><span class="atn">src</span><span class="pun">=</span><span class="atv">"/socket.io/socket.io.js"</span><span class="tag">&gt;&lt;/script&gt;</span><span class="pln">
+</span><span class="tag">&lt;script&gt;</span><span class="pln">
+  </span><span class="kwd">var</span><span class="pln"> socket </span><span class="pun">=</span><span class="pln"> io</span><span class="pun">.</span><span class="pln">connect</span><span class="pun">(</span><span class="str">'http://localhost'</span><span class="pun">);</span><span class="pln">
+  socket</span><span class="pun">.</span><span class="pln">on</span><span class="pun">(</span><span class="str">'news'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">data</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    console</span><span class="pun">.</span><span class="pln">log</span><span class="pun">(</span><span class="pln">data</span><span class="pun">);</span><span class="pln">
+    socket</span><span class="pun">.</span><span class="pln">emit</span><span class="pun">(</span><span class="str">'my other event'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">{</span><span class="pln"> my</span><span class="pun">:</span><span class="pln"> </span><span class="str">'data'</span><span class="pln"> </span><span class="pun">});</span><span class="pln">
+  </span><span class="pun">});</span><span class="pln">
+</span><span class="tag">&lt;/script&gt;</span></pre>
+						</div>
+					</div>
+
+          <h3>Using with the Express 3 web framework</h3>
+          <p>Express 3 requires that you instantiate a `http.Server` to attach socket.io to first:<!--/p-->
+          </p><div class="example">
+            <div class="example-left">
+              <h4>Server (app.js)</h4>
+              <pre class="prettyprint"><span class="kwd">var</span><span class="pln"> app </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">require</span><span class="pun">(</span><span class="str">'express'</span><span class="pun">)()</span><span class="pln">
+  </span><span class="pun">,</span><span class="pln"> server </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">require</span><span class="pun">(</span><span class="str">'http'</span><span class="pun">).</span><span class="pln">createServer</span><span class="pun">(</span><span class="pln">app</span><span class="pun">)</span><span class="pln">
+  </span><span class="pun">,</span><span class="pln"> io </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">require</span><span class="pun">(</span><span class="str">'socket.io'</span><span class="pun">).</span><span class="pln">listen</span><span class="pun">(</span><span class="pln">server</span><span class="pun">);</span><span class="pln">
+
+server</span><span class="pun">.</span><span class="pln">listen</span><span class="pun">(</span><span class="lit">80</span><span class="pun">);</span><span class="pln">
+
+app</span><span class="pun">.</span><span class="kwd">get</span><span class="pun">(</span><span class="str">'/'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">req</span><span class="pun">,</span><span class="pln"> res</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  res</span><span class="pun">.</span><span class="pln">sendfile</span><span class="pun">(</span><span class="pln">__dirname </span><span class="pun">+</span><span class="pln"> </span><span class="str">'/index.html'</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">});</span><span class="pln">
+
+io</span><span class="pun">.</span><span class="pln">sockets</span><span class="pun">.</span><span class="pln">on</span><span class="pun">(</span><span class="str">'connection'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">socket</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  socket</span><span class="pun">.</span><span class="pln">emit</span><span class="pun">(</span><span class="str">'news'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">{</span><span class="pln"> hello</span><span class="pun">:</span><span class="pln"> </span><span class="str">'world'</span><span class="pln"> </span><span class="pun">});</span><span class="pln">
+  socket</span><span class="pun">.</span><span class="pln">on</span><span class="pun">(</span><span class="str">'my other event'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">data</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    console</span><span class="pun">.</span><span class="pln">log</span><span class="pun">(</span><span class="pln">data</span><span class="pun">);</span><span class="pln">
+  </span><span class="pun">});</span><span class="pln">
+</span><span class="pun">});</span></pre>
+            </div>
+            <div class="example-right">
+              <h4>Client (index.html)</h4>
+              <pre class="prettyprint"><span class="tag">&lt;script</span><span class="pln"> </span><span class="atn">src</span><span class="pun">=</span><span class="atv">"/socket.io/socket.io.js"</span><span class="tag">&gt;&lt;/script&gt;</span><span class="pln">
+</span><span class="tag">&lt;script&gt;</span><span class="pln">
+  </span><span class="kwd">var</span><span class="pln"> socket </span><span class="pun">=</span><span class="pln"> io</span><span class="pun">.</span><span class="pln">connect</span><span class="pun">(</span><span class="str">'http://localhost'</span><span class="pun">);</span><span class="pln">
+  socket</span><span class="pun">.</span><span class="pln">on</span><span class="pun">(</span><span class="str">'news'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">data</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    console</span><span class="pun">.</span><span class="pln">log</span><span class="pun">(</span><span class="pln">data</span><span class="pun">);</span><span class="pln">
+    socket</span><span class="pun">.</span><span class="pln">emit</span><span class="pun">(</span><span class="str">'my other event'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">{</span><span class="pln"> my</span><span class="pun">:</span><span class="pln"> </span><span class="str">'data'</span><span class="pln"> </span><span class="pun">});</span><span class="pln">
+  </span><span class="pun">});</span><span class="pln">
+</span><span class="tag">&lt;/script&gt;</span></pre>
+            </div>
+          </div>
+
+					<h3>Using with the Express web framework</h3>
+					<p>You can serve normal pages and AJAX requests with Express, and attach your socket.io server</p>
+					<p>For this example, simply run `npm install socket.io express`</p>
+					<div class="example">
+						<div class="example-left">
+							<h4>Server (app.js)</h4>
+							<pre class="prettyprint"><span class="kwd">var</span><span class="pln"> app </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">require</span><span class="pun">(</span><span class="str">'express'</span><span class="pun">).</span><span class="pln">createServer</span><span class="pun">()</span><span class="pln">
+  </span><span class="pun">,</span><span class="pln"> io </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">require</span><span class="pun">(</span><span class="str">'socket.io'</span><span class="pun">).</span><span class="pln">listen</span><span class="pun">(</span><span class="pln">app</span><span class="pun">);</span><span class="pln">
+
+app</span><span class="pun">.</span><span class="pln">listen</span><span class="pun">(</span><span class="lit">80</span><span class="pun">);</span><span class="pln">
+
+app</span><span class="pun">.</span><span class="kwd">get</span><span class="pun">(</span><span class="str">'/'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">req</span><span class="pun">,</span><span class="pln"> res</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  res</span><span class="pun">.</span><span class="pln">sendfile</span><span class="pun">(</span><span class="pln">__dirname </span><span class="pun">+</span><span class="pln"> </span><span class="str">'/index.html'</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">});</span><span class="pln">
+
+io</span><span class="pun">.</span><span class="pln">sockets</span><span class="pun">.</span><span class="pln">on</span><span class="pun">(</span><span class="str">'connection'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">socket</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  socket</span><span class="pun">.</span><span class="pln">emit</span><span class="pun">(</span><span class="str">'news'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">{</span><span class="pln"> hello</span><span class="pun">:</span><span class="pln"> </span><span class="str">'world'</span><span class="pln"> </span><span class="pun">});</span><span class="pln">
+  socket</span><span class="pun">.</span><span class="pln">on</span><span class="pun">(</span><span class="str">'my other event'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">data</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    console</span><span class="pun">.</span><span class="pln">log</span><span class="pun">(</span><span class="pln">data</span><span class="pun">);</span><span class="pln">
+  </span><span class="pun">});</span><span class="pln">
+</span><span class="pun">});</span></pre>
+						</div>
+						<div class="example-right">
+							<h4>Client (index.html)</h4>
+							<pre class="prettyprint"><span class="tag">&lt;script</span><span class="pln"> </span><span class="atn">src</span><span class="pun">=</span><span class="atv">"/socket.io/socket.io.js"</span><span class="tag">&gt;&lt;/script&gt;</span><span class="pln">
+</span><span class="tag">&lt;script&gt;</span><span class="pln">
+  </span><span class="kwd">var</span><span class="pln"> socket </span><span class="pun">=</span><span class="pln"> io</span><span class="pun">.</span><span class="pln">connect</span><span class="pun">(</span><span class="str">'http://localhost'</span><span class="pun">);</span><span class="pln">
+  socket</span><span class="pun">.</span><span class="pln">on</span><span class="pun">(</span><span class="str">'news'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">data</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    console</span><span class="pun">.</span><span class="pln">log</span><span class="pun">(</span><span class="pln">data</span><span class="pun">);</span><span class="pln">
+    socket</span><span class="pun">.</span><span class="pln">emit</span><span class="pun">(</span><span class="str">'my other event'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">{</span><span class="pln"> my</span><span class="pun">:</span><span class="pln"> </span><span class="str">'data'</span><span class="pln"> </span><span class="pun">});</span><span class="pln">
+  </span><span class="pun">});</span><span class="pln">
+</span><span class="tag">&lt;/script&gt;</span></pre>
+						</div>
+					</div>
+
+
+					<h3>Sending and receiving events.</h3>
+					<p>Socket.IO allows you to emit and receive custom events. Besides 
+`connect`, `message` and `disconnect`, you can emit custom events:</p>
+					<div class="example">
+						<div class="example-left example-left-long">
+							<h4>Server</h4>
+							<pre class="prettyprint"><span class="com">// note, io.listen(&lt;port&gt;) will create a http server for you</span><span class="pln">
+</span><span class="kwd">var</span><span class="pln"> io </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">require</span><span class="pun">(</span><span class="str">'socket.io'</span><span class="pun">).</span><span class="pln">listen</span><span class="pun">(</span><span class="lit">80</span><span class="pun">);</span><span class="pln">
+
+io</span><span class="pun">.</span><span class="pln">sockets</span><span class="pun">.</span><span class="pln">on</span><span class="pun">(</span><span class="str">'connection'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">socket</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  io</span><span class="pun">.</span><span class="pln">sockets</span><span class="pun">.</span><span class="pln">emit</span><span class="pun">(</span><span class="str">'this'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">{</span><span class="pln"> will</span><span class="pun">:</span><span class="pln"> </span><span class="str">'be received by everyone'</span><span class="pun">});</span><span class="pln">
+
+  socket</span><span class="pun">.</span><span class="pln">on</span><span class="pun">(</span><span class="str">'private message'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">from</span><span class="pun">,</span><span class="pln"> msg</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    console</span><span class="pun">.</span><span class="pln">log</span><span class="pun">(</span><span class="str">'I received a private message by '</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">from</span><span class="pun">,</span><span class="pln"> </span><span class="str">' saying '</span><span class="pun">,</span><span class="pln"> msg</span><span class="pun">);</span><span class="pln">
+  </span><span class="pun">});</span><span class="pln">
+
+  socket</span><span class="pun">.</span><span class="pln">on</span><span class="pun">(</span><span class="str">'disconnect'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    io</span><span class="pun">.</span><span class="pln">sockets</span><span class="pun">.</span><span class="pln">emit</span><span class="pun">(</span><span class="str">'user disconnected'</span><span class="pun">);</span><span class="pln">
+  </span><span class="pun">});</span><span class="pln">
+</span><span class="pun">});</span></pre>
+						</div>
+					</div>
+
+
+					<h3>Storing data associated to a client</h3>
+					<p>Sometimes it's necessary to store data associated with a client that's necessary for the duration of the session.</p>
+					<div class="example">
+						<div class="example-left">
+							<h4>Server</h4>
+							<pre class="prettyprint"><span class="kwd">var</span><span class="pln"> io </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">require</span><span class="pun">(</span><span class="str">'socket.io'</span><span class="pun">).</span><span class="pln">listen</span><span class="pun">(</span><span class="lit">80</span><span class="pun">);</span><span class="pln">
+
+io</span><span class="pun">.</span><span class="pln">sockets</span><span class="pun">.</span><span class="pln">on</span><span class="pun">(</span><span class="str">'connection'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">socket</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  socket</span><span class="pun">.</span><span class="pln">on</span><span class="pun">(</span><span class="str">'set nickname'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">name</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    socket</span><span class="pun">.</span><span class="kwd">set</span><span class="pun">(</span><span class="str">'nickname'</span><span class="pun">,</span><span class="pln"> name</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+      socket</span><span class="pun">.</span><span class="pln">emit</span><span class="pun">(</span><span class="str">'ready'</span><span class="pun">);</span><span class="pln">
+    </span><span class="pun">});</span><span class="pln">
+  </span><span class="pun">});</span><span class="pln">
+
+  socket</span><span class="pun">.</span><span class="pln">on</span><span class="pun">(</span><span class="str">'msg'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    socket</span><span class="pun">.</span><span class="kwd">get</span><span class="pun">(</span><span class="str">'nickname'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">err</span><span class="pun">,</span><span class="pln"> name</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+      console</span><span class="pun">.</span><span class="pln">log</span><span class="pun">(</span><span class="str">'Chat message by '</span><span class="pun">,</span><span class="pln"> name</span><span class="pun">);</span><span class="pln">
+    </span><span class="pun">});</span><span class="pln">
+  </span><span class="pun">});</span><span class="pln">
+</span><span class="pun">});</span></pre>
+						</div>
+						<div class="example-right">
+							<h4>Client</h4>
+							<pre class="prettyprint"><span class="tag">&lt;script</span><span class="pln"> </span><span class="atn">src</span><span class="pun">=</span><span class="atv">"/socket.io/socket.io.js"</span><span class="tag">&gt;&lt;/script&gt;</span><span class="pln">
+</span><span class="tag">&lt;script&gt;</span><span class="pln">
+  </span><span class="kwd">var</span><span class="pln"> socket </span><span class="pun">=</span><span class="pln"> io</span><span class="pun">.</span><span class="pln">connect</span><span class="pun">(</span><span class="str">'http://localhost'</span><span class="pun">);</span><span class="pln">
+  socket</span><span class="pun">.</span><span class="pln">on</span><span class="pun">(</span><span class="str">'news'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">data</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    console</span><span class="pun">.</span><span class="pln">log</span><span class="pun">(</span><span class="pln">data</span><span class="pun">);</span><span class="pln">
+    socket</span><span class="pun">.</span><span class="pln">emit</span><span class="pun">(</span><span class="str">'my other event'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">{</span><span class="pln"> my</span><span class="pun">:</span><span class="pln"> </span><span class="str">'data'</span><span class="pln"> </span><span class="pun">});</span><span class="pln">
+  </span><span class="pun">});</span><span class="pln">
+</span><span class="tag">&lt;/script&gt;</span></pre>
+						</div>
+					</div>
+
+
+					<h3>Restricting yourself to a namespace.</h3>
+					<p>If you have control over all the messages and events emitted for
+ a particular application, using the default / namespace works. If you 
+want to leverage 3rd-party code, or produce code to share with others, 
+socket.io provides a way of namespacing a socket.</p>
+					<p>This has the benefit of `multiplexing` a single connection. 
+Instead of socket.io using two `WebSocket` connections, it'll use one.</p>
+					<div class="example">
+						<div class="example-left">
+							<h4>Server</h4>
+							<pre class="prettyprint"><span class="kwd">var</span><span class="pln"> io </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">require</span><span class="pun">(</span><span class="str">'socket.io'</span><span class="pun">).</span><span class="pln">listen</span><span class="pun">(</span><span class="lit">80</span><span class="pun">);</span><span class="pln">
+
+</span><span class="kwd">var</span><span class="pln"> chat </span><span class="pun">=</span><span class="pln"> io
+  </span><span class="pun">.</span><span class="pln">of</span><span class="pun">(</span><span class="str">'/chat'</span><span class="pun">)</span><span class="pln">
+  </span><span class="pun">.</span><span class="pln">on</span><span class="pun">(</span><span class="str">'connection'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">socket</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    socket</span><span class="pun">.</span><span class="pln">emit</span><span class="pun">(</span><span class="str">'a message'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+        that</span><span class="pun">:</span><span class="pln"> </span><span class="str">'only'</span><span class="pln">
+      </span><span class="pun">,</span><span class="pln"> </span><span class="str">'/chat'</span><span class="pun">:</span><span class="pln"> </span><span class="str">'will get'</span><span class="pln">
+    </span><span class="pun">});</span><span class="pln">
+    chat</span><span class="pun">.</span><span class="pln">emit</span><span class="pun">(</span><span class="str">'a message'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+        everyone</span><span class="pun">:</span><span class="pln"> </span><span class="str">'in'</span><span class="pln">
+      </span><span class="pun">,</span><span class="pln"> </span><span class="str">'/chat'</span><span class="pun">:</span><span class="pln"> </span><span class="str">'will get'</span><span class="pln">
+    </span><span class="pun">});</span><span class="pln">
+  </span><span class="pun">});</span><span class="pln">
+
+</span><span class="kwd">var</span><span class="pln"> news </span><span class="pun">=</span><span class="pln"> io
+  </span><span class="pun">.</span><span class="pln">of</span><span class="pun">(</span><span class="str">'/news'</span><span class="pun">)</span><span class="pln">
+  </span><span class="pun">.</span><span class="pln">on</span><span class="pun">(</span><span class="str">'connection'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">socket</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    socket</span><span class="pun">.</span><span class="pln">emit</span><span class="pun">(</span><span class="str">'item'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">{</span><span class="pln"> news</span><span class="pun">:</span><span class="pln"> </span><span class="str">'item'</span><span class="pln"> </span><span class="pun">});</span><span class="pln">
+  </span><span class="pun">});</span></pre>
+						</div>
+						<div class="example-right">
+							<h4>Client</h4>
+							<pre class="prettyprint"><span class="tag">&lt;script&gt;</span><span class="pln">
+  </span><span class="kwd">var</span><span class="pln"> chat </span><span class="pun">=</span><span class="pln"> io</span><span class="pun">.</span><span class="pln">connect</span><span class="pun">(</span><span class="str">'http://localhost/chat'</span><span class="pun">)</span><span class="pln">
+    </span><span class="pun">,</span><span class="pln"> news </span><span class="pun">=</span><span class="pln"> io</span><span class="pun">.</span><span class="pln">connect</span><span class="pun">(</span><span class="str">'http://localhost/news'</span><span class="pun">);</span><span class="pln">
+  
+  chat</span><span class="pun">.</span><span class="pln">on</span><span class="pun">(</span><span class="str">'connect'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    chat</span><span class="pun">.</span><span class="pln">emit</span><span class="pun">(</span><span class="str">'hi!'</span><span class="pun">);</span><span class="pln">
+  </span><span class="pun">});</span><span class="pln">
+  
+  news</span><span class="pun">.</span><span class="pln">on</span><span class="pun">(</span><span class="str">'news'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    news</span><span class="pun">.</span><span class="pln">emit</span><span class="pun">(</span><span class="str">'woot'</span><span class="pun">);</span><span class="pln">
+  </span><span class="pun">});</span><span class="pln">
+</span><span class="tag">&lt;/script&gt;</span></pre>
+						</div>
+					</div>
+
+
+					<h3>Sending volatile messages.</h3>
+					<p>Sometimes certain messages can be dropped. Let's say you have an app that shows realtime tweets for the keyword `bieber`.</p>
+					<p>If a certain client is not ready to receive messages (because of
+ network slowness or other issues, or because he's connected through 
+long polling and is in the middle of a request-response cycle), if he 
+doesn't receive ALL the tweets related to bieber your application won't 
+suffer.</p>
+					<p>In that case, you might want to send those messages as volatile messages.</p>
+					<div class="example">
+						<div class="example-left-long">
+							<h4>Server</h4>
+							<pre class="prettyprint"><span class="kwd">var</span><span class="pln"> io </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">require</span><span class="pun">(</span><span class="str">'socket.io'</span><span class="pun">).</span><span class="pln">listen</span><span class="pun">(</span><span class="lit">80</span><span class="pun">);</span><span class="pln">
+
+io</span><span class="pun">.</span><span class="pln">sockets</span><span class="pun">.</span><span class="pln">on</span><span class="pun">(</span><span class="str">'connection'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">socket</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="kwd">var</span><span class="pln"> tweets </span><span class="pun">=</span><span class="pln"> setInterval</span><span class="pun">(</span><span class="kwd">function</span><span class="pln"> </span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    getBieberTweet</span><span class="pun">(</span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">tweet</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+      socket</span><span class="pun">.</span><span class="kwd">volatile</span><span class="pun">.</span><span class="pln">emit</span><span class="pun">(</span><span class="str">'bieber tweet'</span><span class="pun">,</span><span class="pln"> tweet</span><span class="pun">);</span><span class="pln">
+    </span><span class="pun">});</span><span class="pln">
+  </span><span class="pun">},</span><span class="pln"> </span><span class="lit">100</span><span class="pun">);</span><span class="pln">
+
+  socket</span><span class="pun">.</span><span class="pln">on</span><span class="pun">(</span><span class="str">'disconnect'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    clearInterval</span><span class="pun">(</span><span class="pln">tweets</span><span class="pun">);</span><span class="pln">
+  </span><span class="pun">});</span><span class="pln">
+</span><span class="pun">});</span></pre>
+						</div>
+					</div>
+
+
+					<h3>Sending and getting data (acknowledgements).</h3>
+					<p>Sometimes, you might want to get a callback when the client confirmed the message reception.</p>
+					<p>To do this, simply pass a function as the last parameter of 
+`.send` or `.emit`. What's more, when you use `.emit`, the 
+acknowledgement is done by you, which means you can also pass data 
+along:</p>
+					<div class="example">
+						<div class="example-left">
+							<h4>Server</h4>
+							<pre class="prettyprint"><span class="kwd">var</span><span class="pln"> io </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">require</span><span class="pun">(</span><span class="str">'socket.io'</span><span class="pun">).</span><span class="pln">listen</span><span class="pun">(</span><span class="lit">80</span><span class="pun">);</span><span class="pln">
+
+io</span><span class="pun">.</span><span class="pln">sockets</span><span class="pun">.</span><span class="pln">on</span><span class="pun">(</span><span class="str">'connection'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">socket</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  socket</span><span class="pun">.</span><span class="pln">on</span><span class="pun">(</span><span class="str">'ferret'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">name</span><span class="pun">,</span><span class="pln"> fn</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    fn</span><span class="pun">(</span><span class="str">'woot'</span><span class="pun">);</span><span class="pln">
+  </span><span class="pun">});</span><span class="pln">
+</span><span class="pun">});</span></pre>
+						</div>
+						<div class="example-right">
+							<h4>Client</h4>
+							<pre class="prettyprint"><span class="tag">&lt;script&gt;</span><span class="pln">
+  </span><span class="kwd">var</span><span class="pln"> socket </span><span class="pun">=</span><span class="pln"> io</span><span class="pun">.</span><span class="pln">connect</span><span class="pun">();</span><span class="pln"> </span><span class="com">// TIP: .connect with no args does auto-discovery</span><span class="pln">
+  socket</span><span class="pun">.</span><span class="pln">on</span><span class="pun">(</span><span class="str">'connect'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln"> </span><span class="com">// TIP: you can avoid listening on `connect` and listen on events directly too!</span><span class="pln">
+    socket</span><span class="pun">.</span><span class="pln">emit</span><span class="pun">(</span><span class="str">'ferret'</span><span class="pun">,</span><span class="pln"> </span><span class="str">'tobi'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">data</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+      console</span><span class="pun">.</span><span class="pln">log</span><span class="pun">(</span><span class="pln">data</span><span class="pun">);</span><span class="pln"> </span><span class="com">// data will be 'woot'</span><span class="pln">
+    </span><span class="pun">});</span><span class="pln">
+  </span><span class="pun">});</span><span class="pln">
+</span><span class="tag">&lt;/script&gt;</span></pre>
+						</div>
+					</div>
+
+
+					<h3>Broadcasting messages.</h3>
+					<p>To broadcast, simply add a `broadcast` flag to `emit` and `send`
+ method calls. Broadcasting means sending a message to everyone else 
+except for the socket that starts it.</p>
+					<div class="example">
+						<div class="example-left">
+							<h4>Server</h4>
+							<pre class="prettyprint"><span class="kwd">var</span><span class="pln"> io </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">require</span><span class="pun">(</span><span class="str">'socket.io'</span><span class="pun">).</span><span class="pln">listen</span><span class="pun">(</span><span class="lit">80</span><span class="pun">);</span><span class="pln">
+
+io</span><span class="pun">.</span><span class="pln">sockets</span><span class="pun">.</span><span class="pln">on</span><span class="pun">(</span><span class="str">'connection'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">socket</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  socket</span><span class="pun">.</span><span class="pln">broadcast</span><span class="pun">.</span><span class="pln">emit</span><span class="pun">(</span><span class="str">'user connected'</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">});</span></pre>
+						</div>
+					</div>
+
+
+					<h3>Using it just as a cross-browser WebSocket.</h3>
+					<p>If you just want the WebSocket semantics, you can do that too. Simply leverage `send` and listen on the `message` event:</p>
+					<div class="example">
+						<div class="example-left">
+							<h4>Server</h4>
+							<pre class="prettyprint"><span class="kwd">var</span><span class="pln"> io </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">require</span><span class="pun">(</span><span class="str">'socket.io'</span><span class="pun">).</span><span class="pln">listen</span><span class="pun">(</span><span class="lit">80</span><span class="pun">);</span><span class="pln">
+
+io</span><span class="pun">.</span><span class="pln">sockets</span><span class="pun">.</span><span class="pln">on</span><span class="pun">(</span><span class="str">'connection'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">socket</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  socket</span><span class="pun">.</span><span class="pln">on</span><span class="pun">(</span><span class="str">'message'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln"> </span><span class="pun">});</span><span class="pln">
+  socket</span><span class="pun">.</span><span class="pln">on</span><span class="pun">(</span><span class="str">'disconnect'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln"> </span><span class="pun">});</span><span class="pln">
+</span><span class="pun">});</span></pre>
+						</div>
+						<div class="example-right">
+							<h4>Client</h4>
+							<pre class="prettyprint"><span class="tag">&lt;script&gt;</span><span class="pln">
+  </span><span class="kwd">var</span><span class="pln"> socket </span><span class="pun">=</span><span class="pln"> io</span><span class="pun">.</span><span class="pln">connect</span><span class="pun">(</span><span class="str">'http://localhost/'</span><span class="pun">);</span><span class="pln">
+  socket</span><span class="pun">.</span><span class="pln">on</span><span class="pun">(</span><span class="str">'connect'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    socket</span><span class="pun">.</span><span class="pln">send</span><span class="pun">(</span><span class="str">'hi'</span><span class="pun">);</span><span class="pln">
+
+    socket</span><span class="pun">.</span><span class="pln">on</span><span class="pun">(</span><span class="str">'message'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">msg</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+      </span><span class="com">// my msg</span><span class="pln">
+    </span><span class="pun">});</span><span class="pln">
+  </span><span class="pun">});</span><span class="pln">
+</span><span class="tag">&lt;/script&gt;</span></pre>
+						</div>
+					</div>
+				</section>
+			</div>
+
+			<!-- browser support -->
+			<div style="display: none;" class="page" id="page-browser-support">
+				<section>
+					<h2 id="transports">Supported transports</h2>
+					<p>In order to provide realtime connectivity on every browser, 
+Socket.IO selects the most capable transport at runtime, without it 
+affecting the API. </p>
+					<ul>
+						<li>WebSocket</li>
+						<li>Adobe® Flash® Socket</li>
+						<li>AJAX long polling</li>
+						<li>AJAX multipart streaming</li>
+						<li>Forever Iframe</li>
+						<li>JSONP Polling</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Supported browsers</h2>
+					<h3>Desktop</h3>
+					<ul>
+						<li>Internet Explorer 5.5+</li>
+						<li>Safari 3+</li>
+						<li>Google Chrome 4+</li>
+						<li>Firefox 3+</li>
+						<li>Opera 10.61+</li>
+					</ul>
+					<h3>Mobile</h3>
+					<ul>
+						<li>iPhone Safari</li>
+						<li>iPad Safari</li>
+						<li>Android WebKit</li>
+						<li>WebOs WebKit</li>
+					</ul>
+				</section>
+			</div>
+
+			<!-- faq -->
+			<div style="display: none;" class="page" id="page-faq">
+				<section>
+					<h2>FAQ</h2>
+
+					<h3>Does Socket.IO support cross-domain connections?</h3>
+					<p>Absolutely, on every browser!</p>
+
+					<h3>Why Flash?</h3>
+					<p>Flash is absolutely <b>not required</b> for Socket.IO to 
+function. If Flash is available, it'll be leveraged, as it provides 
+almost the same capabilities as WebSocket. If it's not, the next best 
+transport will be chosen.</p>
+
+					<h3>I want to host the Socket.IO client myself</h3>
+					<p>If you're not relying on Node.JS serving Socket.IO clientside 
+JavaScript files, make sure you set the `WEB_SOCKET_SWF_LOCATION` right 
+after including socket.io.js with the location of the WebSocketMain.swf</p>
+					<p>This is required in order for Socket.IO to find the .swf file required for Flash WebSocket.</p>
+
+					<h3>Why not just call it `WebSocket` if the actual WebSocket is not present and mimick its API?</h3>
+					<p>Socket.IO does more than WebSocket, even if WebSocket is 
+selected as the transport and the user is browsing your website with an 
+ultra modern browser. Certain features like heartbeats, timeouts and 
+disconnection support are vital to realtime applications but are not 
+provided by the WebSocket API out of the box.</p>
+					<p>This is akin to jQuery's decision of creating a feature-rich and simple $.ajax API as opposed to normalizing XMLHttpRequest.</p>
+				</section>
+			</div>
+		</div>
+
+		<footer>
+			<p>
+				Socket.IO by <a href="http://devthought.com/">Guillermo Rauch</a>
+				at <a href="http://learnboost.com/">gradebook</a> <a href="http://github.com/learnboost/">LearnBoost Labs</a>.
+				Released under the MIT license -  Copyright <a href="http://learnboost.com/">LearnBoost 2012</a>
+			</p>
+		</footer>
+
+		<a id="fork-me" href="http://github.com/learnboost/socket.io">
+			<img src="Socket.IO:%20the%20cross-browser%20WebSocket%20for%20realtime%20apps._files/forkme.png" alt="Fork me on GitHub">
+		</a>
+
+		<script src="Socket.IO:%20the%20cross-browser%20WebSocket%20for%20realtime%20apps._files/ga.js" async="" type="text/javascript"></script><script src="Socket.IO:%20the%20cross-browser%20WebSocket%20for%20realtime%20apps._files/prettify.js"></script>
+		<script src="Socket.IO:%20the%20cross-browser%20WebSocket%20for%20realtime%20apps._files/main.js"></script>
+		<script type="text/javascript">
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-18488944-1']);
+			_gaq.push(['_trackPageview']);
+			(function() {
+				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();
+		</script>
+	
+
+</body></html>
