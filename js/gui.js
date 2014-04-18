@@ -1007,7 +1007,7 @@ IDE_Morph.prototype.createSpriteBar = function() {
             thumbnail.version = myself.currentSprite.version;
         }
     };
-
+    //namefield
     nameField = new InputFieldMorph(this.currentSprite.name);
     nameField.setWidth(100); // fixed dimensions
     nameField.contrast = 90;
@@ -1021,6 +1021,127 @@ IDE_Morph.prototype.createSpriteBar = function() {
         myself.currentSprite.setName(nameField.getValue());
     };
 
+    if (this.currentSprite.name != "Horloge") {
+        // XpositionField
+        var xlabel = new TextMorph("x");
+        xlabel.fontSize = 19;
+        xlabel.setColor(new Color(0, 0, 0));
+        xlabel.setPosition(thumbnail.bottomLeft().add(new Point(10, 3)));
+        this.spriteBar.add(xlabel);
+        xlabel.drawNew();
+
+
+        var xposRaw = new Number(this.currentSprite.xPosition());
+        var xposPrecise = xposRaw.toPrecision(4);
+        var xField = new InputFieldMorph(xposPrecise);
+        xField.setWidth(100); // fixed dimensions
+        xField.contrast = 90;
+        xField.setPosition(thumbnail.bottomLeft().add(new Point(30, 5)));
+        this.spriteBar.add(xField);
+        xField.drawNew();
+        xField.accept = function() {
+            myself.currentSprite.setXPosition(xField.getValue());
+        };
+
+
+
+        //YPositionField
+        var ylabel = new TextMorph("y");
+        ylabel.fontSize = 19;
+        ylabel.setColor(new Color(0, 0, 0));
+        ylabel.setPosition(thumbnail.bottomLeft().add(new Point(10, 25)));
+        this.spriteBar.add(ylabel);
+        ylabel.drawNew();
+
+
+        var yposRaw = new Number(this.currentSprite.yPosition());
+        var yposPrecise = yposRaw.toPrecision(4);
+        var yField = new InputFieldMorph(yposPrecise);
+        yField.setWidth(100); // fiyed dimensions
+        yField.contrast = 90;
+        yField.setPosition(thumbnail.bottomLeft().add(new Point(30, 27)));
+        this.spriteBar.add(yField);
+        yField.drawNew();
+        yField.accept = function() {
+            myself.currentSprite.setYPosition(yField.getValue());
+        };
+        //update after Drag&Drop
+        this.currentSprite.justDropped = function() {
+            xposRaw = new Number(this.xPosition());
+            xposPrecise = xposRaw.toPrecision(4);
+            xField.setContents(xposPrecise);
+            yposRaw = new Number(this.yPosition());
+            yposPrecise = yposRaw.toPrecision(4);
+            yField.setContents(yposPrecise);
+        };
+
+        // dXpositionField
+        var dxlabel = new TextMorph("dx");
+        dxlabel.fontSize = 19;
+        dxlabel.setColor(new Color(0, 0, 0));
+        dxlabel.setPosition(thumbnail.bottomLeft().add(new Point(150, 3)));
+        this.spriteBar.add(dxlabel);
+        dxlabel.drawNew();
+
+
+        var dxposRaw = new Number(0);
+        var dxposPrecise = dxposRaw.toPrecision(4);
+        var dxField = new InputFieldMorph(dxposPrecise);
+        dxField.setWidth(100); // fidxed dimensions
+        dxField.contrast = 90;
+        dxField.setPosition(thumbnail.bottomLeft().add(new Point(170, 5)));
+        this.spriteBar.add(dxField);
+        dxField.drawNew();
+        dxField.accept = function() {
+//            mdxself.currentSprite.setdXPosition(dxField.getValue());
+        };
+
+
+        //dYPositionField
+        var dylabel = new TextMorph("dy");
+        dylabel.fontSize = 19;
+        dylabel.setColor(new Color(0, 0, 0));
+        dylabel.setPosition(thumbnail.bottomLeft().add(new Point(150, 25)));
+        this.spriteBar.add(dylabel);
+        dylabel.drawNew();
+
+
+        var dyposRaw = new Number(0);
+        var dyposPrecise = dyposRaw.toPrecision(4);
+        var dyField = new InputFieldMorph(dyposPrecise);
+        dyField.setWidth(100); // fidyed dimensions
+        dyField.contrast = 90;
+        dyField.setPosition(thumbnail.bottomLeft().add(new Point(170, 27)));
+        this.spriteBar.add(dyField);
+        dyField.drawNew();
+        dyField.accept = function() {
+//            mdyself.currentSprite.setdYPosition(dyField.getValue());
+        };
+
+        //AnglePositionField
+        var anglelabel = new TextMorph("angle");
+        anglelabel.fontSize = 19;
+        anglelabel.setColor(new Color(0, 0, 0));
+        anglelabel.setPosition(thumbnail.bottomLeft().add(new Point(30, 47)));
+        this.spriteBar.add(anglelabel);
+        anglelabel.drawNew();
+
+
+        var angleposRaw = new Number(this.currentSprite.direction());
+        var angleposPrecise = angleposRaw.toPrecision(4);
+        var angleField = new InputFieldMorph(angleposPrecise);
+        angleField.setWidth(100); // fiangleed dimensions
+        angleField.contrast = 90;
+        angleField.setPosition(thumbnail.bottomLeft().add(new Point(90, 49)));
+        this.spriteBar.add(angleField);
+        angleField.drawNew();
+        angleField.accept = function() {
+            myself.currentSprite.setHeading(angleField.getValue());
+        };
+
+
+
+    }
     // padlock 
     padlock = new ToggleMorph(
             'checkbox',
@@ -1212,8 +1333,8 @@ IDE_Morph.prototype.createSpriteEditor = function() {
         var blocksserializer = new SnapSerializer();
         var thisxml = arrayblocks.toXML(new SnapSerializer());
         var xmlDoc = jQuery.parseXML(thisxml);
-        
-        
+
+
         scripts.isDraggable = false;
         scripts.color = this.groupColor;
         scripts.texture = this.scriptsPaneTexture;
@@ -1797,7 +1918,9 @@ IDE_Morph.prototype.refreshIDE = function() {
     SpriteMorph.prototype.initBlocks();
     this.buildPanes();
     this.fixLayout();
+    alert('zebbi zebbi');
     if (this.loadNewProject) {
+
         this.newProject();
     } else {
         this.openProjectString(projectData);
@@ -2366,7 +2489,8 @@ IDE_Morph.prototype.projectMenu = function() {
                         'Replace the current project with a new one?',
                         'New Project',
                         function() {
-                            myself.newProject();
+//                            myself.newProject();
+                            myself.openProjectString(initsrc);
                         }
                 );
             }
@@ -2807,14 +2931,16 @@ IDE_Morph.prototype.exportProject = function(name, plain) {
         if (Process.prototype.isCatchingErrors) {
             try {
                 menu = this.showMessage('Exporting');
-                str = encodeURIComponent(
-                        this.serializer.serialize(this.stage)
-                        );
-                location.hash = '#open:' + str;
+                str = this.serializer.serialize(this.stage);
+                var helpText = '<help>' + $('<div/>').text(tinyMCE.activeEditor.getContent()).html() + '</help></project>';
+                var strWithHelp = str.substring(0, str.lastIndexOf("</project>")) + helpText;
+                var encodedStrWithHelp = encodeURIComponent(strWithHelp);
+                location.hash = '#open:' + encodedStrWithHelp;
+                console.log(strWithHelp);
                 window.open('data:text/'
-                        + (plain ? 'plain,' + str : 'xml,' + str));
-                window.open('data:application/json,'
-                        + xml2json.fromStr(this.serializer.serialize(this.stage), 'string'));
+                        + (plain ? 'plain,' + strWithHelp : 'xml,' + strWithHelp), '_blank');
+//                window.open('data:application/json,'
+//                        + xml2json.fromStr(this.serializer.serialize(this.stage), 'string'),'_blank');
                 menu.destroy();
                 this.showMessage('Exported!', 1);
             } catch (err) {
@@ -5821,10 +5947,10 @@ WardrobeMorph.prototype.updateList = function() {
 
 
     this.addContents(paintbutton);
-    
+
     txt = new TextMorph(localize(
-        "costumes tab help" // look up long string in translator
-    ));
+            "costumes tab help" // look up long string in translator
+            ));
     txt.fontSize = 9;
     txt.setColor(SpriteMorph.prototype.paletteTextColor);
 
