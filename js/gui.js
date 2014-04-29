@@ -1020,8 +1020,9 @@ IDE_Morph.prototype.createSpriteBar = function() {
     this.spriteBar.reactToEdit = function() {
         myself.currentSprite.setName(nameField.getValue());
     };
-
+    
     if (this.currentSprite.name != "Horloge") {
+        
         // XpositionField
         var xlabel = new TextMorph("x");
         xlabel.fontSize = 19;
