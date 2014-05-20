@@ -359,6 +359,22 @@ SpriteMorph.prototype.initBlocks = function () {
             spec: 'change size by %n',
             defaults: [10]
         },
+        setHeight: {
+            type: 'command',
+            category: 'looks',
+            spec: 'set height to %n %',
+            defaults: [100]
+        },
+        getYBottom: {
+            type: 'reporter',
+            category: 'looks',
+            spec: 'YBottom'
+        },
+        getXBottom: {
+            type: 'reporter',
+            category: 'looks',
+            spec: 'XBottom'
+        },
         setScale: {
             type: 'command',
             category: 'looks',
@@ -1255,7 +1271,7 @@ SpriteMorph.prototype.setName = function (string) {
 
 // SpriteMorph rendering
 
-SpriteMorph.prototype.drawNew = function () {
+SpriteMorph.prototype.drawScale = function (heightScale,widthScale) {
     var myself = this,
         currentCenter = this.center(),
         facing, // actual costume heading based on my rotation style
@@ -1306,6 +1322,121 @@ SpriteMorph.prototype.drawNew = function () {
         costumeExtent = origin.corner(corner)
             .extent().multiplyBy(this.scale * stageScale);
 
+        // determine the new relative origin of the rotated shape
+        shift = new Point(0, 0).rotateBy(
+            radians(-(facing - 90)),
+            pic.center()
+        ).subtract(origin);
+
+        // create a new, adequately dimensioned canvas
+        // and draw the costume on it
+        this.image = newCanvas(costumeExtent);
+        this.silentSetExtent(costumeExtent);
+        ctx = this.image.getContext('2d');
+        ctx.scale(this.scale * heightScale, this.scale * widthScale);
+        ctx.translate(shift.x, shift.y);
+        ctx.rotate(radians(facing - 90));
+        ctx.drawImage(pic.contents, 0, 0);
+
+        // adjust my position to the rotation
+        this.setCenter(currentCenter, true); // just me
+
+        // determine my rotation offset
+        this.rotationOffset = shift
+            .translateBy(pic.rotationCenter)
+            .rotateBy(radians(-(facing - 90)), shift)
+            .scaleBy(this.scale * stageScale);
+    } else {
+        facing = isFlipped ? -90 : facing;
+        newX = Math.min(
+            Math.max(
+                this.normalExtent.x * this.scale * stageScale,
+                5
+            ),
+            1000
+        );
+        this.silentSetExtent(new Point(newX+50, newX));
+        this.image = newCanvas(this.extent());
+        this.setCenter(currentCenter, true); // just me
+        SpriteMorph.uber.drawScale.call(this, facing);
+        this.rotationOffset = this.extent().divideBy(2);
+        if (isLoadingCostume) { // retry until costume is done loading
+            cst = this.costume;
+            handle = setInterval(
+                function () {
+                    myself.wearCostume(cst);
+                    clearInterval(handle);
+                },
+                100
+            );
+            return myself.wearCostume(null);
+
+        }
+    }
+    this.version = Date.now();
+};
+
+// SpriteMorph rendering
+
+SpriteMorph.prototype.drawNew = function () {
+    var myself = this,
+        currentCenter = this.center(),
+        facing, // actual costume heading based on my rotation style
+        isFlipped,
+        isLoadingCostume = this.costume &&
+            typeof this.costume.loaded === 'function',
+        cst,
+        pic, // (flipped copy of) actual costume based on my rotation style
+        stageScale = this.parent instanceof StageMorph ?
+                this.parent.scale : 1,
+        newX,
+        corners = [],
+        origin,
+        shift,
+        corner,
+        costumeExtent,
+        ctx,
+        handle;
+
+    if (this.isWarped) {
+        this.wantsRedraw = true;
+        return;
+    }
+    facing = this.rotationStyle ? this.heading : 90;
+    if (this.rotationStyle === 2) {
+        facing = 90;
+        if ((this.heading > 180 && (this.heading < 360))
+                || (this.heading < 0 && (this.heading > -180))) {
+            isFlipped = true;
+        }
+    }
+    if (this.costume && !isLoadingCostume) {
+        pic = isFlipped ? this.costume.flipped() : this.costume;
+
+        // determine the rotated costume's bounding box
+        corners = pic.bounds().corners().map(function (point) {
+            return point.rotateBy(
+                radians(facing - 90),
+                myself.costume.center()
+            );
+        });
+        console.log('_________corners_____________');
+        console.log(corners);
+        console.log(corners[0]);
+        origin = corners[0];
+        corner = corners[0];
+        corners.forEach(function (point) {
+            origin = origin.min(point);
+            corner = corner.max(point);
+        });
+        console.log('origini');
+        console.log(origin);
+        console.log('corner');
+        console.log(corner);
+        costumeExtent = origin.corner(corner)
+            .extent().multiplyBy(this.scale * stageScale);
+        console.log('costume');
+        console.log(costumeExtent);
         // determine the new relative origin of the rotated shape
         shift = new Point(0, 0).rotateBy(
             radians(-(facing - 90)),
@@ -1564,6 +1695,15 @@ SpriteMorph.prototype.blockTemplates = function (category) {
         blocks.push(block('clearEffects'));
         blocks.push('-');
         blocks.push(block('changeScale'));
+        blocks.push('-');
+        blocks.push('-');
+        blocks.push(block('setHeight'));
+        blocks.push(watcherToggle('getXButtom'));
+        blocks.push(block('getXBottom'));
+        blocks.push(watcherToggle('getYButtom'));
+        blocks.push(block('getYBottom'));
+        blocks.push('-');
+        blocks.push('-');
         blocks.push(block('setScale'));
         blocks.push(watcherToggle('getScale'));
         blocks.push(block('getScale'));
@@ -2519,6 +2659,114 @@ SpriteMorph.prototype.changeSize = function (delta) {
 SpriteMorph.prototype.getScale = function () {
     // answer my scale in percent
     return this.scale * 100;
+};
+
+SpriteMorph.prototype.getCostumePoint = function () {
+    // answer my scale in percent
+    var myself = this,
+        currentCenter = this.center(),
+        facing, // actual costume heading based on my rotation style
+        isFlipped,
+        isLoadingCostume = this.costume &&
+            typeof this.costume.loaded === 'function',
+        cst,
+        pic, // (flipped copy of) actual costume based on my rotation style
+        stageScale = this.parent instanceof StageMorph ?
+                this.parent.scale : 1,
+        newX,
+        corners = [],
+        origin,
+        shift,
+        corner,
+        costumeExtent,
+        ctx,
+        handle;
+
+    if (this.isWarped) {
+        this.wantsRedraw = true;
+        return;
+    }
+    facing = this.rotationStyle ? this.heading : 90;
+    if (this.rotationStyle === 2) {
+        facing = 90;
+        if ((this.heading > 180 && (this.heading < 360))
+                || (this.heading < 0 && (this.heading > -180))) {
+            isFlipped = true;
+        }
+    }
+    if (this.costume && !isLoadingCostume) {
+        pic = isFlipped ? this.costume.flipped() : this.costume;
+
+        // determine the rotated costume's bounding box
+        corners = pic.bounds().corners().map(function (point) {
+            return point.rotateBy(
+                radians(facing - 90),
+                myself.costume.center()
+            );
+        });
+        console.log('_________corners_____________');
+        console.log(corners);
+        console.log(corners[0]);
+        origin = corners[0];
+        corner = corners[0];
+        corners.forEach(function (point) {
+            origin = origin.min(point);
+            corner = corner.max(point);
+        });
+        costumeExtent = origin.corner(corner)
+            .extent().multiplyBy(this.scale * stageScale);
+    }
+    return costumeExtent;
+};
+SpriteMorph.prototype.getYBottom = function () {
+    // answer my scale in percent
+    var costumeExtent=this.getCostumePoint();
+    return costumeExtent.y;
+};
+
+SpriteMorph.prototype.getXBottom = function () {
+    var costumeExtent=this.getCostumePoint();
+    return costumeExtent.x;
+};
+
+SpriteMorph.prototype.setHeight = function (percentage) {
+    // set my (absolute) scale in percent
+    var x = this.xPosition(),
+        y = this.yPosition(),
+        isWarped = this.isWarped,
+        realScale,
+        growth;
+
+    if (isWarped) {
+        this.endWarp();
+    }
+    realScale = (+percentage || 0) / 100;
+    growth = realScale / this.nestingScale;
+    this.nestingScale = realScale;
+    this.scale = Math.max(realScale, 0.01);
+//    this.setHeight(500);
+
+    // apply to myself
+    this.changed();
+    this.drawScale(percentage,100);
+//    this.drawNew();
+    this.changed();
+    if (isWarped) {
+        this.startWarp();
+    }
+    this.silentGotoXY(x, y, true); // just me
+    this.positionTalkBubble();
+
+    // propagate to nested parts
+    this.parts.forEach(function (part) {
+        var xDist = part.xPosition() - x,
+            yDist = part.yPosition() - y;
+        part.setScale(part.scale * 100 * growth);
+        part.silentGotoXY(
+            x,
+            y + (yDist * growth)
+        );
+    });
 };
 
 SpriteMorph.prototype.setScale = function (percentage) {
