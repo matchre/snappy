@@ -696,9 +696,32 @@ IDE_Morph.prototype.createControlBar = function() {
     this.controlBar.add(cloudButton);
     this.controlBar.cloudButton = cloudButton; // for menu positioning
 
+    //Help video button
+    button = new PushButtonMorph(
+            this,
+            function(){window.open('http://screencast.com/t/OkhSIdMMR0KG');},
+            new SymbolMorph('speechBubble', 11)
+            );
+    button.corner = 12;
+    button.color = colors[0];
+    button.highlightColor = colors[1];
+    button.pressColor = colors[2];
+    button.labelMinExtent = new Point(36, 18);
+    button.padding = 0;
+    button.labelShadowOffset = new Point(-1, -1);
+    button.labelShadowColor = colors[1];
+    button.labelColor = this.buttonLabelColor;
+    button.contrast = this.buttonContrast;
+    button.drawNew();
+    // button.hint = 'cloud operations';
+    button.fixLayout();
+    var videoButton = button;
+    this.controlBar.add(videoButton);
+    this.controlBar.videoButton = videoButton; // for menu positioning
+
     this.controlBar.fixLayout = function() {
         x = this.right() - padding;
-        [stopButton, pauseButton, startButton, appModeButton, cloudButton, projectButton].forEach(
+        [stopButton, pauseButton, startButton, appModeButton, cloudButton, videoButton, projectButton].forEach(
                 function(button) {
                     button.setCenter(myself.controlBar.center());
                     button.setRight(x);
