@@ -699,8 +699,10 @@ IDE_Morph.prototype.createControlBar = function() {
     //Help video button
     button = new PushButtonMorph(
             this,
-            function(){window.open('http://screencast.com/t/OkhSIdMMR0KG');},
-            new SymbolMorph('speechBubble', 11)
+            function(){window.open('http://screencast.com/t/mJkvi7kVAt');},
+            new SymbolMorph('speechBubble', 14),
+            null,
+            'Tutoriel Videos'
             );
     button.corner = 12;
     button.color = colors[0];
