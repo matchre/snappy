@@ -2607,6 +2607,33 @@ IDE_Morph.prototype.projectMenu = function() {
             'show project data as XML\nin a new browser window',
             shiftClicked ? new Color(100, 0, 0) : null
             );
+    
+    menu.addLine();
+    menu.addItem(
+        'Système Solaire',
+        function() {
+            myself.openProjectString(samples['solar']);
+        }
+    );
+    menu.addItem(
+        'Jeu Pong',
+        function() {
+            
+        }
+    );
+    menu.addItem(
+        'Grille Led',
+        function() {
+            
+        }
+    );
+    menu.addItem(
+        'Crash voiture',
+        function() {
+            
+        }
+    );
+    
 //
 //    menu.addItem(
 //        'Export blocks...',
