@@ -2618,13 +2618,13 @@ IDE_Morph.prototype.projectMenu = function() {
     menu.addItem(
         'Jeu Pong',
         function() {
-            
+            myself.openProjectString(samples['pong']);
         }
     );
     menu.addItem(
         'Grille Led',
         function() {
-            
+            myself.openProjectString(samples['led']);
         }
     );
     menu.addItem(
