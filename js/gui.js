@@ -1003,23 +1003,23 @@ IDE_Morph.prototype.createSpriteBar = function() {
         button.setTop(button.top()
                 + ((rotationStyleButtons.length - 1) * (button.height() + 2))
                 );
-//        myself.spriteBar.add(button);
+        myself.spriteBar.add(button);
         if (myself.currentSprite instanceof StageMorph) {
             button.hide();
         }
         return button;
     }
-
-    addRotationStyleButton(1);
-    addRotationStyleButton(2);
-    addRotationStyleButton(0);
-    this.rotationStyleButtons = rotationStyleButtons;
+//    addRotationStyleButton(1);
+//    addRotationStyleButton(2);
+//    addRotationStyleButton(0);
+//    this.rotationStyleButtons = rotationStyleButtons;
 
     thumbnail = new Morph();
     thumbnail.setExtent(thumbSize);
     thumbnail.image = this.currentSprite.thumbnail(thumbSize);
     thumbnail.setPosition(
-            rotationStyleButtons[0].topRight().add(new Point(5, 3))
+//            rotationStyleButtons[0].topRight().add(new Point(5, 3))
+              myself.spriteBar.position().add(2)
             );
     this.spriteBar.add(thumbnail);
 
@@ -1162,7 +1162,8 @@ IDE_Morph.prototype.createSpriteBar = function() {
         this.spriteBar.add(angleField);
         angleField.drawNew();
         angleField.accept = function() {
-            myself.currentSprite.setHeading(angleField.getValue());
+//            myself.currentSprite.setHeading(angleField.getValue());
+              myself.currentSprite.turn(angleField.getValue());
         };
 
 

@@ -224,6 +224,11 @@ SpriteMorph.prototype.initBlocks = function () {
             spec: 'turn %counterclockwise %n degrees',
             defaults: [15]
         },
+        setLeftRight: {
+            type: 'command',
+            category: 'motion',
+            spec: 'turn %lor'
+        },
         setHeading: {
             type: 'command',
             category: 'motion',
@@ -1657,6 +1662,7 @@ SpriteMorph.prototype.blockTemplates = function (category) {
         blocks.push(block('turn'));
         blocks.push(block('turnLeft'));
         blocks.push('-');
+        blocks.push(block('setLeftRight'));
         blocks.push(block('setHeading'));
         blocks.push(block('doFaceTowards'));
         blocks.push('-');
@@ -3031,6 +3037,16 @@ SpriteMorph.prototype.forward = function (steps) {
     }
     this.setPosition(dest);
     this.positionTalkBubble();
+};
+
+SpriteMorph.prototype.setLeftRight = function (lor) {
+    this.rotationStyle=2;
+    if(lor=='right'){
+        this.setHeading(90);
+    }else{
+        this.setHeading(-90);
+    }
+    this.rotationStyle=1;
 };
 
 SpriteMorph.prototype.setHeading = function (degrees) {
