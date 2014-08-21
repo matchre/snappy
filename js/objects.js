@@ -1201,6 +1201,10 @@ SpriteMorph.prototype.init = function (globals) {
     this.version = Date.now(); // for observer optimization
     this.isClone = false; // indicate a "temporary" Scratch-style clone
     this.cloneOriginName = '';
+    
+    //Flip v/h status
+    this.isFlippedV=false;
+    this.isFlippedH=false;
 
     // sprite nesting properties
     this.parts = []; // not serialized, only anchor (name)
@@ -1515,7 +1519,8 @@ SpriteMorph.prototype.drawFlipVH = function (flipH,flipV) {
         corner,
         costumeExtent,
         ctx,
-        handle;
+        handle,
+        toFlipV,toFlipH;
 
     if (this.isWarped) {
         this.wantsRedraw = true;
@@ -1523,11 +1528,14 @@ SpriteMorph.prototype.drawFlipVH = function (flipH,flipV) {
     }
     facing = this.rotationStyle ? this.heading : 90;
     isFlipped = true;
-        
-//    
+    toFlipV=(this.isFlippedV ? !flipV : flipV)?true:false;    
+    toFlipH=(this.isFlippedH ? !flipH : flipH)?true:false;    
+//    toFlipV=this.isFlippedV?false:true;
+//    toFlipH=this.isFlippedH?false:true;
     if (this.costume && !isLoadingCostume) {
-        pic = isFlipped ? this.costume.flipVH(flipH,flipV) : this.costume;
-
+        pic = isFlipped ? this.costume.flipVH(toFlipH,toFlipV) : this.costume;
+        this.isFlippedV=toFlipV;
+        this.isFlippedH=toFlipH;
         // determine the rotated costume's bounding box
         corners = pic.bounds().corners().map(function (point) {
             return point.rotateBy(
