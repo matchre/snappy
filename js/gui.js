@@ -2500,13 +2500,15 @@ IDE_Morph.prototype.settingsMenu = function() {
 };
 
 IDE_Morph.prototype.projectMenu = function() {
-    var menu,
+            var menu,
+            menuSamples,
             myself = this,
             world = this.world(),
             pos = this.controlBar.projectButton.bottomLeft(),
             shiftClicked = (world.currentKey === 16);
 
     menu = new MenuMorph(this);
+//    menuSamples = new MenuMorph(this);
 //    menu.addItem('Project notes...', 'editProjectNotes');
 //    menu.addLine();
     menu.addItem(
@@ -2623,17 +2625,21 @@ IDE_Morph.prototype.projectMenu = function() {
         }
     );
     menu.addItem(
-        'Grille Led',
+        'GleamCode',
         function() {
             myself.openProjectString(samples['led']);
         }
     );
     menu.addItem(
-        'Crash voiture',
-        function() {
-            
-        }
+        'Système Solaire Base',
+        ['cloudMenu','']
     );
+//    menu.addItem(
+//        'Crash voiture',
+//        function() {
+//            
+//        }
+//    );
     
 //
 //    menu.addItem(
@@ -2689,6 +2695,7 @@ IDE_Morph.prototype.projectMenu = function() {
 //    );
 
     menu.popup(world, pos);
+//    menuSamples.popup(world, menu.bottomLeft());
 };
 
 // IDE_Morph menu actions

@@ -825,12 +825,12 @@ SyntaxElementMorph.prototype.labelPart = function (spec) {
                 null,
                 false,
                 {
-                    'left': ['left'],
-                    'right': ['right']
+                    'Horizontal': ['Horizontal'],
+                    'Vertical': ['Vertical']
                 },
                 true
             );
-            part.setContents(['right']);
+            part.setContents(['Horizontal']);
             break;
             break;
         case '%dir':

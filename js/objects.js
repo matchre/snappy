@@ -224,10 +224,10 @@ SpriteMorph.prototype.initBlocks = function () {
             spec: 'turn %counterclockwise %n degrees',
             defaults: [15]
         },
-        setLeftRight: {
+        flipVH: {
             type: 'command',
             category: 'motion',
-            spec: 'turn %lor'
+            spec: 'flip %lor'
         },
         setHeading: {
             type: 'command',
@@ -1495,6 +1495,107 @@ SpriteMorph.prototype.drawNew = function () {
     }
     this.version = Date.now();
 };
+// SpriteMorph rendering
+
+SpriteMorph.prototype.drawFlipVH = function (flipH,flipV) {
+    var myself = this,
+        currentCenter = this.center(),
+        facing, // actual costume heading based on my rotation style
+        isFlipped,
+        isLoadingCostume = this.costume &&
+            typeof this.costume.loaded === 'function',
+        cst,
+        pic, // (flipped copy of) actual costume based on my rotation style
+        stageScale = this.parent instanceof StageMorph ?
+                this.parent.scale : 1,
+        newX,
+        corners = [],
+        origin,
+        shift,
+        corner,
+        costumeExtent,
+        ctx,
+        handle;
+
+    if (this.isWarped) {
+        this.wantsRedraw = true;
+        return;
+    }
+    facing = this.rotationStyle ? this.heading : 90;
+    isFlipped = true;
+        
+//    
+    if (this.costume && !isLoadingCostume) {
+        pic = isFlipped ? this.costume.flipVH(flipH,flipV) : this.costume;
+
+        // determine the rotated costume's bounding box
+        corners = pic.bounds().corners().map(function (point) {
+            return point.rotateBy(
+                radians(facing - 90),
+                myself.costume.center()
+            );
+        });
+        origin = corners[0];
+        corner = corners[0];
+        corners.forEach(function (point) {
+            origin = origin.min(point);
+            corner = corner.max(point);
+        });
+        costumeExtent = origin.corner(corner)
+            .extent().multiplyBy(this.scale * stageScale);
+        // determine the new relative origin of the rotated shape
+        shift = new Point(0, 0).rotateBy(
+            radians(-(facing - 90)),
+            pic.center()
+        ).subtract(origin);
+
+        // create a new, adequately dimensioned canvas
+        // and draw the costume on it
+        this.image = newCanvas(costumeExtent);
+        this.silentSetExtent(costumeExtent);
+        ctx = this.image.getContext('2d');
+        ctx.scale(this.scale * stageScale, this.scale * stageScale);
+        ctx.translate(shift.x, shift.y);
+        ctx.rotate(radians(facing - 90));
+        ctx.drawImage(pic.contents, 0, 0);
+
+        // adjust my position to the rotation
+        this.setCenter(currentCenter, true); // just me
+
+        // determine my rotation offset
+        this.rotationOffset = shift
+            .translateBy(pic.rotationCenter)
+            .rotateBy(radians(-(facing - 90)), shift)
+            .scaleBy(this.scale * stageScale);
+    } else {
+        facing = isFlipped ? -90 : facing;
+        newX = Math.min(
+            Math.max(
+                this.normalExtent.x * this.scale * stageScale,
+                5
+            ),
+            1000
+        );
+        this.silentSetExtent(new Point(newX, newX));
+        this.image = newCanvas(this.extent());
+        this.setCenter(currentCenter, true); // just me
+        SpriteMorph.uber.drawNew.call(this, facing);
+        this.rotationOffset = this.extent().divideBy(2);
+        if (isLoadingCostume) { // retry until costume is done loading
+            cst = this.costume;
+            handle = setInterval(
+                function () {
+                    myself.wearCostume(cst);
+                    clearInterval(handle);
+                },
+                100
+            );
+            return myself.wearCostume(null);
+
+        }
+    }
+    this.version = Date.now();
+};
 
 SpriteMorph.prototype.endWarp = function () {
     this.isWarped = false;
@@ -1662,7 +1763,7 @@ SpriteMorph.prototype.blockTemplates = function (category) {
         blocks.push(block('turn'));
         blocks.push(block('turnLeft'));
         blocks.push('-');
-        blocks.push(block('setLeftRight'));
+        blocks.push(block('flipVH'));
         blocks.push(block('setHeading'));
         blocks.push(block('doFaceTowards'));
         blocks.push('-');
@@ -3039,14 +3140,12 @@ SpriteMorph.prototype.forward = function (steps) {
     this.positionTalkBubble();
 };
 
-SpriteMorph.prototype.setLeftRight = function (lor) {
-    this.rotationStyle=2;
-    if(lor=='right'){
-        this.setHeading(90);
-    }else{
-        this.setHeading(-90);
+SpriteMorph.prototype.flipVH = function (lor) {
+   if(lor=='Horizontal'){
+       this.drawFlipVH(true,false);
+   }else{
+       this.drawFlipVH(false,true);
     }
-    this.rotationStyle=1;
 };
 
 SpriteMorph.prototype.setHeading = function (degrees) {
@@ -5535,6 +5634,33 @@ Costume.prototype.flipped = function () {
 
     ctx.translate(this.width(), 0);
     ctx.scale(-1, 1);
+    ctx.drawImage(this.contents, 0, 0);
+    flipped = new Costume(
+        canvas,
+        new Point(
+            this.width() - this.rotationCenter.x,
+            this.rotationCenter.y
+        )
+    );
+    return flipped;
+};
+
+
+// Costume flipping
+
+Costume.prototype.flipVH = function (flipH, flipV) {
+
+    var canvas = newCanvas(this.extent()),
+        ctx = canvas.getContext('2d'),
+        flipped;
+    var scaleH = flipH ? -1 : 1, // Set horizontal scale to -1 if flip horizontal
+            scaleV = flipV ? -1 : 1, // Set verical scale to -1 if flip vertical
+            posX = flipH ? this.width() : 0, // Set x position to -100% if flip horizontal 
+            posY = flipV ? this.height() : 0; // Set y position to -100% if flip vertical
+
+    ctx.translate(posX, posY);
+    ctx.scale(scaleH, scaleV);
+    
     ctx.drawImage(this.contents, 0, 0);
     flipped = new Costume(
         canvas,
