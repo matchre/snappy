@@ -1373,7 +1373,7 @@ IDE_Morph.prototype.createSpriteEditor = function() {
         this.spriteEditor.padding = 10;
         this.spriteEditor.growth = 50;
         this.spriteEditor.isDraggable = false;
-
+        this.spriteEditor.setColor(this.groupColor);
         this.spriteEditor.acceptsDrops = false;
         this.spriteEditor.contents.acceptsDrops = false;
         txt = new TextMorph(parseMobinet(xmlDoc));
@@ -2618,7 +2618,7 @@ IDE_Morph.prototype.projectMenu = function() {
 //    menu.addItem(
 //        'Import tools',
 //        function () {
-//            myself.droppedText(
+//            myself.droppedText("
 //                myself.getURL(
 //                    'http://snap.berkeley.edu/snapsource/tools.xml'
 //                ),
