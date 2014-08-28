@@ -3593,7 +3593,8 @@ IDE_Morph.prototype.reflectLanguage = function(lang, callback) {
     if (this.loadNewProject) {
         this.newProject();
     } else {
-        this.openProjectString(initsrc);
+        //this.openProjectString(initsrc);
+        this.openProjectString(this.getActivityFromUrl());
     }
     this.saveSetting('language', lang);
     if (callback) {
