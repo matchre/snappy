@@ -5,7 +5,6 @@
         <title>WebMobinet</title>
         <link rel="stylesheet" type="text/css" href="css/styles.css"></link>
         <script src="js/jquery.min.js"></script>
-        <script type="text/javascript" src="js/init.js"></script>    
         <script type="text/javascript" src="js/morphic.js"></script>
         <script type="text/javascript" src="js/widgets.js"></script>
         <script type="text/javascript" src="js/blocks.js"></script>
@@ -21,6 +20,7 @@
         <script type="text/javascript" src="js/cloud.js"></script>
         <script type="text/javascript" src="js/sha512.js"></script>
         <script type="text/javascript" src="js/samples.js"></script>
+        <script type="text/javascript" src="js/init.js"></script>
         <script src="js/tinymce/tinymce.min.js"></script>
         <script type="text/javascript">
             var world;
@@ -28,7 +28,7 @@
                 world = new WorldMorph(document.getElementById('world'));
                 var ide = new IDE_Morph();
                 ide.openIn(world);
-                ide.openProjectString(initsrc);
+                ide.openProjectString(ide.getActivityFromUrl());
                 setInterval(loop, 1);
             };
             function loop() {

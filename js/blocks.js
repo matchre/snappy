@@ -820,6 +820,19 @@ SyntaxElementMorph.prototype.labelPart = function (spec) {
         case '%n':
             part = new InputSlotMorph(null, true);
             break;
+        case '%lor':
+            part = new InputSlotMorph(
+                null,
+                false,
+                {
+                    'Horizontal': ['Horizontal'],
+                    'Vertical': ['Vertical']
+                },
+                true
+            );
+            part.setContents(['Horizontal']);
+            break;
+            break;
         case '%dir':
             part = new InputSlotMorph(
                 null,
