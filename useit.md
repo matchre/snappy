@@ -9,3 +9,7 @@
 ## Tester en ligne
 
 C'est ici : [http://inriamecsci.github.io/webmobinet](http://inriamecsci.github.io/webmobinet).
+
+* Activité sur le système solaire [ICI](https://inriamecsci.github.io/webmobinet/?activity=solar)
+* Activité sur le jeu de pong [ICI](https://inriamecsci.github.io/webmobinet/?activity=pong)
+* Activité sur la grille de LED [ICI](https://inriamecsci.github.io/webmobinet/?activity=led)
