@@ -4,7 +4,41 @@
  * and open the template in the editor.
  */
 
+SpriteMorph.prototype.getBlocksTab=function(){
+    var txt = '';
+    var code='';
+    this.scripts.allChildren().forEach(function (morph) {
 
+        if (morph.selector) {
+            console.log(morph);
+//            console.log('------(((((((((((((((((('+morph.selector+')))))))))))))-----');
+            txt=morph.blockSpec+'(';
+            var spectxt=morph.blockSpec;
+            morph.inputs().forEach(function (input) {
+//                txt+=input.evaluate()+',';
+                spectxt=spectxt.replace(/%(\S+)/,input.evaluate());
+            });
+//            txt+=');';
+            txt=spectxt;
+            console.log('|||||'+txt);
+//            console.log(morph.inputs()[0]?morph.inputs()[0].evaluate():'');
+//            if (contains(
+//                ['receiveMessage', 'doBroadcast', 'doBroadcastAndWait'],
+//                morph.selector
+//            )) {
+//                txt = morph.inputs()[0].evaluate();
+//                if (isString(txt) && txt !== '') {
+//                    if (!contains(msgs, txt)) {
+//                        msgs.push(txt);
+//                    }
+//                }
+//            }
+        code+=txt+'\n';
+        }
+
+    });
+    return code;
+}
 var CodeGenerator;
 
 CodeGenerator.prototype.getBlocks = function (XML){

@@ -1281,12 +1281,13 @@ IDE_Morph.prototype.createSpriteBar = function() {
     tab.drawNew();
     tab.fixLayout();
     tabBar.add(tab);
-
+    var currentSprite=this.currentSprite;
     tab = new TabMorph(
             tabColors,
             null, // target
             function() {
                 tabBar.tabTo('eventstab');
+                currentSprite.getBlocksTab();
             },
             localize('Code'), // label
             function() {  // query
@@ -1352,14 +1353,14 @@ IDE_Morph.prototype.createSpriteEditor = function() {
         this.spriteEditor.scrollY(this.spriteEditor.padding);
     } else if (this.currentTab === 'eventstab') {
 
-        var blocks = jQuery.extend(true, {}, scripts.children);
-        var arrayblocks = $.map(blocks, function(value, index) {
-            return [value];
-        });
-        var blocksserializer = new SnapSerializer();
-        var thisxml = arrayblocks.toXML(new SnapSerializer());
-        var xmlDoc = jQuery.parseXML(thisxml);
-
+//        var blocks = jQuery.extend(true, {}, scripts.children);
+//        var arrayblocks = $.map(blocks, function(value, index) {
+//            return [value];
+//        });
+//        var blocksserializer = new SnapSerializer();
+//        var thisxml = arrayblocks.toXML(new SnapSerializer());
+//        var xmlDoc = jQuery.parseXML(thisxml);
+        var codeTxt=this.currentSprite.getBlocksTab();
 
         scripts.isDraggable = false;
         scripts.color = this.groupColor;
@@ -1376,9 +1377,10 @@ IDE_Morph.prototype.createSpriteEditor = function() {
         this.spriteEditor.setColor(this.groupColor);
         this.spriteEditor.acceptsDrops = false;
         this.spriteEditor.contents.acceptsDrops = false;
-        txt = new TextMorph(parseMobinet(xmlDoc));
-        txt.fontSize = 9;
-        txt.setColor(new Color(200, 200, 200));
+//        txt = new TextMorph(parseMobinet(xmlDoc));
+        txt = new TextMorph(codeTxt);
+        txt.fontSize = 14;
+        txt.setColor(new Color(94, 201, 0));
 
         txt.setPosition(new Point(0, 0));
         this.spriteEditor.addContents(txt);
