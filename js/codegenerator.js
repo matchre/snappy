@@ -7,20 +7,24 @@
 SpriteMorph.prototype.getBlocksTab=function(){
     var txt = '';
     var code='';
+    var indent='';
     this.scripts.allChildren().forEach(function (morph) {
 
         if (morph.selector) {
-            console.log(morph);
 //            console.log('------(((((((((((((((((('+morph.selector+')))))))))))))-----');
             txt=morph.blockSpec+'(';
-            var spectxt=morph.blockSpec;
+            var spectxt=indent+morph.blockSpec;
             morph.inputs().forEach(function (input) {
 //                txt+=input.evaluate()+',';
-                spectxt=spectxt.replace(/%(\S+)/,input.evaluate());
-            });
+                console.log(typeof input.evaluate()+' => '+input.evaluate());
+                if(typeof input.evaluate()!=='object') {
+                    spectxt = spectxt.replace(/%(\S+)/, input.evaluate());
+                }else{
+                    indent='        ';
+                }
+                });
 //            txt+=');';
             txt=spectxt;
-            console.log('|||||'+txt);
 //            console.log(morph.inputs()[0]?morph.inputs()[0].evaluate():'');
 //            if (contains(
 //                ['receiveMessage', 'doBroadcast', 'doBroadcastAndWait'],
