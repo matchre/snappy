@@ -1330,6 +1330,7 @@ IDE_Morph.prototype.createSpriteEditor = function() {
         this.spriteEditor.destroy();
     }
 
+    $("#code_div").css('visibility', 'hidden');
     if (this.currentTab === 'scripts') {
         scripts.isDraggable = false;
         scripts.color = this.groupColor;
@@ -1361,7 +1362,8 @@ IDE_Morph.prototype.createSpriteEditor = function() {
 //        var thisxml = arrayblocks.toXML(new SnapSerializer());
 //        var xmlDoc = jQuery.parseXML(thisxml);
         var codeTxt=this.currentSprite.getBlocksTab();
-
+//        $("#code_div").html(codeTxt).css('visibility', 'visible');
+        $("#code_div").css('visibility', 'visible');
         scripts.isDraggable = false;
         scripts.color = this.groupColor;
         scripts.texture = this.scriptsPaneTexture;

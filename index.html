@@ -3,6 +3,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>WebMobinet</title>
+        <link rel="stylesheet" type="text/css" href="js/codemirror/codemirror.css"></link>
         <link rel="stylesheet" type="text/css" href="css/styles.css"></link>
         <script src="js/jquery.min.js"></script>
         <script type="text/javascript" src="js/init.js"></script>    
@@ -22,8 +23,14 @@
         <script type="text/javascript" src="js/sha512.js"></script>
         <script type="text/javascript" src="js/codegenerator.js"></script>
         <script src="js/tinymce/tinymce.min.js"></script>
+        <script src="js/codemirror/codemirror.js"></script>
+        <script src="js/codemirror/matchbrackets.js"></script>
+        <script src="js/codemirror/comment.js"></script>
+        <script src="js/codemirror/continuecomment.js"></script>
+        <script src="js/codemirror/javascript.js"></script>
+        <script src="js/codemirror/"></script>
         <script type="text/javascript">
-            var world;
+        var world;
             window.onload = function() {
                 world = new WorldMorph(document.getElementById('world'));
                 var ide = new IDE_Morph();
@@ -58,6 +65,57 @@
         </script>
     </head>
     <body style="margin: 0;">
+        <div id="code_div">
+            <textarea id="code" name="code">
+                // Demo code (the actual new parser character stream implementation)
+
+                function StringStream(string) {
+                this.pos = 0;
+                this.string = string;
+                }
+
+                StringStream.prototype = {
+                done: function() {return this.pos >= this.string.length;},
+                peek: function() {return this.string.charAt(this.pos);},
+                next: function() {
+                if (this.pos &lt; this.string.length)
+                return this.string.charAt(this.pos++);
+                },
+                eat: function(match) {
+                var ch = this.string.charAt(this.pos);
+                if (typeof match == "string") var ok = ch == match;
+                else var ok = ch &amp;&amp; match.test ? match.test(ch) : match(ch);
+                if (ok) {this.pos++; return ch;}
+                },
+                eatWhile: function(match) {
+                var start = this.pos;
+                while (this.eat(match));
+                if (this.pos > start) return this.string.slice(start, this.pos);
+                },
+                backUp: function(n) {this.pos -= n;},
+                column: function() {return this.pos;},
+                eatSpace: function() {
+                var start = this.pos;
+                while (/\s/.test(this.string.charAt(this.pos))) this.pos++;
+                return this.pos - start;
+                },
+                match: function(pattern, consume, caseInsensitive) {
+                if (typeof pattern == "string") {
+                function cased(str) {return caseInsensitive ? str.toLowerCase() : str;}
+                if (cased(this.string).indexOf(cased(pattern), this.pos) == this.pos) {
+                if (consume !== false) this.pos += str.length;
+                return true;
+                }
+                }
+                else {
+                var match = this.string.slice(this.pos).match(pattern);
+                if (match &amp;&amp; consume !== false) this.pos += match[0].length;
+                return match;
+                }
+                }
+                };
+            </textarea>
+        </div>
         <div id="help_div" >
             <div id="cb_resize_toggle" style="width: 19px; height: 19px; overflow: hidden; position: relative; cursor: pointer; left: 0; top: 0; z-index: 13;">
                 <img id="toggle_img" src="https://maps.gstatic.com/intl/fr_fr/mapfiles/cb/minimap_arrows.png" style="position: absolute; left: 0px; top: -38px; border: 0px; padding: 0px; margin: 0px;">
@@ -72,4 +130,12 @@
         <canvas id="world" tabindex="1" style="position: absolute;" />
 
     </body>
+    <script>
+        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+            lineNumbers: true,
+            matchBrackets: true,
+            continueComments: "Enter",
+            extraKeys: {"Ctrl-Q": "toggleComment"}
+        });
+    </script>
 </html>

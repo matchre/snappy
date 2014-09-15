@@ -27,3 +27,19 @@ root {
     width: 120px;
     height: 100px;
 }
+
+#code_div{
+    position: absolute;
+    top:219px;
+    left:323px;
+    width:371px;
+    bottom: 0;
+    z-index: 1000;
+    background: #474747;
+    visibility: hidden;
+    color:lawngreen;
+}
+.CodeMirror {
+    height: 100%;
+    width:100%;
+}
