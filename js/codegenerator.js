@@ -97,3 +97,12 @@ CodeGenerator.prototype.blockToCode = function(block) {
     throw 'Invalid code generated: ' + code;
   }
 };
+
+CodeMirror.prototype.refreshCode = function (){
+    editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        lineNumbers: true,
+        matchBrackets: true,
+        continueComments: "Enter",
+        extraKeys: {"Ctrl-Q": "toggleComment"}
+    });
+};

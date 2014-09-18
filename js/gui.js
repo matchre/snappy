@@ -1363,6 +1363,14 @@ IDE_Morph.prototype.createSpriteEditor = function() {
 //        var xmlDoc = jQuery.parseXML(thisxml);
         var codeTxt=this.currentSprite.getBlocksTab();
 //        $("#code_div").html(codeTxt).css('visibility', 'visible');
+        console.log('Error: '+codeTxt);
+        $("textarea#code").text(codeTxt);
+        editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+            lineNumbers: true,
+            matchBrackets: true,
+            continueComments: "Enter",
+            extraKeys: {"Ctrl-Q": "toggleComment"}
+        });
         $("#code_div").css('visibility', 'visible');
         scripts.isDraggable = false;
         scripts.color = this.groupColor;
