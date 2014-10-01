@@ -1353,7 +1353,9 @@ IDE_Morph.prototype.createSpriteEditor = function() {
         this.spriteEditor.scrollX(this.spriteEditor.padding);
         this.spriteEditor.scrollY(this.spriteEditor.padding);
     } else if (this.currentTab === 'eventstab') {
-
+//        $("#code_div").html(codeTxt).css('visibility', 'visible');
+//        console.log('Error: '+codeTxt);
+//        if(editor){
 //        var blocks = jQuery.extend(true, {}, scripts.children);
 //        var arrayblocks = $.map(blocks, function(value, index) {
 //            return [value];
@@ -1362,15 +1364,27 @@ IDE_Morph.prototype.createSpriteEditor = function() {
 //        var thisxml = arrayblocks.toXML(new SnapSerializer());
 //        var xmlDoc = jQuery.parseXML(thisxml);
         var codeTxt=this.currentSprite.getBlocksTab();
-//        $("#code_div").html(codeTxt).css('visibility', 'visible');
-        console.log('Error: '+codeTxt);
-        $("textarea#code").text(codeTxt);
-        editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-            lineNumbers: true,
-            matchBrackets: true,
-            continueComments: "Enter",
-            extraKeys: {"Ctrl-Q": "toggleComment"}
-        });
+        codeTxt+='\n // This is JS \n'+this.currentSprite.getBlocksJs();
+
+        editor.setValue(codeTxt);
+//        }else{
+//            $("textarea#code").text(codeTxt);
+//            var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+//                lineNumbers: true,
+//                matchBrackets: true,
+//                continueComments: "Enter",
+//                extraKeys: {"Ctrl-Q": "toggleComment"}
+//            });
+//        }
+
+
+
+//        editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+//            lineNumbers: true,
+//            matchBrackets: true,
+//            continueComments: "Enter",
+//            extraKeys: {"Ctrl-Q": "toggleComment"}
+//        });
         $("#code_div").css('visibility', 'visible');
         scripts.isDraggable = false;
         scripts.color = this.groupColor;

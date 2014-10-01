@@ -4,6 +4,84 @@
  * and open the template in the editor.
  */
 
+
+var MobiToJsTab={
+    "basculer sur le costume %cst": "switchToCostume( %cst )",
+    "ajouter à %var %n ": "%var += %n",
+    "costume suivant": "wearNextCostume()",
+    "costume n°": "getCostumeByIndex() ",
+    "dire %s pendant %n sec.": "sayFor( %data , %secs )",
+    "dire %s": "say( %data , isThought, isQuestion) ",
+    "penser %s pendant %n sec.": "thinkFor(data,secs)",
+    "penser %s": "think(data)",
+    "ajouter à l’effet %eff %n": "changeEffect(effect,value)",
+    "mettre l’effet %eff à %n": "setEffect(effect,value)",
+    "annuler les effets graphiques": "clearEffects()",
+    "ajouter %n à la taille": "changeScale(delta)",
+    "choisir %n % de la taille initiale": "setScale(num)",
+    "taille": "getScale()",
+    "montrer": "show()",
+    "cacher": "hide()",
+    "envoyer au premier plan": "sendToFront()",
+    "déplacer de %n plan arrière": "sendToBack(layers)",
+    "avancer de %n pas": "move(steps)",
+    "tourner de %n degrés %clockwise": "turn(degrees)",
+    "tourner de %n degrés %counterclockwise": "turnLeft(degrees)",
+    "se diriger en faisant un angle de %dir": "moveTurning(degrees)",
+    "se diriger vers %dst": "moveTowards(name)",
+    "aller à x: %n y: %n": "moveAt(x,y,justMe)",
+    "aller à %dst": "moveTo(name)",
+    "glisser en %n sec. à x: %n y: %n": "glideAt(secs, endX, endY)",
+    "ajouter %n à x": "addXPosition(delta)",
+    "donner la valeur %n à x": "setXPosition(num)",
+    "ajouter %n à y": "addYPosition(num)",
+    "donner la valeur %n à y": "setYPosition(num)",
+    "rebondir si le bord est atteint": "bounceIfOnEdge()",
+    "position x": "getXPosition()",
+    "position y": "getYPosition()",
+    "direction": "getDirection()",
+    "jouer le son %snd": "playSound(name)",
+    "jouer le son %snd jusqu'au bout": "playSoundUntilDone(name)",
+    "arrêter tous les sons": "stopAllSounds()",
+    "faire une pause pour %n temps": "playRest(beats)",
+    "jouer la note %n pour %n temps": "playNote(pitch,beats)",
+    "ajouter %n au tempo": "addTempo(delta)",
+    "choisir le tempo à %n bpm": "setTempo(bpm)",
+    "tempo": "getTempo()",
+    "effacer tout": "penClear()",
+    "stylo en position d'êcriture": "penDown()",
+    "relever le stylo": "penUp()",
+    "mettre la couleur %clr pour le stylo": "setPenColor(aColor)",
+    "ajouter %n à la couleur du stylo": "addPenColor(delta)",
+    "choisir la couleur %n pour le stylo": "setPenColor(num)",
+    "ajouter %n à l'intensité du stylo ": "changeBrightness(delta)",
+    "choisir l'intensité %n pour le stylo": "setPenBrightness(num)",
+    "ajouter %n à la taille du stylo": "addPenSize(delta)",
+    "choisir la taille %n pour le stylo": "setPenSize(size)",
+    "estampiller": "penPress()",
+    "Quand %greenflag est pressé": "onGreenFlag(receiveGo)",
+    "Quand %keyHat est pressé": "onKeyPressed(receiveKey)",
+    "Quand je suis pressé": "onClick(receiveClick)",
+    "Quand je reçois %msgHat": "onMessage(receiveMessage)",
+    "envoyer à tous %msg": "sendMessage(message)",
+    "envoyer à tous %msg et attendre": "sendMessageAndWait(message)",
+    "message": "getLastMessage()",
+    "Englobe %c": "",
+    "attendre %n sec.": "wait( %secs )",
+    "attendre jusqu'à %b": "waitUntil(goalCondition)",
+    "répéter indéfiniment %c": "while(true)",
+    "répéter %n fois %c": "for(int n = .. !",
+    "répéter jusqu'à %b %c": " do {} while()",
+    "si %b %c": "if()",
+    "si %b %c sinon %c": "if()",
+    "rapporte %s": "report(value,isCSlot)",
+    "stop %": "stop()",
+    "Quand je commence comme clone": "onStartAsClone(‘receiveOnClone’)",
+    "Clone %cln": "createClone()",
+    "supprime ce clone": "removeClone()",
+    "pause all": "pauseAll()"
+};
+
 SpriteMorph.prototype.getBlocksTab=function(){
     var txt = '';
     var code='';
@@ -17,6 +95,7 @@ SpriteMorph.prototype.getBlocksTab=function(){
             morph.inputs().forEach(function (input) {
 //                txt+=input.evaluate()+',';
                 console.log(typeof input.evaluate()+' => '+input.evaluate());
+                console.log(input.evaluate());
                 if(typeof input.evaluate()!=='object') {
                     spectxt = spectxt.replace(/%(\S+)/, input.evaluate());
                 }else{
@@ -38,6 +117,47 @@ SpriteMorph.prototype.getBlocksTab=function(){
 //                }
 //            }
         code+=txt+'\n';
+        }
+
+    });
+    return code;
+}
+
+SpriteMorph.prototype.getBlocksJs=function(){
+    var txt = '';
+    var code='';
+    var indent='';
+    this.scripts.allChildren().forEach(function (morph) {
+
+        if (morph.selector) {
+//            console.log('------(((((((((((((((((('+morph.selector+')))))))))))))-----');
+            txt=MobiToJsTab[morph.blockSpec]+'(';
+            var spectxt=indent+MobiToJsTab[morph.blockSpec];
+            morph.inputs().forEach(function (input) {
+//                txt+=input.evaluate()+',';
+                console.log(typeof input.evaluate()+' => '+input.evaluate());
+                console.log(input.evaluate());
+                if(typeof input.evaluate()!=='object') {
+                    spectxt = spectxt.replace(/%(\S+)/, input.evaluate());
+                }else{
+                    indent='        ';
+                }
+            });
+//            txt+=');';
+            txt=spectxt;
+//            console.log(morph.inputs()[0]?morph.inputs()[0].evaluate():'');
+//            if (contains(
+//                ['receiveMessage', 'doBroadcast', 'doBroadcastAndWait'],
+//                morph.selector
+//            )) {
+//                txt = morph.inputs()[0].evaluate();
+//                if (isString(txt) && txt !== '') {
+//                    if (!contains(msgs, txt)) {
+//                        msgs.push(txt);
+//                    }
+//                }
+//            }
+            code+=txt+'\n';
         }
 
     });
@@ -106,3 +226,4 @@ CodeMirror.prototype.refreshCode = function (){
         extraKeys: {"Ctrl-Q": "toggleComment"}
     });
 };
+
