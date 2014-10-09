@@ -59,7 +59,7 @@ var MobiToJsTab={
     "ajouter %n à la taille du stylo": "addPenSize( %delta )",
     "choisir la taille %n pour le stylo": "setPenSize( %size )",
     "estampiller": "penPress()",
-    "Quand %greenflag est pressé": "onGreenFlag(receiveGo)",
+    "Quand %greenflag est pressé": "onGreenFlag(receiveGo,function(){",
     "Quand %keyHat est pressé": "onKeyPressed(receiveKey)",
     "Quand je suis pressé": "onClick(receiveClick)",
     "Quand je reçois %msgHat": "onMessage(receiveMessage)",
@@ -69,7 +69,7 @@ var MobiToJsTab={
     "Englobe %c": "",
     "attendre %n sec.": "wait( %secs )",
     "attendre jusqu'à %b": "waitUntil( %goalCondition )",
-    "répéter indéfiniment %c": "while(true)",
+    "répéter indéfiniment %c": "while(true) %c",
     "répéter %n fois %c": "for (i = 0; i < %n ; i++) %c ",
     "répéter jusqu'à %b %c": " do { %c } while( %b )",
     "si %b %c": "if( %b ) %c",
@@ -122,45 +122,81 @@ SpriteMorph.prototype.getBlocksTab=function(){
     });
     return code;
 }
+CommandBlockMorph.prototype.getCodeTxt=function(){
+    var txt = '';
+    var lineEnd=';';
 
+    if (this.selector) {
+        var spectxt=MobiToJsTab[this.blockSpec]||this.blockSpec;
+        this.inputs().forEach(function (input) {
+            if(typeof input.evaluate()!=='object') {
+                spectxt = spectxt.replace(/%(\S+)/, input.evaluate());
+            }else{
+                spectxt = spectxt.replace(/%(\S+)/, '{');
+                lineEnd='';
+            }
+        });
+
+        txt=spectxt+lineEnd+'\n';
+        return txt;
+    }
+}
+CommandBlockMorph.prototype.fetchChildBlocks=function(){
+    var innerCode=false;
+    var code=this.getCodeTxt();
+    this.inputs().forEach(function(input){
+        if(input instanceof CSlotMorph){
+            innerCode=true;
+            var node=input.children[0];
+
+            while(node.nextBlock()){
+                if(node instanceof CommandBlockMorph)
+                    code+=node.fetchChildBlocks();
+                node=node.nextBlock();
+//                console.log(':::< '+node.blockSpec);
+//                if(node instanceof CommandBlockMorph)
+//                    node.fetchChildBlocks();
+            }
+            code+=node.fetchChildBlocks();
+        }
+
+//        if((input instanceof BlockMorph) || (input instanceof CommandBlockMorph))
+//            input.fetchChildBlocks();
+    });
+    if(innerCode) {
+        code += '\n}';
+    }
+    return code;
+}
 SpriteMorph.prototype.getBlocksJs=function(){
     var txt = '';
     var code='';
     var indent='';
-    this.scripts.allChildren().forEach(function (morph) {
-
-        if (morph.selector) {
-//            console.log('------(((((((((((((((((('+morph.selector+')))))))))))))-----');
-            txt=MobiToJsTab[morph.blockSpec]+'(';
-            var spectxt=indent+MobiToJsTab[morph.blockSpec];
-            morph.inputs().forEach(function (input) {
-//                txt+=input.evaluate()+',';
-                console.log(typeof input.evaluate()+' => '+input.evaluate());
-                console.log(input.evaluate());
-                if(typeof input.evaluate()!=='object') {
-                    spectxt = spectxt.replace(/%(\S+)/, input.evaluate());
-                }else{
-                    indent='        ';
-                }
-            });
-//            txt+=');';
-            txt=spectxt;
-//            console.log(morph.inputs()[0]?morph.inputs()[0].evaluate():'');
-//            if (contains(
-//                ['receiveMessage', 'doBroadcast', 'doBroadcastAndWait'],
-//                morph.selector
-//            )) {
-//                txt = morph.inputs()[0].evaluate();
-//                if (isString(txt) && txt !== '') {
-//                    if (!contains(msgs, txt)) {
-//                        msgs.push(txt);
-//                    }
+    var node=this.scripts.children[0];
+    code=node.getCodeTxt();
+    while(node.nextBlock()){
+        node=node.nextBlock();
+        if(node instanceof CommandBlockMorph)
+            code+=node.fetchChildBlocks();
+    }
+    code+='});';
+//    this.scripts.allChildren().forEach(function (morph) {
+//        if (morph.selector) {
+//
+//            txt=MobiToJsTab[morph.blockSpec]+'(';
+//            var spectxt=indent+MobiToJsTab[morph.blockSpec];
+//            morph.inputs().forEach(function (input) {
+//                if(typeof input.evaluate()!=='object') {
+//                    spectxt = spectxt.replace(/%(\S+)/, input.evaluate());
+//                }else{
+//                    indent='        ';
 //                }
-//            }
-            code+=txt+'\n';
-        }
-
-    });
+//            });
+//            txt=spectxt;
+//            code+=txt+'\n';
+//        }
+//
+//    });
     return code;
 }
 var CodeGenerator;
