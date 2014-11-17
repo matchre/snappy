@@ -27,7 +27,6 @@
         <script src="js/codemirror/comment.js"></script>
         <script src="js/codemirror/continuecomment.js"></script>
         <script src="js/codemirror/javascript.js"></script>
-        <script src="js/codemirror/"></script>
         <script type="text/javascript" src="js/codegenerator.js"></script>
         <script type="text/javascript">
         var world;
@@ -63,6 +62,14 @@
                 });
             });
         </script>
+        <script src="js/sweetjs/scripts/jquery.js"></script>
+        <script src="js/sweetjs/scripts/codemirror.js"></script>
+        <script src="js/sweetjs/scripts/vim.js"></script>
+        <script src="js/sweetjs/scripts/emacs.js"></script>
+        <script src="js/sweetjs/mode/javascript/javascript.js"></script>
+
+        <link href='http://fonts.googleapis.com/css?family=Lato:100' rel='stylesheet' type='text/css'>
+        <script data-main="js/sweetjs/scripts/editor" src="js/sweetjs/scripts/require.js"></script>
     </head>
     <body style="margin: 0;">
         <div id="code_div">
@@ -79,8 +86,107 @@
                 
             </div>
         </div>
-        <canvas id="world" tabindex="1" style="position: absolute;" />
+        <canvas id="world" tabindex="1" style="position: absolute;" ></canvas>
 
+        
+    <div class="code_div" style="visibility: visible;">    
+    <textarea id="editor" style="position:absolute;">
+        macro si {
+        rule { $cond:expr... alors $action:expr(;)... finsi } => {
+        if($cond...) { $action(;)... }
+        }
+        rule { $cond alors $action sinon $alternative finsi } => {
+        if($cond...) { $action(;)... } else { $alternative(;)... }
+        }
+        }
+
+        macro ajouter {
+        rule{ à $var $value } => {
+        $var += $value;
+        }
+        }
+        macro attendre{
+        rule{ $time sec. } => { wait($time); }
+        }
+        macro répéter {
+        rule { indéfiniment $action:expr(;)... fin } => { repeatForever($action(,)...)  }
+        }
+
+        macro : {
+        rule infix { $name:ident | $value:expr } => {
+        $name = $value;
+        }
+        }
+
+        macro dire {
+        rule { $word:lit pendant $time:lit sec.} => { sayFor($word,$time); }
+        rule { $word:lit } => { say ($word); }
+        }
+
+        macro avancer {
+        rule { de $value:lit pas } => { move($value); }
+        }
+
+        macro aller {
+        rule { à x:$x:lit y:$y:lit } => { moveAt($x,$y,true); }
+        }
+
+        aller à x:10 y:0
+        avancer de 10 pas
+        dire "salut"!
+        dire "salut" pendant 2 sec.
+        foo : 100
+        ajouter à foo 100
+        attendre 0.1 sec.
+        répéter indéfiniment alert('ok'); alert('repeat'); fin
+        si foo==100 alors alert('ok'); console.log('ok'); finsi
+
+
+    </textarea></div>
+    <div style="position:absolute;"><button id="compilebtn" onclick="OnClickCompile();">compile</button></div>
+         <script>
+             
+            var OnClickCompile=function(){
+                
+                require(["./sweet", "./syntax"], function(sweet, syn) {
+                    var storage_code = 'editor_code';
+                    var storage_mode = 'editor_mode';
+
+                    var starting_code = $("#editor").text();
+                    var compileWithSourcemap = false;
+
+                    function compile() {
+                        var code = $("#editor").text();
+                        var expanded, compiled, res;
+                        try {
+//                            sweet.loadMacro('./macros.js');
+//                            if (compileWithSourcemap) {
+//                                res = sweet.compile(code, {
+//                                    sourceMap: true,
+//                                    filename: "macros.js",
+//                                    readableNames: true
+//                                });
+//                            } else {
+//                                sweet.loadMacro('./macros.js');
+                                res = sweet.compile(code, {
+                                    sourceMap: false,
+                                    readableNames: true
+                                });
+//                            }
+                            compiled = res.code;
+                            console.log(compiled);
+                            alert(compiled);
+                        } catch (e) {
+                        }
+                    }
+                    compile();
+                });
+            };
+                 $('#editor').bind('input propertychange', function() {
+                     alert('ok');
+                     OnClickCompile();
+                  });
+        </script>
     </body>
     <script>
             var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
@@ -90,4 +196,5 @@
                 extraKeys: {"Ctrl-Q": "toggleComment"}
             });
     </script>
+
 </html>

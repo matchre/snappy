@@ -28,7 +28,7 @@ root {
     height: 100px;
 }
 
-#code_div{
+#code_div, .code_div{
     position: absolute;
     top:219px;
     left:323px;
@@ -36,7 +36,7 @@ root {
     bottom: 0;
     z-index: 1000;
     background: #474747;
-    visibility: hidden;
+    /* visibility: hidden; */
     color:lawngreen;
 }
 .CodeMirror {
