@@ -29,10 +29,10 @@
         <script src="js/codemirror/javascript.js"></script>
         <script type="text/javascript" src="js/codegenerator.js"></script>
         <script type="text/javascript">
-        var world;
+            var world,ide;
             window.onload = function() {
                 world = new WorldMorph(document.getElementById('world'));
-                var ide = new IDE_Morph();
+                ide = new IDE_Morph();
                 ide.openIn(world);
                 ide.openProjectString(initsrc);
                 setInterval(loop, 1);
@@ -43,7 +43,7 @@
             }
             $(document).ready(function() {
                 TriggerClick = 1;
-                
+
                 $("#cb_resize_toggle").click(function() {
                     if (TriggerClick == 0) {
                         TriggerClick = 1;
@@ -83,80 +83,42 @@
                 <img src="media/help.jpg" />
             </div>
             <div id="help_text">
-                
+
             </div>
         </div>
         <canvas id="world" tabindex="1" style="position: absolute;" ></canvas>
 
-        
-    <div class="code_div" style="visibility: visible;">    
-    <textarea id="editor" style="position:absolute;">
-        macro si {
-        rule { $cond:expr... alors $action:expr(;)... finsi } => {
-        if($cond...) { $action(;)... }
-        }
-        rule { $cond alors $action sinon $alternative finsi } => {
-        if($cond...) { $action(;)... } else { $alternative(;)... }
-        }
-        }
 
-        macro ajouter {
-        rule{ à $var $value } => {
-        $var += $value;
-        }
-        }
-        macro attendre{
-        rule{ $time sec. } => { wait($time); }
-        }
-        macro répéter {
-        rule { indéfiniment $action:expr(;)... fin } => { repeatForever($action(,)...)  }
-        }
+        <div class="code_div" style="visibility: visible;">    
+            <textarea id="sweeteditor" style="position:absolute;">
+avancer de 10 pas
+attendre 1 sec.
+tourner de 15 degrés
+attendre 1 sec.
+avancer de 20 pas
+attendre 1 sec.
+tourner de 30 degrés
+attendre 1 sec.
+aller à x:0 y:50
 
-        macro : {
-        rule infix { $name:ident | $value:expr } => {
-        $name = $value;
-        }
-        }
+            </textarea></div>
+        <div style="position:absolute;">
+            <button id="compilebtn" onclick="OnClickCompile();">compile</button>
+            <button id="avancerbtn" onclick="Avancer();">Avancer</button>
+        </div>
+        <script>
 
-        macro dire {
-        rule { $word:lit pendant $time:lit sec.} => { sayFor($word,$time); }
-        rule { $word:lit } => { say ($word); }
-        }
+            var OnClickCompile = function() {
 
-        macro avancer {
-        rule { de $value:lit pas } => { move($value); }
-        }
-
-        macro aller {
-        rule { à x:$x:lit y:$y:lit } => { moveAt($x,$y,true); }
-        }
-
-        aller à x:10 y:0
-        avancer de 10 pas
-        dire "salut"!
-        dire "salut" pendant 2 sec.
-        foo : 100
-        ajouter à foo 100
-        attendre 0.1 sec.
-        répéter indéfiniment alert('ok'); alert('repeat'); fin
-        si foo==100 alors alert('ok'); console.log('ok'); finsi
-
-
-    </textarea></div>
-    <div style="position:absolute;"><button id="compilebtn" onclick="OnClickCompile();">compile</button></div>
-         <script>
-             
-            var OnClickCompile=function(){
-                
                 require(["./sweet", "./syntax"], function(sweet, syn) {
                     var storage_code = 'editor_code';
                     var storage_mode = 'editor_mode';
 
-                    var starting_code = $("#editor").text();
+                    var starting_code = sweeteditor.getValue();
                     var compileWithSourcemap = false;
 
                     function compile() {
-                        var code = $("#editor").text();
+                        var code = sweetmacros + sweeteditor.getValue();
                         var expanded, compiled, res;
                         try {
 //                            sweet.loadMacro('./macros.js');
@@ -167,34 +129,42 @@
 //                                    readableNames: true
 //                                });
 //                            } else {
-//                                sweet.loadMacro('./macros.js');
-                                res = sweet.compile(code, {
-                                    sourceMap: false,
-                                    readableNames: true
-                                });
+//                            sweet.loadMacro('./macros.sjs');
+                            res = sweet.compile(code, {
+                                sourceMap: false,
+                                readableNames: true
+                            });
 //                            }
                             compiled = res.code;
-                            console.log(compiled);
-                            alert(compiled);
+                            eval(compiled);
                         } catch (e) {
                         }
                     }
                     compile();
                 });
             };
-                 $('#editor').bind('input propertychange', function() {
-                     alert('ok');
-                     OnClickCompile();
-                  });
+            var Avancer = function(){
+                ide.currentSprite.forward(200);
+            };
+            $('#editor').bind('input propertychange', function() {
+                alert('ok');
+                OnClickCompile();
+            });
         </script>
     </body>
     <script>
-            var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-                lineNumbers: true,
-                matchBrackets: true,
-                continueComments: "Enter",
-                extraKeys: {"Ctrl-Q": "toggleComment"}
-            });
+        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+            lineNumbers: true,
+            matchBrackets: true,
+            continueComments: "Enter",
+            extraKeys: {"Ctrl-Q": "toggleComment"}
+        });
+        var sweeteditor = CodeMirror.fromTextArea(document.getElementById("sweeteditor"), {
+            lineNumbers: true,
+            matchBrackets: true,
+            continueComments: "Enter",
+            extraKeys: {"Ctrl-Q": "toggleComment"}
+        });
     </script>
 
 </html>

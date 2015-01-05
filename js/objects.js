@@ -3070,6 +3070,17 @@ SpriteMorph.prototype.turn = function (degrees) {
     this.setHeading(this.heading + (+degrees || 0));
 };
 
+SpriteMorph.prototype.sleep = function (secs) {
+  var milliseconds=secs*1000;
+  var start = new Date().getTime();
+  for (var i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > milliseconds){
+      break;
+    }
+  }
+};
+
+
 SpriteMorph.prototype.turnLeft = function (degrees) {
     this.setHeading(this.heading - (+degrees || 0));
 };
