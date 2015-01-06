@@ -3032,6 +3032,8 @@ BlockMorph.prototype.fullCopy = function () {
 // BlockMorph events
 
 BlockMorph.prototype.mouseClickLeft = function () {
+    console.log('left click');
+    console.log(this.parent);
     var top = this.topBlock(),
         receiver = top.receiver(),
         stage;

@@ -3078,6 +3078,7 @@ SpriteMorph.prototype.sleep = function (secs) {
       break;
     }
   }
+  alert('sleeping done');
 };
 
 
