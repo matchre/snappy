@@ -3032,8 +3032,6 @@ BlockMorph.prototype.fullCopy = function () {
 // BlockMorph events
 
 BlockMorph.prototype.mouseClickLeft = function () {
-    console.log('left click');
-    console.log(this.parent);
     var top = this.topBlock(),
         receiver = top.receiver(),
         stage;
@@ -3147,7 +3145,7 @@ BlockMorph.prototype.prepareToBeGrabbed = function (hand) {
 };
 
 BlockMorph.prototype.justDropped = function () {
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+    console.log("@@@@@@@@@@@@@ JUST DROPPED @@@@@@@@@@@@@@@@@");
     console.log(this.selector);
     console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
     this.allComments().forEach(function (comment) {

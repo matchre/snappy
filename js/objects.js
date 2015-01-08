@@ -2186,7 +2186,9 @@ SpriteMorph.prototype.freshPalette = function (category) {
             myself.blocksCache[category] = blocks;
         }
     }
-
+    console.log('&&&&&&& Blocks &&&&&&&&&');
+    console.log(this.blocksCache);
+    console.log('&&&&&&&&&&&&&&&&&&&&&&&&');
     blocks.forEach(function (block) {
         if (block === null) {
             return;

@@ -121,7 +121,20 @@ SpriteMorph.prototype.getBlocksTab=function(){
 
     });
     return code;
-}
+};
+
+
+//delete all sub blocks and keep only Hat Block
+SpriteMorph.prototype.deleteSubBlocks=function(){
+    while(this.scripts.children[0].nextBlock()){
+        this.scripts.children[0].bottomBlock().deleteBlock();
+    }
+};
+
+SpriteMorph.prototype.addSubBlock=function(selector){
+    this.scripts.children[0].bottomBlock().nextBlock(SpriteMorph.prototype.blockForSelector(selector, true));
+};
+
 CommandBlockMorph.prototype.getCodeTxt=function(){
     var txt = '';
     var lineEnd=';';
@@ -140,7 +153,7 @@ CommandBlockMorph.prototype.getCodeTxt=function(){
         txt=spectxt+lineEnd+'\n';
         return txt;
     }
-}
+};
 CommandBlockMorph.prototype.fetchChildBlocks=function(){
     var innerCode=false;
     var code=this.getCodeTxt();
@@ -167,7 +180,7 @@ CommandBlockMorph.prototype.fetchChildBlocks=function(){
         code += '\n}';
     }
     return code;
-}
+};
 SpriteMorph.prototype.getBlocksJs=function(){
     var txt = '';
     var code='';
@@ -198,7 +211,9 @@ SpriteMorph.prototype.getBlocksJs=function(){
 //
 //    });
     return code;
-}
+};
+
+
 var CodeGenerator;
 
 CodeGenerator.prototype.getBlocks = function (XML){
