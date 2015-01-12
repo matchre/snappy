@@ -1,1 +1,0 @@
-twttr.receiveCount({"count":125,"url":"http:\/\/jlongster.com\/Writing-Your-First-Sweet.js-Macro\/"});
