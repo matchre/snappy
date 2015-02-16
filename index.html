@@ -102,9 +102,8 @@ attendre 1 sec.
 aller à x:0 y:50
 
             </textarea></div>
-        <div style="position:absolute;">
+        <div style="position:absolute;visibility:hidden;" id="compile_div">
             <button id="compilebtn" onclick="OnClickCompile();">compile</button>
-            <button id="avancerbtn" onclick="Avancer();">Avancer</button>
         </div>
         <script>
 
@@ -142,9 +141,6 @@ aller à x:0 y:50
                     }
                     compile();
                 });
-            };
-            var Avancer = function(){
-                ide.currentSprite.forward(200);
             };
             $('#editor').bind('input propertychange', function() {
                 alert('ok');

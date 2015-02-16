@@ -1331,6 +1331,7 @@ IDE_Morph.prototype.createSpriteEditor = function() {
     }
 
     $("#code_div").css('visibility', 'hidden');
+    $("#compile_div").css('visibility', 'hidden');
     if (this.currentTab === 'scripts') {
         scripts.isDraggable = false;
         scripts.color = this.groupColor;
@@ -1386,6 +1387,7 @@ IDE_Morph.prototype.createSpriteEditor = function() {
 //            extraKeys: {"Ctrl-Q": "toggleComment"}
 //        });
         $("#code_div").css('visibility', 'visible');
+        $("#compile_div").css('visibility', 'visible');
         scripts.isDraggable = false;
         scripts.color = this.groupColor;
         scripts.texture = this.scriptsPaneTexture;

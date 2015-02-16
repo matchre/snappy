@@ -131,8 +131,79 @@ SpriteMorph.prototype.deleteSubBlocks=function(){
     }
 };
 
-SpriteMorph.prototype.addSubBlock=function(selector){
-    this.scripts.children[0].bottomBlock().nextBlock(SpriteMorph.prototype.blockForSelector(selector, true));
+
+// Create UI Block from SweetJs Macros
+
+SpriteMorph.prototype.blockFromSweet = function (selector, values) {
+    var info, block, defaults, inputs, i;
+    info = this.blocks[selector];
+    if (!info) {return null; }
+    block = info.type === 'command' ? new CommandBlockMorph()
+        : info.type === 'hat' ? new HatBlockMorph()
+            : info.type === 'ring' ? new RingMorph()
+                : new ReporterBlockMorph(info.type === 'predicate');
+    block.color = this.blockColor[info.category];
+    block.category = info.category;
+    block.selector = selector;
+    if (contains(['reifyReporter', 'reifyPredicate'], block.selector)) {
+        block.isStatic = true;
+    }
+    block.setSpec(localize(info.spec));
+    if (values || info.defaults) {
+        defaults = values ? values : info.defaults;
+        block.defaults = defaults;
+        inputs = block.inputs();
+        if (inputs[0] instanceof MultiArgMorph) {
+            inputs[0].setContents(defaults);
+            inputs[0].defaults = defaults;
+        } else {
+            for (i = 0; i < defaults.length; i += 1) {
+                if (defaults[i] !== null) {
+                    inputs[i].setContents(defaults[i]);
+                }
+            }
+        }
+    }
+    return block;
+};
+
+// add SubBlock to the last block attached to the current sprite
+SpriteMorph.prototype.addSubBlock=function(selector,values){
+    this.scripts.children[0].bottomBlock().nextBlock(SpriteMorph.prototype.blockFromSweet(selector, values));
+};
+
+
+// add InnerSubBlock to the last block attached to the current sprite
+SpriteMorph.prototype.addInnerSubBlock=function(selector,values){
+    this.scripts.children[0].bottomBlock().nextBlock(SpriteMorph.prototype.blockFromSweet(selector, values));
+};
+
+CommandBlockMorph.prototype.ChildBlocksTab=function(){
+    var blocksTab=[];
+    var node;
+    this.children.forEach(function(child) {
+        if (child instanceof CSlotMorph) {
+            blocksTab.push(child.nestedBlock());
+            child.nestedBlock().children.forEach(function(morph) {
+                if (morph instanceof CommandBlockMorph) {
+                    blocksTab.push(morph);
+                    node=morph;
+                    while(node.nextBlock()){
+                        if(node instanceof CommandBlockMorph){
+                            blocksTab.push(node);
+                        }else if(node instanceof CSlotMorph){
+                            blocksTab.push(node);
+                            blocksTab[node]=node.ChildBlocksTab();
+                        }
+                    }
+                }
+            });
+        }
+    });
+    console.log('&&&&&&&&&&&&&&&&&&&&&&&&>>>>>>>>> ChildBlocksTab');
+    console.log(this.children);
+    console.log(blocksTab);
+    return blocksTab;
 };
 
 CommandBlockMorph.prototype.getCodeTxt=function(){
