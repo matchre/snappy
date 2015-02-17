@@ -69,10 +69,10 @@ var MobiToJsTab={
     "Englobe %c": "",
     "attendre %n sec.": "wait( %secs )",
     "attendre jusqu'à %b": "waitUntil( %goalCondition )",
-    "répéter indéfiniment %c": "while(true) %c",
-    "répéter %n fois %c": "for (i = 0; i < %n ; i++) %c ",
+    "répéter indéfiniment %c": "while(true)",
+    "répéter %n fois %c": "for (i = 0; i < %n ; i++) ",
     "répéter jusqu'à %b %c": " do { %c } while( %b )",
-    "si %b %c": "if( %b ) %c",
+    "si %b %c": "if( %b ) ",
     "si %b %c sinon %c": "if( %b ) %c else %c",
     "rapporte %s": "report( %value )",
     "stop %": "stop()",
@@ -175,37 +175,123 @@ SpriteMorph.prototype.addSubBlock=function(selector,values){
 
 // add InnerSubBlock to the last block attached to the current sprite
 SpriteMorph.prototype.addInnerSubBlock=function(selector,values){
-    this.scripts.children[0].bottomBlock().nextBlock(SpriteMorph.prototype.blockFromSweet(selector, values));
+    this.scripts.children[0].bottomBlock().nestedBlock(SpriteMorph.prototype.blockFromSweet(selector, values));
 };
 
-CommandBlockMorph.prototype.ChildBlocksTab=function(){
+
+SpriteMorph.prototype.getBlocksTree=function(){
+    var node,blockstree,pos;
+    blockstree=[];
+    pos=0;
+    node=this.scripts.children[0];
+    while(node.nextBlock()){
+        blockstree[pos]=[];
+        blockstree[pos].block=node;
+        blockstree[pos].selector=node.selector;
+        blockstree[pos].children=node.ChildBlocksTab();
+        node=node.nextBlock();
+        pos++;
+    }
+    blockstree[pos]=[];
+    blockstree[pos].block=node;
+    blockstree[pos].selector=node.selector;
+    blockstree[pos].children=node.ChildBlocksTab();
+    return blockstree;
+};
+
+
+SpriteMorph.prototype.BlocksTreeToJs=function(){
+    var blocksTree,blocklevel,code;
+    var nodeToJs = function (node,level){
+        var txt='';
+        var isloop=node.children.length?true:false;
+        var loopopen=isloop?"{":";";
+        var loopend=isloop?Array(level).join(" ")+"}\n":"";
+         txt=Array(level).join(" ")+node.block.toJs()+loopopen+'\n';
+         node.children.forEach(function(child){
+             txt+=nodeToJs(child,level+1);
+         });
+         txt+=loopend;
+         return txt;
+    };
+    blocklevel=1; code='';
+    this.getBlocksTree().forEach(function(block){
+        code+=nodeToJs(block,blocklevel);
+    });
+    code+="});";
+    
+    //delete all %c remaining in the code
+    code=code.replace(/%(\S+)/g, '');
+    return code;
+};
+
+SpriteMorph.prototype.BlocksTreeToSweet=function(){
+    var blocksTree,blocklevel,code;
+    var nodeToCode = function (node,level){
+        var txt='';
+         txt=Array(level).join("-")+node.block.toSweet()+'\n';
+         node.children.forEach(function(child){
+             txt+=nodeToCode(child,level+1);
+         });
+         return txt;
+    };
+    blocklevel=1; code='';
+    this.getBlocksTree().forEach(function(block){
+        code+=nodeToCode(block,blocklevel);
+    });
+    //delete all %c remaining in the code
+    code=code.replace(/%(\S+)/g, '');
+    return code;
+};
+
+BlockMorph.prototype.ChildBlocksTab=function(){
     var blocksTab=[];
-    var node;
-    this.children.forEach(function(child) {
-        if (child instanceof CSlotMorph) {
-            blocksTab.push(child.nestedBlock());
-            child.nestedBlock().children.forEach(function(morph) {
-                if (morph instanceof CommandBlockMorph) {
-                    blocksTab.push(morph);
-                    node=morph;
-                    while(node.nextBlock()){
-                        if(node instanceof CommandBlockMorph){
-                            blocksTab.push(node);
-                        }else if(node instanceof CSlotMorph){
-                            blocksTab.push(node);
-                            blocksTab[node]=node.ChildBlocksTab();
-                        }
-                    }
+    var node,pos;
+    pos=0;
+    this.inputs().forEach(function(input){
+        if(input instanceof CSlotMorph){
+            node=input.children[0];
+            while(node.nextBlock()){
+                blocksTab[pos]=[];
+                if(node instanceof CommandBlockMorph){
+                    blocksTab[pos].selector=node.selector;
+                    blocksTab[pos].block=node;
+                    blocksTab[pos].children=node.ChildBlocksTab();
                 }
-            });
+                node=node.nextBlock();
+                pos++;
+            }
+            blocksTab[pos]=[];
+            if (node instanceof CommandBlockMorph) {
+                blocksTab[pos].selector = node.selector;
+                blocksTab[pos].block = node;
+                blocksTab[pos].children = node.ChildBlocksTab();
+            }
         }
     });
-    console.log('&&&&&&&&&&&&&&&&&&&&&&&&>>>>>>>>> ChildBlocksTab');
-    console.log(this.children);
-    console.log(blocksTab);
     return blocksTab;
 };
 
+
+CommandBlockMorph.prototype.toJs=function(){
+    var spectxt=MobiToJsTab[this.blockSpec]||this.blockSpec;
+            this.inputs().forEach(function (input) {
+                if(typeof input.evaluate()!=='object') {
+                    spectxt = spectxt.replace(/%(\S+)/, input.evaluate());
+                }
+            });
+    return spectxt;
+};
+
+CommandBlockMorph.prototype.toSweet=function(){
+    var spectxt=this.blockSpec;
+            this.inputs().forEach(function (input) {
+                if(typeof input.evaluate()!=='object') {
+                    spectxt = spectxt.replace(/%(\S+)/, input.evaluate());
+                }
+            });
+    return spectxt;
+};
 CommandBlockMorph.prototype.getCodeTxt=function(){
     var txt = '';
     var lineEnd=';';

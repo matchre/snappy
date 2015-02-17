@@ -6,6 +6,8 @@ sweetmacros+="macro aller {         rule { à x:$x:lit y:$y:lit } => { ide.curre
 sweetmacros+="macro attendre{        rule{ $time sec. } => { ide.currentSprite.addSubBlock('doWait',[$time]); }        } ";
 sweetmacros+="macro tourner{        rule{ de $value:lit degrés } => { ide.currentSprite.addSubBlock('turn',[$value]); }        } ";
 sweetmacros+="macro glisser{        rule{ à x:$x:lit y:$y:lit en $time sec. } => { ide.currentSprite.addSubBlock('doGlide',[$time,$x,$y]); }        } ";
+sweetmacros+="macro Quand{        rule{  est pressé } => { ide.currentSprite.deleteSubBlocks(); }        } ";
+
 
 
 

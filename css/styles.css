@@ -43,6 +43,7 @@ root {
 .code_div{
     left:700px;
     border:1px solid #000000;
+    visibility:hidden;
 }
 .CodeMirror {
     height: 100%;

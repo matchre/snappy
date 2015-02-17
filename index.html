@@ -88,10 +88,7 @@
         </div>
         <canvas id="world" tabindex="1" style="position: absolute;" ></canvas>
 
-
-        <div class="code_div" style="visibility: visible;">    
-            <textarea id="sweeteditor" style="position:absolute;">
-avancer de 10 pas
+<!--avancer de 10 pas
 attendre 1 sec.
 tourner de 15 degrés
 attendre 1 sec.
@@ -99,7 +96,20 @@ avancer de 20 pas
 attendre 1 sec.
 tourner de 30 degrés
 attendre 1 sec.
-aller à x:0 y:50
+aller à x:0 y:50-->
+        <div class="code_div" style="visibility: visible;" id="sweetdiv">    
+            <textarea id="sweeteditor" style="position:absolute;">
+Quand  est pressé
+dire Salut!
+répéter 10 fois 
+-répéter 10 fois 
+--avancer de 10 pas
+--répéter 10 fois 
+---tourner de 15 degrés 
+-dire Salut!
+-répéter indéfiniment 
+--ajouter  à l'effet 25  
+
 
             </textarea></div>
         <div style="position:absolute;visibility:hidden;" id="compile_div">
@@ -113,11 +123,11 @@ aller à x:0 y:50
                     var storage_code = 'editor_code';
                     var storage_mode = 'editor_mode';
 
-                    var starting_code = sweeteditor.getValue();
+                    var starting_code = editor.getValue();
                     var compileWithSourcemap = false;
 
                     function compile() {
-                        var code = sweetmacros + sweeteditor.getValue();
+                        var code = sweetmacros + editor.getValue();
                         var expanded, compiled, res;
                         try {
 //                            sweet.loadMacro('./macros.js');

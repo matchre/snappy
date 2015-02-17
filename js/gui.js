@@ -1329,7 +1329,7 @@ IDE_Morph.prototype.createSpriteEditor = function() {
     if (this.spriteEditor) {
         this.spriteEditor.destroy();
     }
-
+    $("#sweetdiv").css('visibility', 'hidden');
     $("#code_div").css('visibility', 'hidden');
     $("#compile_div").css('visibility', 'hidden');
     if (this.currentTab === 'scripts') {
@@ -1364,9 +1364,10 @@ IDE_Morph.prototype.createSpriteEditor = function() {
 //        var blocksserializer = new SnapSerializer();
 //        var thisxml = arrayblocks.toXML(new SnapSerializer());
 //        var xmlDoc = jQuery.parseXML(thisxml);
-        var codeTxt=this.currentSprite.getBlocksTab();
-        codeTxt+='\n // This is JS \n'+this.currentSprite.getBlocksJs();
-
+//        var codeTxt=this.currentSprite.getBlocksTab();
+        var codeTxt=this.currentSprite.BlocksTreeToSweet();
+//        codeTxt+='\n // This is JS \n'+this.currentSprite.getBlocksJs();
+        sweeteditor.setValue('// This is JS \n'+this.currentSprite.BlocksTreeToJs());
         editor.setValue(codeTxt);
 //        }else{
 //            $("textarea#code").text(codeTxt);
@@ -1386,6 +1387,7 @@ IDE_Morph.prototype.createSpriteEditor = function() {
 //            continueComments: "Enter",
 //            extraKeys: {"Ctrl-Q": "toggleComment"}
 //        });
+        $("#sweetdiv").css('visibility', 'visible');
         $("#code_div").css('visibility', 'visible');
         $("#compile_div").css('visibility', 'visible');
         scripts.isDraggable = false;
