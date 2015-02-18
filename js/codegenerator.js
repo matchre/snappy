@@ -4,6 +4,11 @@
  * and open the template in the editor.
  */
 
+String.prototype.repeat = function( num )
+{
+    return new Array( num + 1 ).join( this );
+};
+
 
 var MobiToJsTab={
     "basculer sur le costume %cst": "switchToCostume( %cst )",
@@ -171,11 +176,66 @@ SpriteMorph.prototype.blockFromSweet = function (selector, values) {
 SpriteMorph.prototype.addSubBlock=function(selector,values){
     this.scripts.children[0].bottomBlock().nextBlock(SpriteMorph.prototype.blockFromSweet(selector, values));
 };
+SpriteMorph.prototype.commandsLevels=[];
+SpriteMorph.prototype.CompileSweettoBlocks=function(){
+    var currentsprite=this;
+    require(["./sweet", "./syntax"], function(sweet, syn) {
+                    var storage_code = 'editor_code';
+                    var storage_mode = 'editor_mode';
+
+                    var commandsTable = editor.getValue().split('\n');
+                    var commandsLevels=[];
+                    var compileWithSourcemap = false;
+
+                    function compile(command,level) {
+                        var code = sweetmacros + command.replace(/-/g, '');;
+                        var expanded, compiled, res;
+                        try {
+                            res = sweet.compile(code, {
+                                sourceMap: false,
+                                readableNames: true
+                            });
+                            compiled = res.code;
+                            eval(compiled.replace('level', level));
+//                            return compiled;
+                        } catch (e) {
+//                            return null;
+                        }
+                    }
+                    function extractBlocksLevels(code){
+                        var pos=0;
+                        var levelsTab=[];
+                        code.forEach(function(cmd){
+                            levelsTab[pos]=(cmd.match(/-/g)||[]).length;
+                            pos++;
+                        });
+                        return levelsTab;
+                    }
+                    commandsLevels=extractBlocksLevels(commandsTable);
+                    var pos=0;
+                    commandsTable.forEach(function(command){
+                        compile(command,commandsLevels[pos]);
+                        pos++;
+                    });
+    });
+};
 
 
 // add InnerSubBlock to the last block attached to the current sprite
-SpriteMorph.prototype.addInnerSubBlock=function(selector,values){
-    this.scripts.children[0].bottomBlock().nestedBlock(SpriteMorph.prototype.blockFromSweet(selector, values));
+SpriteMorph.prototype.pushBlock=function(selector,values,level){
+    var cmd= "this.scripts.children[0].bottomBlock()";
+    var loopcmd=".children.filter(function(morph){ return morph instanceof CSlotMorph; })[0].nestedBlock().bottomBlock()";
+    values=values instanceof Array?"["+values.toString()+"]":"["+values+"]";
+    var addcmd=".nextBlock(SpriteMorph.prototype.blockFromSweet('"+selector+"',"+values+"));";
+    var addcmdtoslot=".children.filter(function(morph){ return morph instanceof CSlotMorph; })[0].nestedBlock(SpriteMorph.prototype.blockFromSweet('"+selector+"',"+values+"));";
+    var finalcmd=cmd+loopcmd.repeat(level)+addcmd;
+    console.log(finalcmd);
+    try{
+        eval(finalcmd);
+    }catch (e){
+        finalcmd=cmd+loopcmd.repeat(level-1)+addcmdtoslot;
+        eval(finalcmd);
+    }
 };
 
 
