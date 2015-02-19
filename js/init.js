@@ -7,7 +7,9 @@ sweetmacros+="macro attendre{        rule{ $time sec. } => { ide.currentSprite.p
 sweetmacros+="macro tourner{        rule{ de $value:lit degrés } => { ide.currentSprite.pushBlock('turn',[$value], level); }        } ";
 sweetmacros+="macro glisser{        rule{ à x:$x:lit y:$y:lit en $time sec. } => { ide.currentSprite.pushBlock('doGlide',[$time,$x,$y], level); }        } ";
 sweetmacros+="macro Quand{        rule{  est pressé } => { ide.currentSprite.deleteSubBlocks(); }        } ";
-sweetmacros+="macro répéter {        rule{  $value fois } => { ide.currentSprite.pushBlock('doRepeat',[$value], level); }        } ";
+sweetmacros+="macro répéter {    rule{  indéfiniment } => { ide.currentSprite.pushBlock('doForever',[], level); }      rule{  $value fois } => { ide.currentSprite.pushBlock('doRepeat',[$value], level); }        } ";
+sweetmacros+="macro dire {        rule{ $value } => { ide.currentSprite.pushBlock('bubble',[String(\'$value\')], level); }        } ";
+sweetmacros+="macro ajouter {        rule{ à $var $value } => { ide.currentSprite.pushBlock('doChangeVar',[$var,$value], level); }        } ";
 
 
 
