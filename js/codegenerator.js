@@ -223,9 +223,21 @@ SpriteMorph.prototype.CompileSweettoBlocks=function(){
 
 // add InnerSubBlock to the last block attached to the current sprite
 SpriteMorph.prototype.pushBlock=function(selector,values,level){
+    
+    var ArraytoString = function (valarray){
+      var stringified="";
+      valarray.forEach(function(val){
+          val=val instanceof String?"\""+val+"\"":val;
+          stringified+=val+",";
+      });
+      stringified=stringified.substring(0, stringified.length - 1);
+      return stringified;  
+    };
     var cmd= "this.scripts.children[0].bottomBlock()";
     var loopcmd=".children.filter(function(morph){ return morph instanceof CSlotMorph; })[0].nestedBlock().bottomBlock()";
-    values=values instanceof Array?"["+values.toString()+"]":"["+values+"]";
+    console.log(values);
+    values=values instanceof Array?"["+ArraytoString(values)+"]":"["+values+"]";
+    console.log(values);
     var addcmd=".nextBlock(SpriteMorph.prototype.blockFromSweet('"+selector+"',"+values+"));";
     var addcmdtoslot=".children.filter(function(morph){ return morph instanceof CSlotMorph; })[0].nestedBlock(SpriteMorph.prototype.blockFromSweet('"+selector+"',"+values+"));";
     var finalcmd=cmd+loopcmd.repeat(level)+addcmd;
@@ -344,7 +356,15 @@ CommandBlockMorph.prototype.toJs=function(){
 };
 
 CommandBlockMorph.prototype.toSweet=function(){
-    var spectxt=this.blockSpec;
+    var sweetdict={
+        "dire %s": "dire \" %s \" ",
+        "ajouter à %var %n ": 'ajouter à "%var " %n ',
+        "dire %s pendant %n sec.": "dire \" %s \" pendant %n sec.",
+        "penser %s pendant %n sec.": "penser \" %s \" pendant %n sec.",
+        "penser %s": "penser \" %s \"",
+        "Quand %greenflag est pressé": "Quand le drapeau est pressé"
+    };
+    var spectxt=sweetdict[this.blockSpec]?sweetdict[this.blockSpec]:this.blockSpec;
             this.inputs().forEach(function (input) {
                 if(typeof input.evaluate()!=='object') {
                     spectxt = spectxt.replace(/%(\S+)/, input.evaluate());
