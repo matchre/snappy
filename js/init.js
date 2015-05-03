@@ -7,7 +7,7 @@ sweetmacros+="macro se {         rule { diriger en faisant un angle de $x:lit } 
 sweetmacros+="macro rebondir {         rule { si le bord est atteint } => { ide.currentSprite.pushBlock('bounceOffEdge',[], level); }         } ";
 sweetmacros+="macro attendre{        rule{ $time sec. } => { ide.currentSprite.pushBlock('doWait',[$time], level); }        } ";
 sweetmacros+="macro tourner{        rule{ de $value:lit degrés } => { ide.currentSprite.pushBlock('turn',[$value], level); }        } ";
-sweetmacros+="macro glisser{        rule{ en $time sec. à x:$x:lit y:$y:lit } => { ide.currentSprite.pushBlock('doGlide',[$time,$x,$y], level); }        } ";
+sweetmacros+="macro glisser{        rule{ en $time:lit sec. à x:$x:lit y:$y:lit } => { ide.currentSprite.pushBlock('doGlide',[$time,$x,$y], level); }        } ";
 sweetmacros+="macro donner{        rule{ la valeur $value:lit à x } => { ide.currentSprite.pushBlock('setXPosition',[$value], level); }    rule{ la valeur $value:lit à y } => { ide.currentSprite.pushBlock('setYPosition',[$value], level); }    } ";
 sweetmacros+="macro Quand{        rule{ le drapeau est pressé } => { ide.currentSprite.deleteSubBlocks(); }        } ";
 sweetmacros+="macro répéter {    rule{  indéfiniment } => { ide.currentSprite.pushBlock('doForever',[], level); }      rule{  $value fois } => { ide.currentSprite.pushBlock('doRepeat',[$value], level); }        } ";
