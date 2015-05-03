@@ -1003,23 +1003,23 @@ IDE_Morph.prototype.createSpriteBar = function() {
         button.setTop(button.top()
                 + ((rotationStyleButtons.length - 1) * (button.height() + 2))
                 );
-//        myself.spriteBar.add(button);
+        myself.spriteBar.add(button);
         if (myself.currentSprite instanceof StageMorph) {
             button.hide();
         }
         return button;
     }
-
-    addRotationStyleButton(1);
-    addRotationStyleButton(2);
-    addRotationStyleButton(0);
-    this.rotationStyleButtons = rotationStyleButtons;
+//    addRotationStyleButton(1);
+//    addRotationStyleButton(2);
+//    addRotationStyleButton(0);
+//    this.rotationStyleButtons = rotationStyleButtons;
 
     thumbnail = new Morph();
     thumbnail.setExtent(thumbSize);
     thumbnail.image = this.currentSprite.thumbnail(thumbSize);
     thumbnail.setPosition(
-            rotationStyleButtons[0].topRight().add(new Point(5, 3))
+//            rotationStyleButtons[0].topRight().add(new Point(5, 3))
+              myself.spriteBar.position().add(2)
             );
     this.spriteBar.add(thumbnail);
 
@@ -1162,7 +1162,8 @@ IDE_Morph.prototype.createSpriteBar = function() {
         this.spriteBar.add(angleField);
         angleField.drawNew();
         angleField.accept = function() {
-            myself.currentSprite.setHeading(angleField.getValue());
+//            myself.currentSprite.setHeading(angleField.getValue());
+              myself.currentSprite.turn(angleField.getValue());
         };
 
 
@@ -2529,13 +2530,15 @@ IDE_Morph.prototype.settingsMenu = function() {
 };
 
 IDE_Morph.prototype.projectMenu = function() {
-    var menu,
+            var menu,
+            menuSamples,
             myself = this,
             world = this.world(),
             pos = this.controlBar.projectButton.bottomLeft(),
             shiftClicked = (world.currentKey === 16);
 
     menu = new MenuMorph(this);
+//    menuSamples = new MenuMorph(this);
 //    menu.addItem('Project notes...', 'editProjectNotes');
 //    menu.addLine();
     menu.addItem(
@@ -2637,6 +2640,37 @@ IDE_Morph.prototype.projectMenu = function() {
             'show project data as XML\nin a new browser window',
             shiftClicked ? new Color(100, 0, 0) : null
             );
+    
+    menu.addLine();
+    menu.addItem(
+        'Système Solaire',
+        function() {
+            myself.openProjectString(samples['solar']);
+        }
+    );
+    menu.addItem(
+        'Jeu Pong',
+        function() {
+            myself.openProjectString(samples['pong']);
+        }
+    );
+    menu.addItem(
+        'GleamCode',
+        function() {
+            myself.openProjectString(samples['led']);
+        }
+    );
+    menu.addItem(
+        'Système Solaire Base',
+        ['cloudMenu','']
+    );
+//    menu.addItem(
+//        'Crash voiture',
+//        function() {
+//            
+//        }
+//    );
+    
 //
 //    menu.addItem(
 //        'Export blocks...',
@@ -2691,6 +2725,7 @@ IDE_Morph.prototype.projectMenu = function() {
 //    );
 
     menu.popup(world, pos);
+//    menuSamples.popup(world, menu.bottomLeft());
 };
 
 // IDE_Morph menu actions
@@ -3588,7 +3623,8 @@ IDE_Morph.prototype.reflectLanguage = function(lang, callback) {
     if (this.loadNewProject) {
         this.newProject();
     } else {
-        this.openProjectString(initsrc);
+        //this.openProjectString(initsrc);
+        this.openProjectString(this.getActivityFromUrl());
     }
     this.saveSetting('language', lang);
     if (callback) {

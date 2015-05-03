@@ -222,7 +222,7 @@ SnapTranslator.dict.fr = {
 
     // tabs:
     'Scripts':
-        'Scripts',
+        'Blocks',
     'Costumes':
         'Costumes',
     'Sounds':
@@ -632,7 +632,7 @@ SnapTranslator.dict.fr = {
     'Save As...':
         'Sauvegarder sous...',
     'Import...':
-        'Importer...',
+        'Ouvrir',
     'file menu import hint':
         'importer un projet export\u00E9,\nune biblioth\u00E8que de '
             + 'blocs\n'
@@ -640,7 +640,7 @@ SnapTranslator.dict.fr = {
     'Export project as plain text...':
         'Exporter le projet comme texte...',
     'Export project...':
-        'Exporter le projet...',
+        'Enregistrer',
     'show project data as XML\nin a new browser window':
         'ouvrir le projet au format XML\ndans une nouvelle fen\u00EAtre de votre navigateur',
     'Export blocks...':
