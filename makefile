@@ -4,7 +4,7 @@
 www :
 	git checkout master
 	git pull
-	git commit -m '.' -a
+	-git commit -m '.' -a
 	git push
 	git checkout gh-pages
 	git merge master
