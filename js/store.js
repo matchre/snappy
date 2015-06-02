@@ -598,7 +598,6 @@ SnapSerializer.prototype.loadSprites = function (xmlString, ide) {
         sprites: {}
     };
     project.sprites[project.stage.name] = project.stage;
-
     model = this.parse(xmlString);
     if (+model.attributes.version > this.version) {
         throw 'Module uses newer version of Serializer';

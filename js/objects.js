@@ -4580,7 +4580,7 @@ StageMorph.prototype.fireGreenFlagEvent = function () {
         });
        
         
-        if (ide) {
+        if (ide && ide.controlBar && ide.controlBar.pauseButton) {
             ide.controlBar.pauseButton.refresh();
         }
     

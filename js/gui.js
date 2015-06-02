@@ -720,10 +720,35 @@ IDE_Morph.prototype.createControlBar = function() {
     var videoButton = button;
     this.controlBar.add(videoButton);
     this.controlBar.videoButton = videoButton; // for menu positioning
-
+    
+    //getSharedSprites button
+    button = new PushButtonMorph(
+            this,
+            function(){ide.getShared();},
+            new SymbolMorph('storage', 14),
+            null,
+            'load shared sprites'
+            );
+    button.corner = 12;
+    button.color = colors[0];
+    button.highlightColor = colors[1];
+    button.pressColor = colors[2];
+    button.labelMinExtent = new Point(36, 18);
+    button.padding = 0;
+    button.labelShadowOffset = new Point(-1, -1);
+    button.labelShadowColor = colors[1];
+    button.labelColor = this.buttonLabelColor;
+    button.contrast = this.buttonContrast;
+    button.drawNew();
+    // button.hint = 'cloud operations';
+    button.fixLayout();
+    var sharedSpritesButton = button;
+    this.controlBar.add(sharedSpritesButton);
+    this.controlBar.sharedSpritesButton = sharedSpritesButton; // for menu positioning
+    
     this.controlBar.fixLayout = function() {
         x = this.right() - padding;
-        [stopButton, pauseButton, startButton, appModeButton, cloudButton, videoButton, projectButton].forEach(
+        [stopButton, pauseButton, startButton, appModeButton, cloudButton, videoButton, sharedSpritesButton, projectButton].forEach(
                 function(button) {
                     button.setCenter(myself.controlBar.center());
                     button.setRight(x);
