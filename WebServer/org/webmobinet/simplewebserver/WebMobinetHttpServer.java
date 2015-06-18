@@ -5,8 +5,11 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Executors;
 
@@ -16,16 +19,74 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 public class WebMobinetHttpServer {
+
+	public static List<Sprite> SpritesList = new ArrayList<Sprite>();;
+	
+
+	/**
+	 * @return the spritesTab
+	 */
+	public List<Sprite> getSpritesTab() {
+		return SpritesList;
+	}
+
+	/**
+	 * @param spritesTab the spritesTab to set
+	 */
+	public static void addSprite(Sprite sprite) {
+		SpritesList.add(sprite);
+	}
+
+	/**
+	   * returns the url parameters in a map
+	   * @param query
+	   * @return map
+	   */
+	  public static Map<String, String> queryToMap(String query){
+	    Map<String, String> result = new HashMap<String, String>();
+	    for (String param : query.split("&")) {
+	        String pair[] = param.split("=");
+	        if (pair.length>1) {
+	            result.put(pair[0], pair[1]);
+	        }else{
+	            result.put(pair[0], "");
+	        }
+	    }
+	    return result;
+	  } 
+	  
+	  public static void writeResponse(HttpExchange httpExchange, String response) throws IOException {
+		    httpExchange.sendResponseHeaders(200, response.length());
+		    OutputStream os = httpExchange.getResponseBody();
+		    os.write(response.getBytes());
+		    os.close();
+		  }
+	  
   public static void main(String[] args) throws IOException {
     InetSocketAddress addr = new InetSocketAddress(8080);
     HttpServer server = HttpServer.create(addr, 0);
 
     server.createContext("/", new MyHandler());
+    server.createContext("/webservice", new MobinetWSHandler());
+    server.createContext("/get", new GetHandler());
     server.setExecutor(Executors.newCachedThreadPool());
     server.start();
     System.out.println("Server is listening on port 8080 : v0.4" );
   }
 }
+class GetHandler implements HttpHandler {
+    public void handle(HttpExchange httpExchange) throws IOException {
+      StringBuilder response = new StringBuilder();
+      Map <String,String>parms = WebMobinetHttpServer.queryToMap(httpExchange.getRequestURI().getQuery());
+      response.append("<html><body>");
+      response.append("x : " + parms.get("x") + "<br/>");
+      response.append("y : " + parms.get("y") + "<br/>");
+      response.append("</body></html>");
+      Sprite sp=new Sprite(Float.parseFloat(parms.get("x")), Float.parseFloat(parms.get("y")), "new Sprite", "", "");
+      WebMobinetHttpServer.addSprite(sp);
+      WebMobinetHttpServer.writeResponse(httpExchange, response.toString());
+    }
+  }
 
 class MyHandler implements HttpHandler {
 	
