@@ -33,7 +33,7 @@ public class WebMobinetHttpServer {
 	/**
 	 * @param spritesTab the spritesTab to set
 	 */
-	public static void addSprite(Sprite sprite) {
+	public static synchronized void addSprite(Sprite sprite) {
 		SpritesList.add(sprite);
 	}
 
