@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>WebMobinet</title>
+        <title>Snappy</title>
         <link rel="stylesheet" type="text/css" href="js/codemirror/codemirror.css"></link>
         <link rel="stylesheet" type="text/css" href="css/styles.css"></link>
         <script src="js/jquery.min.js"></script>
@@ -62,6 +62,13 @@
                     }
                     ;
                 });
+                
+                //activity buttons onclick events
+                $("#car").click(function(){loadActivitynHidelightbox("car");});
+                $("#led").click(function(){loadActivitynHidelightbox("led");});
+                $("#solar").click(function(){loadActivitynHidelightbox("solar");});
+                $("#pong").click(function(){loadActivitynHidelightbox("pong");});
+                $("#newActivity").click(function(){loadActivitynHidelightbox("new");});
             });
         </script>
         <script src="js/sweetjs/scripts/jquery.js"></script>
@@ -74,6 +81,15 @@
         <script data-main="js/sweetjs/scripts/editor" src="js/sweetjs/scripts/require.js"></script>
     </head>
     <body style="margin: 0;">
+        <div id="activity_lightbox">
+            <ul class="activity_list">
+                <li id="car"><a href="#" class="round green">Voiture<span class="round">Chargez l'activité voiture</span></a></li>
+                <li id="led"><a href="#" class="round red">Grille led<span class="round">Dessinez sur une grille de led</span></a></li>
+                <li id="solar"><a href="#" class="round yellow">système solaire<span class="round">jouez avec les planetes</span></a></li>
+                <li id="pong"><a href="#" class="round blue">Ping Pong<span class="round">jouez avec les raquettes</span></a></li>
+                <li id="newActivity"><a href="#" class="round grey">Nouvelle activité<span class="round">Créez votre propre activité</span></a></li>
+            </ul>
+        </div>
         <div id="code_div">
             <textarea id="code" name="code"></textarea>
         </div>
