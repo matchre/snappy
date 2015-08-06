@@ -12,5 +12,5 @@ www :
 	git checkout master
 
 show : 
-	firefox http://datagramme.fr
+	firefox http://inriamecsci.github.io/webmobinet/
 
