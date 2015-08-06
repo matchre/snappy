@@ -13,5 +13,5 @@ www :
 	git checkout master
 
 show : 
-	firefox http://inriamecsci.github.io/webmobinet/
+	firefox http://inriamecsci.github.io/snappy/
 
