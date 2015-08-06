@@ -3650,7 +3650,7 @@ IDE_Morph.prototype.reflectLanguage = function(lang, callback) {
     } else {
         //this.openProjectString(initsrc);
         this.openProjectString(this.getActivityFromUrl());
-        $("#activity_lightbox").fadeOut();
+        
     }
     this.saveSetting('language', lang);
     if (callback) {

@@ -41,6 +41,7 @@ IDE_Morph.prototype.getActivityFromUrl = function () {
     sampleName=values['activity'];
     if(samples[sampleName] != null){
                 initproject=samples[sampleName];
+                $("#activity_lightbox").fadeOut();
         }
     
     return initproject;
