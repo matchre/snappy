@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+          <script src="scripts/jquery.js"></script>
+            <script src="scripts/codemirror.js"></script>
+            <script src="scripts/vim.js"></script>
+            <script src="scripts/emacs.js"></script>
+            <link rel="stylesheet" href="codemirror.css">
+            <link rel="stylesheet" href="solarized.css">
+            <script src="mode/javascript/javascript.js"></script>
+
+            <link href='http://fonts.googleapis.com/css?family=Lato:100' rel='stylesheet' type='text/css'>
+            <script data-main="scripts/editor" src="scripts/require.js"></script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div><textarea id="editor">
+            
+
+            macro si {
+  rule { $cond:expr... alors $action:expr(;)... finsi } => {
+    if($cond...) { $action(;)... }
+  }
+  rule { $cond alors $action sinon $alternative finsi } => {
+    if($cond...) { $action(;)... } else { $alternative(;)... }
+  }
+}
+
+macro ajouter {
+	rule{ à $var $value } => {
+		$var += $value;
+	}
+}
+macro attendre{
+	rule{ $time sec. } => { wait($time); }
+}
+macro répéter {
+	rule { indéfiniment $action:expr(;)... fin } => { repeatForever($action(,)...)  }
+}
+
+macro : {
+  rule infix { $name:ident | $value:expr } => {
+    $name = $value;
+  }
+}
+
+macro dire {
+	rule { $word:lit pendant $time:lit sec.} => { sayFor($word,$time); }
+	rule { $word:lit } => { say ($word); }
+}
+
+macro avancer {
+	rule { de $value:lit pas } => { move($value); }
+}
+
+macro aller {
+	rule { à x:$x:lit y:$y:lit } => { moveAt($x,$y,true); }
+}
+
+aller à x:10 y:0
+avancer de 10 pas
+dire "salut"!
+dire "salut" pendant 2 sec.
+foo : 100
+ajouter à foo 100
+attendre 0.1 sec.
+répéter indéfiniment alert('ok'); alert('repeat'); fin
+si foo==100 alors alert('ok'); console.log('ok'); finsi
+attendre 1 sec.
+attendre 01 sec.
+attendre 5 sec.
+
+            </textarea></div>
+        <div><button id="compilebtn" onclick="OnClickCompile();">compile</button></div>
+        <script>
+            var OnClickCompile=function(){
+                
+                require(["./sweet", "./syntax"], function(sweet, syn) {
+                    var storage_code = 'editor_code';
+                    var storage_mode = 'editor_mode';
+
+                    var starting_code = $("#editor").text();
+                    var compileWithSourcemap = false;
+
+                   
+
+
+
+                    function compile() {
+                        var code = $("#editor").text();
+                        var expanded, compiled, res;
+                        try {
+//                            sweet.loadMacro('./macros.js');
+//                            if (compileWithSourcemap) {
+//                                res = sweet.compile(code, {
+//                                    sourceMap: true,
+//                                    filename: "macros.js",
+//                                    readableNames: true
+//                                });
+//                            } else {
+//                                sweet.loadMacro('./macros.js');
+                                res = sweet.compile(code, {
+                                    sourceMap: false,
+                                    readableNames: true
+                                });
+//                            }
+                            compiled = res.code;
+                            console.log(compiled);
+                            alert(compiled);
+                        } catch (e) {
+                        }
+                    }
+                    compile();
+                });
+            };
+        </script>
+    </body>
+</html>

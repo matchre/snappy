@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>WebMobinet</title>
+        <link rel="stylesheet" type="text/css" href="js/codemirror/codemirror.css"></link>
+        <link rel="stylesheet" type="text/css" href="css/styles.css"></link>
+        <script src="js/jquery.min.js"></script>
+        <script type="text/javascript" src="js/morphic.js"></script>
+        <script type="text/javascript" src="js/widgets.js"></script>
+        <script type="text/javascript" src="js/blocks.js"></script>
+        <script type="text/javascript" src="js/threads.js"></script>
+        <script type="text/javascript" src="js/objects.js"></script>
+        <script type="text/javascript" src="js/gui.js"></script>
+        <script type="text/javascript" src="js/paint.js"></script>
+        <script type="text/javascript" src="js/lists.js"></script>
+        <script type="text/javascript" src="js/byob.js"></script>
+        <script type="text/javascript" src="js/xml.js"></script>
+        <script type="text/javascript" src="js/store.js"></script>
+        <script type="text/javascript" src="js/locale.js"></script>
+        <script type="text/javascript" src="js/cloud.js"></script>
+        <script type="text/javascript" src="js/sha512.js"></script>
+        <script type="text/javascript" src="js/samples.js"></script>
+        <script type="text/javascript" src="js/init.js"></script>
+        <script src="js/tinymce/tinymce.min.js"></script>
+        <script src="js/codemirror/codemirror.js"></script>
+        <script src="js/codemirror/matchbrackets.js"></script>
+        <script src="js/codemirror/comment.js"></script>
+        <script src="js/codemirror/continuecomment.js"></script>
+        <script src="js/codemirror/javascript.js"></script>
+        <script type="text/javascript" src="js/codegenerator.js"></script>
+        <script type="text/javascript" src="js/network.js"></script>
+        <script type="text/javascript">
+            var world,ide;
+            window.onload = function() {
+                world = new WorldMorph(document.getElementById('world'));
+                ide = new IDE_Morph();
+                ide.openIn(world);
+                ide.openProjectString(ide.getActivityFromUrl());
+                setInterval(loop, 1);
+            };
+            function loop() {
+                world.doOneCycle();
+
+            }
+            $(document).ready(function() {
+                TriggerClick = 1;
+
+                $("#cb_resize_toggle").click(function() {
+                    if (TriggerClick == 0) {
+                        TriggerClick = 1;
+                        $("div#help_div").animate({width: '120px', height: '120px'}, 500);
+                        $("#toggle_img").css("top", '-38px');
+                        $("#help_img").fadeIn();
+                        $("#help_text").fadeOut();
+                    } else {
+                        TriggerClick = 0;
+                        $("div#help_div").animate({width: '50%', height: '50%'}, 500);
+                        $("#toggle_img").css("top", '-209px');
+                        $("#help_img").fadeOut();
+                        $("#help_text").fadeIn();
+                    }
+                    ;
+                });
+            });
+        </script>
+        <script src="js/sweetjs/scripts/jquery.js"></script>
+        <script src="js/sweetjs/scripts/codemirror.js"></script>
+        <script src="js/sweetjs/scripts/vim.js"></script>
+        <script src="js/sweetjs/scripts/emacs.js"></script>
+        <script src="js/sweetjs/mode/javascript/javascript.js"></script>
+
+        <link href='http://fonts.googleapis.com/css?family=Lato:100' rel='stylesheet' type='text/css'>
+        <script data-main="js/sweetjs/scripts/editor" src="js/sweetjs/scripts/require.js"></script>
+    </head>
+    <body style="margin: 0;">
+        <div id="code_div">
+            <textarea id="code" name="code"></textarea>
+        </div>
+        <div id="help_div" >
+            <div id="cb_resize_toggle" style="width: 19px; height: 19px; overflow: hidden; position: relative; cursor: pointer; left: 0; top: 0; z-index: 13;">
+                <img id="toggle_img" src="https://maps.gstatic.com/intl/fr_fr/mapfiles/cb/minimap_arrows.png" style="position: absolute; left: 0px; top: -38px; border: 0px; padding: 0px; margin: 0px;">
+            </div>
+            <div id="help_img">
+                <img src="media/help.jpg" />
+            </div>
+            <div id="help_text">
+
+            </div>
+        </div>
+        <canvas id="world" tabindex="1" style="position: absolute;" ></canvas>
+
+<!--avancer de 10 pas
+attendre 1 sec.
+tourner de 15 degrés
+attendre 1 sec.
+avancer de 20 pas
+attendre 1 sec.
+tourner de 30 degrés
+attendre 1 sec.
+aller à x:0 y:50-->
+        <div class="code_div" style="visibility: hidden;" id="sweetdiv">    
+            <textarea id="sweeteditor" style="position:absolute;">
+Quand  est pressé
+dire Salut!
+répéter 10 fois 
+-répéter 10 fois 
+--avancer de 10 pas
+--répéter 10 fois 
+---tourner de 15 degrés 
+-dire Salut!
+-répéter indéfiniment 
+--ajouter  à l'effet 25  
+
+
+            </textarea></div>
+        <div style="position:absolute;visibility:hidden;" id="compile_div">
+            <button id="compilebtn" onclick="OnClickCompile();">compile</button>
+        </div>
+        <script>
+
+            var OnClickCompile = function() {
+                        ide.currentSprite.CompileSweettoBlocks();
+//                require(["./sweet", "./syntax"], function(sweet, syn) {
+//                    var storage_code = 'editor_code';
+//                    var storage_mode = 'editor_mode';
+//
+//                    var starting_code = editor.getValue();
+//                    var compileWithSourcemap = false;
+//
+//                    function compile() {
+//                        var code = sweetmacros + editor.getValue();
+//                        var expanded, compiled, res;
+//                        try {
+//                            res = sweet.compile(code, {
+//                                sourceMap: false,
+//                                readableNames: true
+//                            });
+////                            }
+//                            compiled = res.code;
+//                            eval(compiled);
+//                        } catch (e) {
+//                        }
+//                    }
+//                    compile();
+//                });
+            };
+            $('#editor').bind('input propertychange', function() {
+                alert('ok');
+                OnClickCompile();
+            });
+        </script>
+    </body>
+    <script>
+        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+            lineNumbers: true,
+            matchBrackets: true,
+            continueComments: "Enter",
+            extraKeys: {"Ctrl-Q": "toggleComment"}
+        });
+        var sweeteditor = CodeMirror.fromTextArea(document.getElementById("sweeteditor"), {
+            lineNumbers: true,
+            matchBrackets: true,
+            continueComments: "Enter",
+            extraKeys: {"Ctrl-Q": "toggleComment"}
+        });
+    </script>
+
+</html>
