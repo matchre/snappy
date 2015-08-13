@@ -1155,6 +1155,10 @@ SnapTranslator.dict.fr = {
         'bloc reporter',
     'predicate':
         'pr\u00E9dicat',
+    'Open from url':
+        'Ouvrir un URL',
+    'Please enter the url to the file':
+        'Entrez le lien URL vers l\u0027activit\u00E9',
 
     // list indices
     'last':
