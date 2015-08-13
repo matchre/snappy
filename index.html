@@ -62,7 +62,8 @@
                     }
                     ;
                 });
-                
+                if (location.hash.length>0)
+                    $("#activity_lightbox").fadeOut();
                 //activity buttons onclick events
                 $("#car").click(function(){loadActivitynHidelightbox("car");});
                 $("#led").click(function(){loadActivitynHidelightbox("led");});

@@ -320,7 +320,12 @@ IDE_Morph.prototype.openIn = function(world) {
                     )) {
                 this.droppedText(hash);
             } else {
-                this.droppedText(getURL(hash));
+                
+                //if url from dropbox; get download link
+                var projecturl=hash;
+                if (projecturl.indexOf("dropbox")>-1) 
+                    projecturl=projecturl.replace("www.dropbox.com","dl.dropboxusercontent.com");
+                this.droppedText(getURL(projecturl));
             }
         } else if (location.hash.substr(0, 5) === '#run:') {
             hash = location.hash.substr(5);
@@ -3100,6 +3105,36 @@ IDE_Morph.prototype.exportSprite = function(sprite) {
             + '">'
             + str
             + '</sprites>');
+};
+
+IDE_Morph.prototype.openProjectfromUrl = function(url) {
+    var msg,projectstr,
+            myself = this;
+    this.nextSteps([
+        function() {
+            msg = myself.showMessage('Opening project...');
+        },
+        function() {
+            
+            try {
+                var request = new XMLHttpRequest();
+                request.open('GET', url, false);
+                request.send();
+                if (request.status === 200) {
+                    projectstr = request.responseText;
+                    console.log(request.responseText);
+                }
+                throw new Error('unable to retrieve ' + url);
+            } catch (err) {
+               
+            }
+    
+            myself.rawOpenProjectString(projectstr);
+        },
+        function() {
+            msg.destroy();
+        }
+    ]);
 };
 
 IDE_Morph.prototype.openProjectString = function(str) {
