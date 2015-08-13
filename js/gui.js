@@ -3088,7 +3088,7 @@ IDE_Morph.prototype.exportProject = function(name, plain) {
             try {
                 menu = this.showMessage('Exporting');
                 str = this.serializer.serialize(this.stage);
-                var helpText = tinyMCE.activeEditor?('<help>' + $('<div/>').text(tinyMCE.activeEditor.getContent()).html() + '</help></project>'):'';
+                var helpText = tinyMCE.activeEditor?('<help>' + $('<div/>').text(tinyMCE.activeEditor.getContent()).html() + '</help></project>'):'</project>';
                 var strWithHelp = str.substring(0, str.lastIndexOf("</project>")) + helpText;
                 var encodedStrWithHelp = encodeURIComponent(strWithHelp);
                 location.hash = '#open:' + encodedStrWithHelp;

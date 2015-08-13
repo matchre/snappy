@@ -338,8 +338,13 @@ SnapSerializer.prototype.loadProjectModel = function (xmlNode) {
 
     model = {project: xmlNode };
     try{
-        console.log(model.project.childNamed('help').contents);
-        $("#help_text").html(model.project.childNamed('help').contents);
+        if(model.project.childNamed('help').contents.length>0)
+            $("#help_text").html(model.project.childNamed('help').contents);
+        else
+            $("#help_text").html('<form method="post"><textarea></textarea></form>');
+            tinymce.init({
+                selector: "textarea"
+            });
     }catch(e){
         $("#help_text").html('<form method="post"><textarea></textarea></form>');
         tinymce.init({
