@@ -234,6 +234,36 @@ IDE_Morph.prototype.init = function(isAutoFill) {
     this.color = this.backgroundColor;
 };
 
+IDE_Morph.prototype.loadProjectFromURL = function(projecturl) {
+                //if url from dropbox; get download link
+                if (projecturl.indexOf("dropbox.com")>-1) 
+                    projecturl=projecturl.replace("www.dropbox.com","dl.dropboxusercontent.com");
+                //if url from google drive; get download link
+                else if (projecturl.indexOf("drive.google.com")>-1){
+                    
+                           var values ={},myrequest,docid;
+                    if(projecturl.indexOf('open')>-1){
+                            var items = projecturl.match(new RegExp("[\\?&][^=&#]*=[^&#]*", "g"));
+                            if (items != null)
+                                for (var i = 0; i < items.length; i++) {
+                                    var l = items[i].indexOf("=");
+                                    var name = items[i].substring(1, l);
+                                    var value = items[i].substring(l + 1);
+                                    values[name] = decodeURIComponent(value);
+                                }
+                            docid=values["id"];
+                    }else{
+                            docid=projecturl.replace("https://drive.google.com/file/d/","").replace("/view?usp=sharing","");
+                    }
+                    //getURL method doesn't accept redirection in the google case, this is way i used $.get
+                    myrequest=$.get("https://googledrive.com/host/"+docid,function(data){
+                        ide.droppedText((new XMLSerializer()).serializeToString(data));
+                    });
+                    return;
+                }
+                ide.droppedText(ide.getURL(projecturl));
+                location.hash="open:"+projecturl;
+};
 IDE_Morph.prototype.openIn = function(world) {
     var hash, usr, myself = this, urlLanguage = null;
 
@@ -320,35 +350,8 @@ IDE_Morph.prototype.openIn = function(world) {
                     )) {
                 this.droppedText(hash);
             } else {
-                
-                //if url from dropbox; get download link
                 var projecturl=hash;
-                if (projecturl.indexOf("dropbox.com")>-1) 
-                    projecturl=projecturl.replace("www.dropbox.com","dl.dropboxusercontent.com");
-                //if url from google drive; get download link
-                else if (projecturl.indexOf("drive.google.com")>-1){
-                    
-                           var values ={},myrequest,docid;
-                    if(projecturl.indexOf('open')>-1){
-                            var items = projecturl.match(new RegExp("[\\?&][^=&#]*=[^&#]*", "g"));
-                            if (items != null)
-                                for (var i = 0; i < items.length; i++) {
-                                    var l = items[i].indexOf("=");
-                                    var name = items[i].substring(1, l);
-                                    var value = items[i].substring(l + 1);
-                                    values[name] = decodeURIComponent(value);
-                                }
-                            docid=values["id"];
-                    }else{
-                            docid=projecturl.replace("https://drive.google.com/file/d/","").replace("/view?usp=sharing","");
-                    }
-                    //getURL method doesn't accept redirection in the google case, this is way i used $.get
-                    myrequest=$.get("https://googledrive.com/host/"+docid,function(data){
-                        ide.droppedText((new XMLSerializer()).serializeToString(data));
-                    });
-                    return;
-                }
-                this.droppedText(getURL(projecturl));
+                this.loadProjectFromURL(projecturl);
             }
         } else if (location.hash.substr(0, 5) === '#run:') {
             hash = location.hash.substr(5);
@@ -2605,6 +2608,15 @@ IDE_Morph.prototype.projectMenu = function() {
                             myself.openProjectString(initsrc);
                         }
                 );
+            }
+    );
+    menu.addItem(
+            'Open from url',
+            function() {
+                myself.prompt("Please enter the url to the file", function(url){
+                    ide.loadProjectFromURL(url);
+                },null, 'exportProject');
+                
             }
     );
 //    menu.addItem('Open...', 'openProjectsBrowser');
