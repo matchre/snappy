@@ -323,8 +323,31 @@ IDE_Morph.prototype.openIn = function(world) {
                 
                 //if url from dropbox; get download link
                 var projecturl=hash;
-                if (projecturl.indexOf("dropbox")>-1) 
+                if (projecturl.indexOf("dropbox.com")>-1) 
                     projecturl=projecturl.replace("www.dropbox.com","dl.dropboxusercontent.com");
+                //if url from google drive; get download link
+                else if (projecturl.indexOf("drive.google.com")>-1){
+                    
+                           var values ={},myrequest,docid;
+                    if(projecturl.indexOf('open')>-1){
+                            var items = projecturl.match(new RegExp("[\\?&][^=&#]*=[^&#]*", "g"));
+                            if (items != null)
+                                for (var i = 0; i < items.length; i++) {
+                                    var l = items[i].indexOf("=");
+                                    var name = items[i].substring(1, l);
+                                    var value = items[i].substring(l + 1);
+                                    values[name] = decodeURIComponent(value);
+                                }
+                            docid=values["id"];
+                    }else{
+                            docid=projecturl.replace("https://drive.google.com/file/d/","").replace("/view?usp=sharing","");
+                    }
+                    //getURL method doesn't accept redirection in the google case, this is way i used $.get
+                    myrequest=$.get("https://googledrive.com/host/"+docid,function(data){
+                        ide.droppedText((new XMLSerializer()).serializeToString(data));
+                    });
+                    return;
+                }
                 this.droppedText(getURL(projecturl));
             }
         } else if (location.hash.substr(0, 5) === '#run:') {
