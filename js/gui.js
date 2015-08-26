@@ -1425,6 +1425,7 @@ IDE_Morph.prototype.createSpriteEditor = function() {
         var codeTxt=this.currentSprite.BlocksTreeToSweet();
 //        codeTxt+='\n // This is JS \n'+this.currentSprite.getBlocksJs();
         sweeteditor.setValue('// This is JS \n'+this.currentSprite.BlocksTreeToJs());
+        
         editor.setValue(codeTxt);
 //        }else{
 //            $("textarea#code").text(codeTxt);
@@ -1447,6 +1448,16 @@ IDE_Morph.prototype.createSpriteEditor = function() {
         $("#sweetdiv").css('visibility', 'visible');
         $("#code_div").css('visibility', 'visible');
         $("#compile_div").css('visibility', 'visible');
+        
+        var txt= editor.getValue();
+        editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+                    lineNumbers: true,
+                    matchBrackets: true,
+                    continueComments: "Enter",
+                    extraKeys: {"Ctrl-Q": "toggleComment"}
+                });
+        editor.setValue(txt);
+        
         scripts.isDraggable = false;
         scripts.color = this.groupColor;
         scripts.texture = this.scriptsPaneTexture;

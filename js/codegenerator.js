@@ -4,13 +4,13 @@
  * and open the template in the editor.
  */
 
-String.prototype.repeat = function( num )
+String.prototype.repeat = function(num)
 {
-    return new Array( num + 1 ).join( this );
+    return new Array(num + 1).join(this);
 };
 
 
-var MobiToJsTab={
+var MobiToJsTab = {
     "basculer sur le costume %cst": "switchToCostume( %cst )",
     "ajouter à %var %n ": "%var += %n",
     "costume suivant": "wearNextCostume()",
@@ -87,28 +87,28 @@ var MobiToJsTab={
     "pause all": "pauseAll()"
 };
 
-SpriteMorph.prototype.getBlocksTab=function(){
+SpriteMorph.prototype.getBlocksTab = function() {
     var txt = '';
-    var code='';
-    var indent='';
-    this.scripts.allChildren().forEach(function (morph) {
+    var code = '';
+    var indent = '';
+    this.scripts.allChildren().forEach(function(morph) {
 
         if (morph.selector) {
 //            console.log('------(((((((((((((((((('+morph.selector+')))))))))))))-----');
-            txt=morph.blockSpec+'(';
-            var spectxt=indent+morph.blockSpec;
-            morph.inputs().forEach(function (input) {
+            txt = morph.blockSpec + '(';
+            var spectxt = indent + morph.blockSpec;
+            morph.inputs().forEach(function(input) {
 //                txt+=input.evaluate()+',';
-                console.log(typeof input.evaluate()+' => '+input.evaluate());
+                console.log(typeof input.evaluate() + ' => ' + input.evaluate());
                 console.log(input.evaluate());
-                if(typeof input.evaluate()!=='object') {
+                if (typeof input.evaluate() !== 'object') {
                     spectxt = spectxt.replace(/%(\S+)/, input.evaluate());
-                }else{
-                    indent='        ';
+                } else {
+                    indent = '        ';
                 }
-                });
+            });
 //            txt+=');';
-            txt=spectxt;
+            txt = spectxt;
 //            console.log(morph.inputs()[0]?morph.inputs()[0].evaluate():'');
 //            if (contains(
 //                ['receiveMessage', 'doBroadcast', 'doBroadcastAndWait'],
@@ -121,7 +121,7 @@ SpriteMorph.prototype.getBlocksTab=function(){
 //                    }
 //                }
 //            }
-        code+=txt+'\n';
+            code += txt + '\n';
         }
 
     });
@@ -130,8 +130,8 @@ SpriteMorph.prototype.getBlocksTab=function(){
 
 
 //delete all sub blocks and keep only Hat Block
-SpriteMorph.prototype.deleteSubBlocks=function(){
-    while(this.scripts.children[0].nextBlock()){
+SpriteMorph.prototype.deleteSubBlocks = function() {
+    while (this.scripts.children[0].nextBlock()) {
         this.scripts.children[0].bottomBlock().deleteBlock();
     }
 };
@@ -139,14 +139,16 @@ SpriteMorph.prototype.deleteSubBlocks=function(){
 
 // Create UI Block from SweetJs Macros
 
-SpriteMorph.prototype.blockFromSweet = function (selector, values) {
+SpriteMorph.prototype.blockFromSweet = function(selector, values) {
     var info, block, defaults, inputs, i;
     info = this.blocks[selector];
-    if (!info) {return null; }
+    if (!info) {
+        return null;
+    }
     block = info.type === 'command' ? new CommandBlockMorph()
-        : info.type === 'hat' ? new HatBlockMorph()
+            : info.type === 'hat' ? new HatBlockMorph()
             : info.type === 'ring' ? new RingMorph()
-                : new ReporterBlockMorph(info.type === 'predicate');
+            : new ReporterBlockMorph(info.type === 'predicate');
     block.color = this.blockColor[info.category];
     block.category = info.category;
     block.selector = selector;
@@ -173,167 +175,176 @@ SpriteMorph.prototype.blockFromSweet = function (selector, values) {
 };
 
 // add SubBlock to the last block attached to the current sprite
-SpriteMorph.prototype.addSubBlock=function(selector,values){
+SpriteMorph.prototype.addSubBlock = function(selector, values) {
     this.scripts.children[0].bottomBlock().nextBlock(SpriteMorph.prototype.blockFromSweet(selector, values));
 };
-SpriteMorph.prototype.commandsLevels=[];
-SpriteMorph.prototype.CompileSweettoBlocks=function(){
-    var currentsprite=this;
+SpriteMorph.prototype.commandsLevels = [];
+SpriteMorph.prototype.CompileSweettoBlocks = function() {
+    var currentsprite = this;
     require(["./sweet", "./syntax"], function(sweet, syn) {
-                    var storage_code = 'editor_code';
-                    var storage_mode = 'editor_mode';
+        var storage_code = 'editor_code';
+        var storage_mode = 'editor_mode';
 
-                    var commandsTable = editor.getValue().split('\n');
-                    var commandsLevels=[];
-                    var compileWithSourcemap = false;
+        var commandsTable = editor.getValue().split('\n');
+        var commandsLevels = [];
+        var compileWithSourcemap = false;
 
-                    function compile(command,level) {
-                        var code = sweetmacros + command.replace(/-/g, '');;
-                        var expanded, compiled, res;
-                        try {
-                            res = sweet.compile(code, {
-                                sourceMap: false,
-                                readableNames: true
-                            });
-                            compiled = res.code;
-                            eval(compiled.replace('level', level));
+        function compile(command, level) {
+            var code = sweetmacros + command.replace(/-/g, '');
+            ;
+            var expanded, compiled, res;
+            try {
+                res = sweet.compile(code, {
+                    sourceMap: false,
+                    readableNames: true
+                });
+                compiled = res.code;
+                eval(compiled.replace('level', level));
 //                            return compiled;
-                        } catch (e) {
+            } catch (e) {
 //                            return null;
-                        }
-                    }
-                    function extractBlocksLevels(code){
-                        var pos=0;
-                        var levelsTab=[];
-                        code.forEach(function(cmd){
-                            levelsTab[pos]=(cmd.match(/-/g)||[]).length;
-                            pos++;
-                        });
-                        return levelsTab;
-                    }
-                    commandsLevels=extractBlocksLevels(commandsTable);
-                    var pos=0;
-                    commandsTable.forEach(function(command){
-                        compile(command,commandsLevels[pos]);
-                        pos++;
-                    });
+            }
+        }
+        function extractBlocksLevels(code) {
+            var pos = 0;
+            var levelsTab = [];
+            code.forEach(function(cmd) {
+                levelsTab[pos] = (cmd.match(/-/g) || []).length;
+                pos++;
+            });
+            return levelsTab;
+        }
+        commandsLevels = extractBlocksLevels(commandsTable);
+        var pos = 0;
+        commandsTable.forEach(function(command) {
+            compile(command, commandsLevels[pos]);
+            pos++;
+        });
     });
 };
 
 
 // add InnerSubBlock to the last block attached to the current sprite
-SpriteMorph.prototype.pushBlock=function(selector,values,level){
-    
-    var ArraytoString = function (valarray){
-      var stringified="";
-      valarray.forEach(function(val){
-          val=val instanceof String?"\""+val+"\"":val;
-          stringified+=val+",";
-      });
-      stringified=stringified.substring(0, stringified.length - 1);
-      return stringified;  
+SpriteMorph.prototype.pushBlock = function(selector, values, level) {
+
+    var ArraytoString = function(valarray) {
+        var stringified = "";
+        valarray.forEach(function(val) {
+            val = val instanceof String ? "\"" + val + "\"" : val;
+            stringified += val + ",";
+        });
+        stringified = stringified.substring(0, stringified.length - 1);
+        return stringified;
     };
-    var cmd= "this.scripts.children[0].bottomBlock()";
-    var loopcmd=".children.filter(function(morph){ return morph instanceof CSlotMorph; })[0].nestedBlock().bottomBlock()";
+    var cmd = "this.scripts.children[0].bottomBlock()";
+    var loopcmd = ".children.filter(function(morph){ return morph instanceof CSlotMorph; })[0].nestedBlock().bottomBlock()";
     console.log(values);
-    values=values instanceof Array?"["+ArraytoString(values)+"]":"["+values+"]";
+    values = values instanceof Array ? "[" + ArraytoString(values) + "]" : "[" + values + "]";
     console.log(values);
-    var addcmd=".nextBlock(SpriteMorph.prototype.blockFromSweet('"+selector+"',"+values+"));";
-    var addcmdtoslot=".children.filter(function(morph){ return morph instanceof CSlotMorph; })[0].nestedBlock(SpriteMorph.prototype.blockFromSweet('"+selector+"',"+values+"));";
-    var finalcmd=cmd+loopcmd.repeat(level)+addcmd;
+    var addcmd = ".nextBlock(SpriteMorph.prototype.blockFromSweet('" + selector + "'," + values + "));";
+    var addcmdtoslot = ".children.filter(function(morph){ return morph instanceof CSlotMorph; })[0].nestedBlock(SpriteMorph.prototype.blockFromSweet('" + selector + "'," + values + "));";
+    var finalcmd = cmd + loopcmd.repeat(level) + addcmd;
     console.log(finalcmd);
-    try{
+    try {
         eval(finalcmd);
-    }catch (e){
-        finalcmd=cmd+loopcmd.repeat(level-1)+addcmdtoslot;
+    } catch (e) {
+        finalcmd = cmd + loopcmd.repeat(level - 1) + addcmdtoslot;
         eval(finalcmd);
     }
 };
 
 
-SpriteMorph.prototype.getBlocksTree=function(){
-    var node,blockstree,pos;
-    blockstree=[];
-    pos=0;
-    node=this.scripts.children[0];
-    while(node.nextBlock()){
-        blockstree[pos]=[];
-        blockstree[pos].block=node;
-        blockstree[pos].selector=node.selector;
-        blockstree[pos].children=node.ChildBlocksTab();
-        node=node.nextBlock();
+SpriteMorph.prototype.getBlocksTree = function() {
+    var node, blockstree, pos;
+    blockstree = [];
+    pos = 0;
+    node = this.scripts.children[0];
+    if (!node)
+        return;
+    while (node.nextBlock()) {
+        blockstree[pos] = [];
+        blockstree[pos].block = node;
+        blockstree[pos].selector = node.selector;
+        blockstree[pos].children = node.ChildBlocksTab();
+        node = node.nextBlock();
         pos++;
     }
-    blockstree[pos]=[];
-    blockstree[pos].block=node;
-    blockstree[pos].selector=node.selector;
-    blockstree[pos].children=node.ChildBlocksTab();
+    blockstree[pos] = [];
+    blockstree[pos].block = node;
+    blockstree[pos].selector = node.selector;
+    blockstree[pos].children = node.ChildBlocksTab();
     return blockstree;
 };
 
 
-SpriteMorph.prototype.BlocksTreeToJs=function(){
-    var blocksTree,blocklevel,code;
-    var nodeToJs = function (node,level){
-        var txt='';
-        var isloop=node.children.length?true:false;
-        var loopopen=isloop?"{":";";
-        var loopend=isloop?Array(level).join(" ")+"}\n":"";
-         txt=Array(level).join(" ")+node.block.toJs()+loopopen+'\n';
-         node.children.forEach(function(child){
-             txt+=nodeToJs(child,level+1);
-         });
-         txt+=loopend;
-         return txt;
+SpriteMorph.prototype.BlocksTreeToJs = function() {
+    var blocksTree, blocklevel, code;
+    var nodeToJs = function(node, level) {
+        var txt = '';
+        var isloop = node.children.length ? true : false;
+        var loopopen = isloop ? "{" : ";";
+        var loopend = isloop ? Array(level).join(" ") + "}\n" : "";
+        txt = Array(level).join(" ") + node.block.toJs() + loopopen + '\n';
+        node.children.forEach(function(child) {
+            txt += nodeToJs(child, level + 1);
+        });
+        txt += loopend;
+        return txt;
     };
-    blocklevel=1; code='';
-    this.getBlocksTree().forEach(function(block){
-        code+=nodeToJs(block,blocklevel);
+    blocklevel = 1;
+    code = '';
+    if (this.getBlocksTree()) {
+    this.getBlocksTree().forEach(function(block) {
+        code += nodeToJs(block, blocklevel);
     });
-    code+="});";
-    
+    }
+    code += "});";
+
     //delete all %c remaining in the code
-    code=code.replace(/%(\S+)/g, '');
+    code = code.replace(/%(\S+)/g, '');
     return code;
 };
 
-SpriteMorph.prototype.BlocksTreeToSweet=function(){
-    var blocksTree,blocklevel,code;
-    var nodeToCode = function (node,level){
-        var txt='';
-         txt=Array(level).join("-")+node.block.toSweet()+'\n';
-         node.children.forEach(function(child){
-             txt+=nodeToCode(child,level+1);
-         });
-         return txt;
+SpriteMorph.prototype.BlocksTreeToSweet = function() {
+    var blocksTree, blocklevel, code;
+    var nodeToCode = function(node, level) {
+        var txt = '';
+        txt = Array(level).join("-") + node.block.toSweet() + '\n';
+        node.children.forEach(function(child) {
+            txt += nodeToCode(child, level + 1);
+        });
+        return txt;
     };
-    blocklevel=1; code='';
-    this.getBlocksTree().forEach(function(block){
-        code+=nodeToCode(block,blocklevel);
-    });
+    blocklevel = 1;
+    code = '';
+    if (this.getBlocksTree()) {
+        this.getBlocksTree().forEach(function(block) {
+            code += nodeToCode(block, blocklevel);
+        });
+    }
     //delete all %c remaining in the code
-    code=code.replace(/%(\S+)/g, '');
+    code = code.replace(/%(\S+)/g, '');
     return code;
 };
 
-BlockMorph.prototype.ChildBlocksTab=function(){
-    var blocksTab=[];
-    var node,pos;
-    pos=0;
-    this.inputs().forEach(function(input){
-        if(input instanceof CSlotMorph){
-            node=input.children[0];
-            while(node.nextBlock()){
-                blocksTab[pos]=[];
-                if(node instanceof CommandBlockMorph){
-                    blocksTab[pos].selector=node.selector;
-                    blocksTab[pos].block=node;
-                    blocksTab[pos].children=node.ChildBlocksTab();
+BlockMorph.prototype.ChildBlocksTab = function() {
+    var blocksTab = [];
+    var node, pos;
+    pos = 0;
+    this.inputs().forEach(function(input) {
+        if (input instanceof CSlotMorph) {
+            node = input.children[0];
+            while (node.nextBlock()) {
+                blocksTab[pos] = [];
+                if (node instanceof CommandBlockMorph) {
+                    blocksTab[pos].selector = node.selector;
+                    blocksTab[pos].block = node;
+                    blocksTab[pos].children = node.ChildBlocksTab();
                 }
-                node=node.nextBlock();
+                node = node.nextBlock();
                 pos++;
             }
-            blocksTab[pos]=[];
+            blocksTab[pos] = [];
             if (node instanceof CommandBlockMorph) {
                 blocksTab[pos].selector = node.selector;
                 blocksTab[pos].block = node;
@@ -345,18 +356,18 @@ BlockMorph.prototype.ChildBlocksTab=function(){
 };
 
 
-CommandBlockMorph.prototype.toJs=function(){
-    var spectxt=MobiToJsTab[this.blockSpec]||this.blockSpec;
-            this.inputs().forEach(function (input) {
-                if(typeof input.evaluate()!=='object') {
-                    spectxt = spectxt.replace(/%(\S+)/, input.evaluate());
-                }
-            });
+CommandBlockMorph.prototype.toJs = function() {
+    var spectxt = MobiToJsTab[this.blockSpec] || this.blockSpec;
+    this.inputs().forEach(function(input) {
+        if (typeof input.evaluate() !== 'object') {
+            spectxt = spectxt.replace(/%(\S+)/, input.evaluate());
+        }
+    });
     return spectxt;
 };
 
-CommandBlockMorph.prototype.toSweet=function(){
-    var sweetdict={
+CommandBlockMorph.prototype.toSweet = function() {
+    var sweetdict = {
         "dire %s": "dire \" %s \" ",
         "ajouter à %var %n ": 'ajouter à "%var " %n ',
         "dire %s pendant %n sec.": "dire \" %s \" pendant %n sec.",
@@ -364,72 +375,72 @@ CommandBlockMorph.prototype.toSweet=function(){
         "penser %s": "penser \" %s \"",
         "Quand %greenflag est pressé": "Quand le drapeau est pressé"
     };
-    var spectxt=sweetdict[this.blockSpec]?sweetdict[this.blockSpec]:this.blockSpec;
-            this.inputs().forEach(function (input) {
-                if(typeof input.evaluate()!=='object') {
-                    spectxt = spectxt.replace(/%(\S+)/, input.evaluate());
-                }
-            });
+    var spectxt = sweetdict[this.blockSpec] ? sweetdict[this.blockSpec] : this.blockSpec;
+    this.inputs().forEach(function(input) {
+        if (typeof input.evaluate() !== 'object') {
+            spectxt = spectxt.replace(/%(\S+)/, input.evaluate());
+        }
+    });
     return spectxt;
 };
-CommandBlockMorph.prototype.getCodeTxt=function(){
+CommandBlockMorph.prototype.getCodeTxt = function() {
     var txt = '';
-    var lineEnd=';';
+    var lineEnd = ';';
 
     if (this.selector) {
-        var spectxt=MobiToJsTab[this.blockSpec]||this.blockSpec;
-        this.inputs().forEach(function (input) {
-            if(typeof input.evaluate()!=='object') {
+        var spectxt = MobiToJsTab[this.blockSpec] || this.blockSpec;
+        this.inputs().forEach(function(input) {
+            if (typeof input.evaluate() !== 'object') {
                 spectxt = spectxt.replace(/%(\S+)/, input.evaluate());
-            }else{
+            } else {
                 spectxt = spectxt.replace(/%(\S+)/, '{');
-                lineEnd='';
+                lineEnd = '';
             }
         });
 
-        txt=spectxt+lineEnd+'\n';
+        txt = spectxt + lineEnd + '\n';
         return txt;
     }
 };
-CommandBlockMorph.prototype.fetchChildBlocks=function(){
-    var innerCode=false;
-    var code=this.getCodeTxt();
-    this.inputs().forEach(function(input){
-        if(input instanceof CSlotMorph){
-            innerCode=true;
-            var node=input.children[0];
+CommandBlockMorph.prototype.fetchChildBlocks = function() {
+    var innerCode = false;
+    var code = this.getCodeTxt();
+    this.inputs().forEach(function(input) {
+        if (input instanceof CSlotMorph) {
+            innerCode = true;
+            var node = input.children[0];
 
-            while(node.nextBlock()){
-                if(node instanceof CommandBlockMorph)
-                    code+=node.fetchChildBlocks();
-                node=node.nextBlock();
+            while (node.nextBlock()) {
+                if (node instanceof CommandBlockMorph)
+                    code += node.fetchChildBlocks();
+                node = node.nextBlock();
 //                console.log(':::< '+node.blockSpec);
 //                if(node instanceof CommandBlockMorph)
 //                    node.fetchChildBlocks();
             }
-            code+=node.fetchChildBlocks();
+            code += node.fetchChildBlocks();
         }
 
 //        if((input instanceof BlockMorph) || (input instanceof CommandBlockMorph))
 //            input.fetchChildBlocks();
     });
-    if(innerCode) {
+    if (innerCode) {
         code += '\n}';
     }
     return code;
 };
-SpriteMorph.prototype.getBlocksJs=function(){
+SpriteMorph.prototype.getBlocksJs = function() {
     var txt = '';
-    var code='';
-    var indent='';
-    var node=this.scripts.children[0];
-    code=node.getCodeTxt();
-    while(node.nextBlock()){
-        node=node.nextBlock();
-        if(node instanceof CommandBlockMorph)
-            code+=node.fetchChildBlocks();
+    var code = '';
+    var indent = '';
+    var node = this.scripts.children[0];
+    code = node.getCodeTxt();
+    while (node.nextBlock()) {
+        node = node.nextBlock();
+        if (node instanceof CommandBlockMorph)
+            code += node.fetchChildBlocks();
     }
-    code+='});';
+    code += '});';
 //    this.scripts.allChildren().forEach(function (morph) {
 //        if (morph.selector) {
 //
@@ -450,63 +461,63 @@ SpriteMorph.prototype.getBlocksJs=function(){
     return code;
 };
 
+//
+//var CodeGenerator = new Object();
+//
+//CodeGenerator.prototype.getBlocks = function (XML){
+//    var code = [];
+//  this.init();
+//  var blocks = Workspace.getTopBlocks(true);
+//  for (var x = 0, block; block = blocks[x]; x++) {
+//    var line = this.blockToCode(block);
+//    if (isArray(line)) {
+//      line = line[0];
+//    }
+//    if (line) {
+//      if (block.outputConnection && this.scrubNakedValue) {
+//        line = this.scrubNakedValue(line);
+//      }
+//      code.push(line);
+//    }
+//  }
+//  code = code.join('\n');  // Blank line between each section.
+//  code = this.finish(code);
+//  code = code.replace(/^\s+\n/, '');
+//  code = code.replace(/\n\s+$/, '\n');
+//  code = code.replace(/[ \t]+\n/g, '\n');
+//  return code;
+//};
+//
+//CodeGenerator.prototype.blockToCode = function(block) {
+//  if (!block) {
+//    return '';
+//  }
+//  if (block.disabled) {
+//    return this.blockToCode(block.getNextBlock());
+//  }
+//
+//  var func = this[block.type];
+//  if (!func) {
+//    throw 'Language "' + this.name_ + '" does not know how to generate code ' +
+//        'for block type "' + block.type + '".';
+//  }
+//  var code = func.call(block, block);
+//  if (isArray(code)) {
+//     return [this.scrub_(block, code[0]), code[1]];
+//  } else if (goog.isString(code)) {
+//    if (this.STATEMENT_PREFIX) {
+//      code = this.STATEMENT_PREFIX.replace(/%1/g, '\'' + block.id + '\'') +
+//          code;
+//    }
+//    return this.scrub_(block, code);
+//  } else if (code === null) {
+//    return '';
+//  } else {
+//    throw 'Invalid code generated: ' + code;
+//  }
+//};
 
-var CodeGenerator;
-
-CodeGenerator.prototype.getBlocks = function (XML){
-    var code = [];
-  this.init();
-  var blocks = Workspace.getTopBlocks(true);
-  for (var x = 0, block; block = blocks[x]; x++) {
-    var line = this.blockToCode(block);
-    if (isArray(line)) {
-      line = line[0];
-    }
-    if (line) {
-      if (block.outputConnection && this.scrubNakedValue) {
-        line = this.scrubNakedValue(line);
-      }
-      code.push(line);
-    }
-  }
-  code = code.join('\n');  // Blank line between each section.
-  code = this.finish(code);
-  code = code.replace(/^\s+\n/, '');
-  code = code.replace(/\n\s+$/, '\n');
-  code = code.replace(/[ \t]+\n/g, '\n');
-  return code;
-};
-
-CodeGenerator.prototype.blockToCode = function(block) {
-  if (!block) {
-    return '';
-  }
-  if (block.disabled) {
-    return this.blockToCode(block.getNextBlock());
-  }
-
-  var func = this[block.type];
-  if (!func) {
-    throw 'Language "' + this.name_ + '" does not know how to generate code ' +
-        'for block type "' + block.type + '".';
-  }
-  var code = func.call(block, block);
-  if (isArray(code)) {
-     return [this.scrub_(block, code[0]), code[1]];
-  } else if (goog.isString(code)) {
-    if (this.STATEMENT_PREFIX) {
-      code = this.STATEMENT_PREFIX.replace(/%1/g, '\'' + block.id + '\'') +
-          code;
-    }
-    return this.scrub_(block, code);
-  } else if (code === null) {
-    return '';
-  } else {
-    throw 'Invalid code generated: ' + code;
-  }
-};
-
-CodeMirror.prototype.refreshCode = function (){
+CodeMirror.prototype.refreshCode = function() {
     editor = CodeMirror.fromTextArea(document.getElementById("code"), {
         lineNumbers: true,
         matchBrackets: true,
