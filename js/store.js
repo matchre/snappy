@@ -338,7 +338,8 @@ SnapSerializer.prototype.loadProjectModel = function (xmlNode) {
 
     model = {project: xmlNode };
     try{
-        if(model.project.childNamed('help').contents.length>0)
+        
+        if(((model.project.childNamed('help')))&&(model.project.childNamed('help').contents.length>0))
             $("#help_text").html(model.project.childNamed('help').contents);
         else
             $("#help_text").html('<form method="post"><textarea></textarea></form>');
@@ -840,7 +841,7 @@ SnapSerializer.prototype.loadScripts = function (scripts, model) {
     // private
     var myself = this,
         scale = SyntaxElementMorph.prototype.scale;
-    scripts.texture = 'scriptsPaneTexture.gif';
+    scripts.texture = '';
     model.children.forEach(function (child) {
         var element;
         if (child.tag === 'script') {
