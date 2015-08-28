@@ -1201,7 +1201,8 @@ SpriteMorph.prototype.init = function (globals) {
     this.version = Date.now(); // for observer optimization
     this.isClone = false; // indicate a "temporary" Scratch-style clone
     this.cloneOriginName = '';
-    
+    this.isShared = false;
+    this.sharingWsUrl="";
     //Flip v/h status
     this.isFlippedV=false;
     this.isFlippedH=false;
@@ -2566,6 +2567,27 @@ SpriteMorph.prototype.exportSprite = function () {
     }
 };
 
+SpriteMorph.prototype.shareSprite = function (url) {
+    alert('c bon mriguel');
+    var ide = this.parentThatIsA(IDE_Morph);
+    if (ide) {
+        this.isShared=true;
+        this.sharingWsUrl=url;
+        this.rotationCenter().watch('x', function (id, oldval, newval) {
+            alert('o.' + id + ' changed from ' + oldval + ' to ' + newval);
+            return newval;
+        });
+        this.rotationCenter().watch('y', function (id, oldval, newval) {
+            alert('o.' + id + ' changed from ' + oldval + ' to ' + newval);
+            return newval;
+        });
+        this.watch('name', function (id, oldval, newval) {
+            alert('o.' + id + ' changed from ' + oldval + ' to ' + newval);
+            return newval;
+        });
+    }
+};
+
 SpriteMorph.prototype.edit = function () {
     var ide = this.parentThatIsA(IDE_Morph);
     if (ide) {
@@ -3044,7 +3066,7 @@ SpriteMorph.prototype.drawLine = function (start, dest) {
         damaged = damagedFrom.rectangle(damagedTo).expandBy(
             Math.max(this.size * stageScale / 2, 1)
         ).intersect(this.parent.visibleBounds()).spread();
-
+        
     if (this.isDown) {
         context.lineWidth = this.size;
         context.strokeStyle = this.color.toString();
@@ -3065,6 +3087,11 @@ SpriteMorph.prototype.drawLine = function (start, dest) {
 SpriteMorph.prototype.moveBy = function (delta, justMe) {
     // override the inherited default to make sure my parts follow
     // unless it's justMe (a correction)
+    var oldx,oldy,newx,newy;
+    if (this.parent && this.isShared){
+        oldx=Number.parseInt(this.xPosition());
+        oldy=Number.parseInt(this.yPosition());
+    }
     var start = this.isDown && !justMe && this.parent ?
             this.rotationCenter() : null;
     SpriteMorph.uber.moveBy.call(this, delta);
@@ -3075,6 +3102,18 @@ SpriteMorph.prototype.moveBy = function (delta, justMe) {
         this.parts.forEach(function (part) {
             part.moveBy(delta);
         });
+    }
+    if (this.parent && this.isShared){
+        newx=Number.parseInt(this.xPosition());
+        newy=Number.parseInt(this.yPosition());
+        var name=this.name;
+        if((oldx != newx)||(oldy != newy)){
+            console.log('moving from ('+oldx+','+oldy+') to ('+newx+','+newy+')');
+            myrequest=$.get(this.sharingWsUrl+'?x='+newx+'&y='+newy+'&name='+name,function(data){
+                        console.log('ws response'+data);
+            });
+        }
+        
     }
 };
 

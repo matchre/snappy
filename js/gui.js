@@ -4315,10 +4315,10 @@ IDE_Morph.prototype.confirm = function(message, title, action) {
             );
 };
 
-IDE_Morph.prototype.prompt = function(message, callback, choices, key) {
+IDE_Morph.prototype.prompt = function(message, callback, choices, key, defaultvalue) {
     (new DialogBoxMorph(null, callback)).withKey(key).prompt(
             message,
-            '',
+            defaultvalue||'',
             this.world(),
             null,
             choices
@@ -5481,6 +5481,13 @@ SpriteIconMorph.prototype.userMenu = function() {
     if (!(this.object instanceof SpriteMorph)) {
         return null;
     }
+    menu.addItem("ShareSprite", function(){
+        console.log(myself);
+        ide.prompt("Please enter the url to the Webservice", function(url){
+                myself.object.shareSprite(url);
+                },null, 'exportProject',"http://127.0.0.1:8080/get");
+                
+    });
     menu.addItem("show", 'showSpriteOnStage');
     menu.addLine();
     menu.addItem("duplicate", 'duplicateSprite');
@@ -5526,6 +5533,11 @@ SpriteIconMorph.prototype.exportSprite = function() {
 
 SpriteIconMorph.prototype.showSpriteOnStage = function() {
     this.object.showOnStage();
+};
+
+
+SpriteIconMorph.prototype.shareSprite = function() {
+    this.object.shareSprite();
 };
 
 // SpriteIconMorph drawing
