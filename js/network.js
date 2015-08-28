@@ -6,7 +6,7 @@
 
 IDE_Morph.prototype.getShared=function(){
     var current_ide=this;
-    $.get( "http://127.0.0.1:8000/ws/getsharedsprites/", function( data ) {
+    $.get( "http://127.0.0.1:8080/ws/getsharedsprites/", function( data ) {
       var str=(new XMLSerializer()).serializeToString(data);
       ide.serializer.loadSharedSprites(str,ide.getShared);
 //      setInterval(, 3000);

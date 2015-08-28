@@ -34,7 +34,16 @@ public class WebMobinetHttpServer {
 	 * @param spritesTab the spritesTab to set
 	 */
 	public static synchronized void addSprite(Sprite sprite) {
-		SpritesList.add(sprite);
+		boolean exists=false;
+		for(Sprite o : SpritesList) {
+	        if(o != null && o.getName().equals(sprite.getName()) && o.getSenderIp().equals(sprite.getSenderIp())) {
+	                o.setX(sprite.getX());
+	                o.setY(sprite.getY());
+	                exists=true;
+	            } 
+        }
+		if(!exists) SpritesList.add(sprite);
+	     
 	}
 
 	/**
@@ -67,14 +76,17 @@ public class WebMobinetHttpServer {
     HttpServer server = HttpServer.create(addr, 0);
 
     server.createContext("/", new MyHandler());
-    server.createContext("/webservice", new MobinetWSHandler());
+    server.createContext("/ws/getsharedsprites/", new MobinetWSHandler());
     server.createContext("/get", new GetHandler());
+    server.createContext("/post", new PostHandler());
     server.setExecutor(Executors.newCachedThreadPool());
     server.start();
-    System.out.println("Server is listening on port 8080 : v0.4" );
+    System.out.println("Server is listening on port 8080 : v0.0.1" );
   }
 }
-class GetHandler implements HttpHandler {
+
+
+class PostHandler implements HttpHandler {
     public void handle(HttpExchange httpExchange) throws IOException {
       StringBuilder response = new StringBuilder();
       Map <String,String>parms = WebMobinetHttpServer.queryToMap(httpExchange.getRequestURI().getQuery());

@@ -9,3 +9,6 @@
 /MobinetWSHandler.class
 /GetHandler.class
 /Sprite.class
+/PostHandler.class
+/MyPostHandler.class
+/ValueParser.class

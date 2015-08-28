@@ -14,4 +14,14 @@ www :
 
 show : 
 	firefox http://inriamecsci.github.io/snappy/
-
+server:
+	cd WebServer && \
+	echo "compiling java classes" && \
+	javac org/webmobinet/simplewebserver/*.java && \
+	echo "removing old webserver jar" && \
+	rm WebServer.jar && \
+	rm ../WebServer.jar && \
+	echo "packaging new jar" && \
+	jar cmf META-INF/MANIFEST.MF WebServer.jar . && \
+	cp WebServer.jar .. 
+	
