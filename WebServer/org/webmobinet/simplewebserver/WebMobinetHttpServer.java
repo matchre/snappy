@@ -20,7 +20,8 @@ import com.sun.net.httpserver.HttpServer;
 
 public class WebMobinetHttpServer {
 
-	public static List<Sprite> SpritesList = new ArrayList<Sprite>();;
+	//list of the shared sprites
+	public static List<Sprite> SpritesList = new ArrayList<Sprite>();
 	
 
 	/**
@@ -40,10 +41,9 @@ public class WebMobinetHttpServer {
 	                o.setX(sprite.getX());
 	                o.setY(sprite.getY());
 	                exists=true;
-	            } 
+	        } 
         }
 		if(!exists) SpritesList.add(sprite);
-	     
 	}
 
 	/**

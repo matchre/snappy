@@ -2,6 +2,17 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/home/mbenyemn/workspace/snappy/js/init.js</file>
+            <file>file:/home/mbenyemn/workspace/snappy/index.html</file>
+            <file>file:/home/mbenyemn/workspace/snappy/js/network.js</file>
+            <file>file:/home/mbenyemn/workspace/snappy/css/styles.css</file>
+            <file>file:/home/mbenyemn/workspace/snappy/js/codegenerator.js</file>
+            <file>file:/home/mbenyemn/workspace/snappy/js/store.js</file>
+            <file>file:/home/mbenyemn/workspace/snappy/js/objects.js</file>
+            <file>file:/home/mbenyemn/workspace/snappy/js/gui.js</file>
+            <file>file:/home/mbenyemn/workspace/snappy/js/widgets.js</file>
+            <file>file:/home/mbenyemn/workspace/snappy/js/sweetjs/codemirror.css</file>
+        </group>
     </open-files>
 </project-private>
