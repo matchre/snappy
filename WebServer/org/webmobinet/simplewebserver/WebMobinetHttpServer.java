@@ -1,6 +1,7 @@
 package org.webmobinet.simplewebserver;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -112,7 +113,18 @@ public class WebMobinetHttpServer {
     server.setExecutor(Executors.newCachedThreadPool());
     server.start();
     System.out.println("Server is listening on port 8080 : v0.0.2" );
-    createGui();
+    
+    
+    EventQueue.invokeLater(new Runnable() {
+		public void run() {
+			try {
+				Gui frame = new Gui();
+				frame.setVisible(true);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	});
   }
 }
 
