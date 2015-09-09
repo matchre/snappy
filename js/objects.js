@@ -2568,21 +2568,17 @@ SpriteMorph.prototype.exportSprite = function () {
 };
 
 SpriteMorph.prototype.shareSprite = function (url) {
-    alert('c bon mriguel');
     var ide = this.parentThatIsA(IDE_Morph);
     if (ide) {
         this.isShared=true;
         this.sharingWsUrl=url;
         this.rotationCenter().watch('x', function (id, oldval, newval) {
-            alert('o.' + id + ' changed from ' + oldval + ' to ' + newval);
             return newval;
         });
         this.rotationCenter().watch('y', function (id, oldval, newval) {
-            alert('o.' + id + ' changed from ' + oldval + ' to ' + newval);
             return newval;
         });
         this.watch('name', function (id, oldval, newval) {
-            alert('o.' + id + ' changed from ' + oldval + ' to ' + newval);
             return newval;
         });
     }
@@ -3108,7 +3104,6 @@ SpriteMorph.prototype.moveBy = function (delta, justMe) {
         newy=Number.parseInt(this.yPosition());
         var name=this.name;
         if((oldx != newx)||(oldy != newy)){
-            console.log('moving from ('+oldx+','+oldy+') to ('+newx+','+newy+')');
             myrequest=$.get(this.sharingWsUrl+'?x='+newx+'&y='+newy+'&name='+name,function(data){
                         console.log('ws response'+data);
             });

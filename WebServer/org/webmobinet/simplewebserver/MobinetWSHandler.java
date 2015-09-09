@@ -31,7 +31,7 @@ class MobinetWSHandler implements HttpHandler {
 		    xml += "</project>";
 		    Headers h = t.getResponseHeaders();
 		    h.add("Content-Type", "text/xml");
-
+			h.add("Access-Control-Allow-Origin", "*");
 		    //t.sendResponseHeaders( 200, allSpritesString.length());
 		    t.sendResponseHeaders( 200, xml.length());
             OutputStream os = t.getResponseBody();

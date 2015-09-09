@@ -22,6 +22,7 @@ class MyPostHandler implements HttpHandler {
 	 public void handle(HttpExchange t) throws IOException {
 		// determine encoding
 		 Headers reqHeaders = t.getRequestHeaders();
+		 reqHeaders.add("Access-Control-Allow-Origin", "*");
 		 String contentType = reqHeaders.getFirst("Content-Type");
 		 String encoding = "ISO-8859-1";
 		 if (contentType != null) {

@@ -1,28 +1,27 @@
 package org.webmobinet.simplewebserver;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.Executors;
 
-import com.sun.net.httpserver.Headers;
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
-import com.sun.net.httpserver.HttpServer;
+import javax.swing.*;
+
+import com.sun.net.httpserver.*;
 
 public class WebMobinetHttpServer {
 
 	//list of the shared sprites
 	public static List<Sprite> SpritesList = new ArrayList<Sprite>();
-	
+	static int myport;
 
 	/**
 	 * @return the spritesTab
@@ -70,21 +69,65 @@ public class WebMobinetHttpServer {
 		    os.write(response.getBytes());
 		    os.close();
 		  }
+	  public static void createGui (){
+
+		  final JFrame frame = new JFrame("Serveur Snappy");
+		  
+		  
+		  
+		  JPanel panel = new JPanel(new BorderLayout());
+		  panel.setBackground(new Color(55,55,55));
+		  frame.add(panel);
+		  
+		  ImageIcon logo = new ImageIcon(WebMobinetHttpServer.class.getResource("logo-snappy.png"));
+		  panel.add(new JLabel(logo),BorderLayout.CENTER);
+		  JButton closebutton = new JButton("Arrêter le Server");
+		  panel.add(closebutton,BorderLayout.PAGE_END);
+		  frame.pack();
+		  frame.setVisible(true);
+		  frame.setSize(800,600);
+		  frame.setResizable(false);
+		  frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		  
+		  closebutton.addActionListener(new ActionListener() {
+			    public void actionPerformed(ActionEvent e)
+			    {
+			        frame.dispose();
+			        System.exit(0);
+			    }
+			});
+
+	  }
 	  
   public static void main(String[] args) throws IOException {
-    InetSocketAddress addr = new InetSocketAddress(8080);
+	myport=8080;
+    InetSocketAddress addr = new InetSocketAddress(myport);
     HttpServer server = HttpServer.create(addr, 0);
 
     server.createContext("/", new MyHandler());
     server.createContext("/ws/getsharedsprites/", new MobinetWSHandler());
     server.createContext("/get", new GetHandler());
     server.createContext("/post", new PostHandler());
+    server.createContext("/myip", new IpHandler());
     server.setExecutor(Executors.newCachedThreadPool());
     server.start();
-    System.out.println("Server is listening on port 8080 : v0.0.1" );
+    System.out.println("Server is listening on port 8080 : v0.0.2" );
+    createGui();
   }
 }
 
+
+class IpHandler implements HttpHandler {
+    public void handle(HttpExchange httpExchange) throws IOException {
+      StringBuilder response = new StringBuilder();
+      
+      response.append("{\"myipadress\" : \"" + InetAddress.getLocalHost().getHostAddress()+":"+ WebMobinetHttpServer.myport + "\", \"myhostname\" : \""+InetAddress.getLocalHost().getHostName()+":"+ WebMobinetHttpServer.myport +"\"}");
+      Headers h = httpExchange.getResponseHeaders();
+	  h.add("Content-Type", "text/json");
+	  h.add("Access-Control-Allow-Origin", "*");
+      WebMobinetHttpServer.writeResponse(httpExchange, response.toString());
+    }
+  }
 
 class PostHandler implements HttpHandler {
     public void handle(HttpExchange httpExchange) throws IOException {
@@ -94,6 +137,9 @@ class PostHandler implements HttpHandler {
       response.append("x : " + parms.get("x") + "<br/>");
       response.append("y : " + parms.get("y") + "<br/>");
       response.append("</body></html>");
+      Headers h = httpExchange.getResponseHeaders();
+	  h.add("Content-Type", "text/html");
+	  h.add("Access-Control-Allow-Origin", "*");
       Sprite sp=new Sprite(Float.parseFloat(parms.get("x")), Float.parseFloat(parms.get("y")), "new Sprite", "", "");
       WebMobinetHttpServer.addSprite(sp);
       WebMobinetHttpServer.writeResponse(httpExchange, response.toString());
@@ -117,7 +163,7 @@ class MyHandler implements HttpHandler {
 //		    } else
 		    if (file.isDirectory()) {
                 // Check to see if there is an index file in the directory.
-                File indexFile = new File(file, "index.html");
+                File indexFile = new File("/", "index.html");
                 if (indexFile.exists() && !indexFile.isDirectory()) {
                     file = indexFile;
                 }else {

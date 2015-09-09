@@ -2630,6 +2630,7 @@ IDE_Morph.prototype.projectMenu = function() {
                 
             }
     );
+    
 //    menu.addItem('Open...', 'openProjectsBrowser');
 //    menu.addItem(
 //        'Save',
@@ -2716,6 +2717,25 @@ IDE_Morph.prototype.projectMenu = function() {
             'show project data as XML\nin a new browser window',
             shiftClicked ? new Color(100, 0, 0) : null
             );
+    
+    menu.addLine();
+    //my Address Ip button
+    menu.addItem(
+            'what is my Ip?',
+            function() {
+                var item=myself;
+                var myipaddress="127.0.0.1:8080";
+                $.get("http://127.0.0.1:8080/myip",function(data){
+                        myipaddress=data.myipadress;
+                }).done(function() {
+                    item.prompt("your Ip Address is:", function(url){
+                    ide.loadProjectFromURL(url);
+                    },null, 'myIpAdress',myipaddress);
+                  });
+                
+                
+            }
+    );
     
     menu.addLine();
     menu.addItem(
@@ -5482,7 +5502,6 @@ SpriteIconMorph.prototype.userMenu = function() {
         return null;
     }
     menu.addItem("ShareSprite", function(){
-        console.log(myself);
         ide.prompt("Please enter the url to the Webservice", function(url){
                 myself.object.shareSprite(url);
                 },null, 'exportProject',"http://127.0.0.1:8080/get");
