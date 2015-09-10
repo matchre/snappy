@@ -112,7 +112,7 @@ public class WebMobinetHttpServer {
     server.createContext("/myip", new IpHandler());
     server.setExecutor(Executors.newCachedThreadPool());
     server.start();
-    System.out.println("Server is listening on port 8080 : v0.0.2" );
+    System.out.println("Server is listening on port "+myport+" : v0.0.2" );
     
     
     EventQueue.invokeLater(new Runnable() {
@@ -208,7 +208,6 @@ class MyHandler implements HttpHandler {
             
 		    
 		    }else if (!file.isFile()) {
-		    	System.out.println("!isFile" );
 		      // Object does not exist or is not a file: reject with 404 error.
 		      String response = "404 (Not Found)\n";
 		      t.sendResponseHeaders(404, response.length());
@@ -216,7 +215,6 @@ class MyHandler implements HttpHandler {
 		      os.write(response.getBytes());
 		      os.close();
 		    } else {
-		    	System.out.println("Else el koll" );
 		      // Object exists and is a file: accept with response code 200.
 		      t.sendResponseHeaders(200, 0);
 		      OutputStream os = t.getResponseBody();
