@@ -173,5 +173,24 @@ public class Gui extends JFrame {
 		        openLocalWebpage("Guide_de_snappy/guide_snappy.html");
 		    }
 		});
+		btnCommentOuvrirdrive.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+		    {
+		        openLocalWebpage("Guide_de_snappy/guide_googledrive.html");
+		    }
+		});
+		btnCommentOuvrirdropb.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+		    {
+		        openLocalWebpage("Guide_de_snappy/guide_dropbox.html");
+		    }
+		});
+		
+		btnCommentCrerUne.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+		    {
+		        openLocalWebpage("Guide_de_snappy/guide_activity.html");
+		    }
+		});
 	}
 }
