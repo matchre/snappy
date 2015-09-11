@@ -26,6 +26,7 @@ import java.net.UnknownHostException;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.Font;
+import javax.swing.SwingConstants;
 
 public class Gui extends JFrame {
 
@@ -87,6 +88,7 @@ public class Gui extends JFrame {
 	 * @throws UnknownHostException 
 	 */
 	public Gui() throws UnknownHostException {
+		setTitle("Snappy! "+WebMobinetHttpServer.myversion);
 		setBackground(Color.DARK_GRAY);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -104,6 +106,12 @@ public class Gui extends JFrame {
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(Gui.class.getResource("/org/webmobinet/simplewebserver/logo-snappy.png")));
 		panel.add(lblNewLabel);
+		
+		JLabel lblVersion = new JLabel("New label");
+		lblVersion.setBackground(Color.DARK_GRAY);
+		lblVersion.setForeground(Color.gray);
+		lblVersion.setText(WebMobinetHttpServer.myversion);
+		panel.add(lblVersion);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(Color.DARK_GRAY);

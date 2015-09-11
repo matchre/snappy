@@ -23,6 +23,7 @@ public class WebMobinetHttpServer {
 	//list of the shared sprites
 	public static List<Sprite> SpritesList = new ArrayList<Sprite>();
 	static int myport;
+	static String myversion;
 
 	/**
 	 * @return the spritesTab
@@ -101,7 +102,10 @@ public class WebMobinetHttpServer {
 	  }
 	  
   public static void main(String[] args) throws IOException {
-	myport=8080;
+	
+	  myport=8080;
+	  myversion="Version 0.1 (beta)";
+	  
     InetSocketAddress addr = new InetSocketAddress(myport);
     HttpServer server = HttpServer.create(addr, 0);
 
@@ -112,7 +116,7 @@ public class WebMobinetHttpServer {
     server.createContext("/myip", new IpHandler());
     server.setExecutor(Executors.newCachedThreadPool());
     server.start();
-    System.out.println("Server is listening on port "+myport+" : v0.0.2" );
+    System.out.println("Server is listening on port "+myport+" : "+myversion );
     
     
     EventQueue.invokeLater(new Runnable() {
