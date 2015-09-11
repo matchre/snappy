@@ -25,6 +25,7 @@ import java.net.UnknownHostException;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.Font;
 
 public class Gui extends JFrame {
 
@@ -148,6 +149,7 @@ public class Gui extends JFrame {
 		panel_3.add(btnCommentOuvrirdropb);
 		
 		JButton btnOpenSnappy = new JButton("Ouvrir Snappy!");
+		btnOpenSnappy.setFont(new Font("Dialog", Font.BOLD, 18));
 		btnOpenSnappy.setBackground(Color.ORANGE);
 		btnOpenSnappy.setBounds(12, 30, 714, 43);
 		panel_3.add(btnOpenSnappy);
