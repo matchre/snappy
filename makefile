@@ -20,8 +20,8 @@ server:
 	javac org/webmobinet/simplewebserver/*.java && \
 	echo "removing old webserver jar" && \
 	rm WebServer.jar && \
-	rm ../WebServer.jar && \
+	rm ../snappy.jar && \
 	echo "packaging new jar" && \
 	jar cmf META-INF/MANIFEST.MF WebServer.jar . && \
-	cp WebServer.jar .. 
+	cp WebServer.jar ../snappy.jar 
 	
