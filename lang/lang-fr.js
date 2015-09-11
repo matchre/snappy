@@ -1164,5 +1164,7 @@ SnapTranslator.dict.fr = {
     'last':
         'dernier',
     'any':
-        'n\u0027importe quel'
+        'n\u0027importe quel',
+    'ShareSprite':
+        'partager le mobile'
 };

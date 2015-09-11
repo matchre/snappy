@@ -6,13 +6,21 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import java.net.URI;
+
 import java.awt.Color;
+import java.awt.Desktop;
+
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.net.UnknownHostException;
 
 import javax.swing.JTextField;
@@ -38,7 +46,41 @@ public class Gui extends JFrame {
 			}
 		});
 	}
+	public static void openWebpage(URI uri) {
+	    Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+	    if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+	        try {
+	            desktop.browse(uri);
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
+	}
 
+	public static void openWebpage(URL url) {
+	    try {
+	        openWebpage(url.toURI());
+	    } catch (URISyntaxException e) {
+	        e.printStackTrace();
+	    }
+	}
+
+
+	public static void openWebpage(String url) {
+	    try {
+	        openWebpage(new URL(url));
+	    } catch (MalformedURLException e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	public static void openLocalWebpage(String filename) {
+	    try {
+	        openWebpage(new URL("http://"+InetAddress.getLocalHost().getHostAddress()+":"+WebMobinetHttpServer.myport+"/"+filename));
+	    } catch (MalformedURLException | UnknownHostException e) {
+	        e.printStackTrace();
+	    }
+	}
 	/**
 	 * Create the frame.
 	 * @throws UnknownHostException 
@@ -47,7 +89,7 @@ public class Gui extends JFrame {
 		setBackground(Color.DARK_GRAY);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 590, 386);
+		setBounds(100, 100, 750, 386);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.DARK_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -83,12 +125,53 @@ public class Gui extends JFrame {
 		
 		JButton btnFermerLeServeur = new JButton("Fermer le Serveur Snappy");
 		panel_1.add(btnFermerLeServeur, BorderLayout.SOUTH);
+		
+		JPanel panel_3 = new JPanel();
+		panel_3.setBackground(Color.DARK_GRAY);
+		panel_1.add(panel_3, BorderLayout.CENTER);
+		panel_3.setLayout(null);
+		
+		JButton btnCommentCrerUne = new JButton("Comment créer une activité?");
+		btnCommentCrerUne.setBounds(387, 122, 339, 25);
+		panel_3.add(btnCommentCrerUne);
+		
+		JButton btnCommentUtilis = new JButton("Comment utiliser Snappy?");
+		btnCommentUtilis.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnCommentUtilis.setBounds(387, 85, 339, 25);
+		panel_3.add(btnCommentUtilis);
+		
+		JButton btnCommentOuvrirdropb = new JButton("Comment ouvrir une activité de dropbox?");
+		btnCommentOuvrirdropb.setBounds(12, 122, 339, 25);
+		panel_3.add(btnCommentOuvrirdropb);
+		
+		JButton btnOpenSnappy = new JButton("Ouvrir Snappy!");
+		btnOpenSnappy.setBackground(Color.ORANGE);
+		btnOpenSnappy.setBounds(12, 30, 714, 43);
+		panel_3.add(btnOpenSnappy);
+		
+		JButton btnCommentOuvrirdrive = new JButton("Comment ouvrir une activité de gDrive?");
+		btnCommentOuvrirdrive.setBounds(12, 85, 339, 25);
+		panel_3.add(btnCommentOuvrirdrive);
 		btnFermerLeServeur.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e)
 		    {
 		        System.exit(0);
 		    }
 		});
+		btnOpenSnappy.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+		    {
+		        openLocalWebpage("index.html");
+		    }
+		});
+		btnCommentUtilis.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+		    {
+		        openLocalWebpage("Guide_de_snappy/guide_snappy.html");
+		    }
+		});
 	}
-
 }
