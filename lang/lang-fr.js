@@ -1166,5 +1166,9 @@ SnapTranslator.dict.fr = {
     'any':
         'n\u0027importe quel',
     'ShareSprite':
-        'partager le mobile'
+        'partager le mobile',
+    'what is my Ip?':
+        'Quel est mon Ip?',
+    'Please enter the url to the Webservice':
+            'Quelle est l adresse ip du serveur'
 };
