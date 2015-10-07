@@ -2,10 +2,10 @@
 # Toutes les commandes pour mettre en ligne une nv version des fichiers
 
 www :
-	#git checkout master
-	#git pull
-	#-git commit -m '.' -a
-	#git push
+	git checkout master
+	git pull
+	-git commit -m '.' -a
+	git push
 	git checkout gh-pages
 	git pull origin gh-pages
 	git merge master
@@ -24,4 +24,3 @@ server:
 	echo "packaging new jar" && \
 	jar cmf META-INF/MANIFEST.MF WebServer.jar . && \
 	cp WebServer.jar ../snappy.jar 
-	

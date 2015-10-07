@@ -2751,7 +2751,7 @@ IDE_Morph.prototype.projectMenu = function() {
         }
     );
     menu.addItem(
-        'GleamCode',
+        'Grille de LED',
         function() {
             myself.openProjectString(samples['led']);
         }
