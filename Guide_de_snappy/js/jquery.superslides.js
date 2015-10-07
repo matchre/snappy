@@ -315,7 +315,8 @@ var image = {
     var $img = $(image);
 
     $img.css({
-      left: (that.width - $img.width()) / 2
+//      left: (that.width - $img.width()) / 2
+      left: 0
     });
   },
   _center: function(image) {
@@ -341,12 +342,14 @@ var image = {
     if (container_aspect_ratio > image_aspect_ratio) {
       $img.css({
         height: that.height,
-        width: that.height / image_aspect_ratio
+//        width: that.height / image_aspect_ratio
+        width: that.width
       });
 
     } else {
       $img.css({
-        height: that.width * image_aspect_ratio,
+//        height: that.width * image_aspect_ratio,
+        height: that.height,
         width: that.width
       });
     }
