@@ -339,13 +339,22 @@ SnapSerializer.prototype.loadProjectModel = function (xmlNode) {
     model = {project: xmlNode };
     try{
         
-        if(((model.project.childNamed('help')))&&(model.project.childNamed('help').contents.length>0))
+        if(((model.project.childNamed('help')))&&(model.project.childNamed('help').contents.length>0)){
+            $("#edit_btn_div").html("<button id='edit_help_btn'>editer</button>");
             $("#help_text").html(model.project.childNamed('help').contents);
-        else
+            $("#edit_help_btn").click(function(){
+                var helpinfos=$("#help_text").html();
+                $("#help_text").html('<form method="post"><textarea>'+helpinfos+'</textarea></form>');
+                tinymce.init({
+                    selector: "textarea"
+                });
+            });
+        }else{
             $("#help_text").html('<form method="post"><textarea></textarea></form>');
             tinymce.init({
                 selector: "textarea"
             });
+        }
     }catch(e){
         $("#help_text").html('<form method="post"><textarea></textarea></form>');
         tinymce.init({

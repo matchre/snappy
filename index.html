@@ -52,12 +52,14 @@
                         $("div#help_div").animate({width: '120px', height: '120px'}, 500);
                         $("#toggle_img").css("top", '-38px');
                         $("#help_img").fadeIn();
+                        $("#edit_btn_div").fadeOut();
                         $("#help_text").fadeOut();
                     } else {
                         TriggerClick = 0;
                         $("div#help_div").animate({width: '50%', height: '50%'}, 500);
                         $("#toggle_img").css("top", '-209px');
                         $("#help_img").fadeOut();
+                        $("#edit_btn_div").fadeIn();
                         $("#help_text").fadeIn();
                     }
                     ;
@@ -101,6 +103,9 @@
             </div>
             <div id="help_img">
                 <img src="media/help.jpg" />
+            </div>
+            <div id="edit_btn_div">
+                
             </div>
             <div id="help_text">
 

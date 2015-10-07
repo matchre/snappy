@@ -133,12 +133,12 @@ div#activity_lightbox ul {
 		background: #333;
 	}
 
-	ul {
+	ul.activity_list {
 		margin: 30px auto;
 		text-align: center;
 	}
 
-	li {
+	.activity_list li {
 		list-style: none;
 		position: relative;
 		display: inline-block;
