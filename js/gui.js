@@ -2739,6 +2739,12 @@ IDE_Morph.prototype.projectMenu = function() {
     
     menu.addLine();
     menu.addItem(
+        'Jouer avec une voiture',
+        function() {
+            myself.openProjectString(samples['car']);
+        }
+    );
+    menu.addItem(
         'Système Solaire',
         function() {
             myself.openProjectString(samples['solar']);
@@ -2756,10 +2762,10 @@ IDE_Morph.prototype.projectMenu = function() {
             myself.openProjectString(samples['led']);
         }
     );
-    menu.addItem(
-        'Système Solaire Base',
-        ['cloudMenu','']
-    );
+//    menu.addItem(
+//        'Système Solaire Base',
+//        ['cloudMenu','']
+//    );
 //    menu.addItem(
 //        'Crash voiture',
 //        function() {

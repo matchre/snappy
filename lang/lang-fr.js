@@ -1170,5 +1170,9 @@ SnapTranslator.dict.fr = {
     'what is my Ip?':
         'Quel est mon Ip?',
     'Please enter the url to the Webservice':
-            'Quelle est l adresse ip du serveur'
+         'Quelle est l adresse ip du serveur',
+
+    'Opening project...':
+       'Ouverture du projet en cours ...'
+
 };
