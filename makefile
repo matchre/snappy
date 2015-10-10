@@ -9,7 +9,7 @@ www :
 	git push
 # Mise à jour des pages web
 	git checkout gh-pages
-	git pull
+	#git pull
 	git pull origin gh-pages
 	git merge master
 	git push origin gh-pages:gh-pages
