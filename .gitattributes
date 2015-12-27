@@ -1,0 +1,16 @@
+Makefile export-ignore
+README.md export-ignore
+.gitattributes export-ignore
+.gitignore export-ignore
+.git export-ignore
+makefile export-ignore
+nbproject export-ignore
+Old_WebMobinet export-ignore
+.project export-ignore
+WebServer export-ignore
+.nojekyll export-ignore
+meta.json export-ignore
+documentation export-ignore
+files.html export-ignore
+*.sh export-ignore
+

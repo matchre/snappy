@@ -29,3 +29,6 @@ server:
 	echo "packaging new jar" && \
 	jar cmf META-INF/MANIFEST.MF WebServer.jar . && \
 	cp WebServer.jar ../snappy.jar 
+
+release:
+	git archive --format=zip HEAD -o ../snappy-release-v0.2.zip --worktree-attributes
